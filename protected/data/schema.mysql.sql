@@ -37,7 +37,7 @@ CREATE TABLE `imprint` (
   `user_id` int(10) unsigned NOT NULL,
   `imprint` varchar(9) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `print` (`imprint`),
+  UNIQUE KEY `imprint` (`imprint`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 

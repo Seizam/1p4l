@@ -1,15 +1,15 @@
 <?php
 $this->breadcrumbs=array(
-	'Users',
+	'Imprints',
 );
 
 $this->menu=array(
-	array('label'=>'Create User','url'=>array('create')),
-	array('label'=>'Manage User','url'=>array('admin')),
+	array('label'=>'Create Imprint','url'=>array('create')),
+	array('label'=>'Manage Imprint','url'=>array('admin')),
 );
 ?>
 
-<h1>Users</h1>
+<h1>Imprints</h1>
 
 <?php $this->widget('bootstrap.widgets.TbListView',array(
 	'dataProvider'=>$dataProvider,

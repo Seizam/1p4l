@@ -1,8 +1,10 @@
 <?php
 
+// Define a path alias for the Bootstrap extension as it's used internally.
+Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
+
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
-Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
@@ -21,15 +23,15 @@ return array(
     'theme'=>'bootstrap',
 
 	'modules'=>array(
-		// uncomment the following to enable the Gii tool
+		// enable the Gii tool
 		'gii'=>array(
+            'generatorPaths'=>array(
+                'bootstrap.gii',
+            ),
 			'class'=>'system.gii.GiiModule',
 			'password'=>'126143',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
-            'generatorPaths'=>array(
-                'bootstrap.gii',
-            ),
 		),
 	),
 
@@ -42,8 +44,7 @@ return array(
         'bootstrap'=>array(
             'class'=>'bootstrap.components.Bootstrap',
         ),
-		// uncomment the following to enable URLs in path-format
-		/*
+		// enable URLs in path-format
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
@@ -52,14 +53,7 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
-		*/
         
-		// uncomment the following to use a SQLite database
-        /*
-		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
-		*/
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=1p4l',
 			'emulatePrepare' => true,
@@ -78,12 +72,12 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
-				// uncomment the following to show log messages on web pages
-				/*
+				// show log messages on web pages
+                /*
 				array(
 					'class'=>'CWebLogRoute',
 				),
-				*/
+                 */
 			),
 		),
 	),

@@ -1,60 +1,30 @@
-<?php
-/* @var $this UserController */
-/* @var $model User */
-/* @var $form CActiveForm */
-?>
-
-<div class="wide form">
-
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'action'=>Yii::app()->createUrl($this->route),
 	'method'=>'get',
 )); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'id'); ?>
-		<?php echo $form->textField($model,'id',array('size'=>10,'maxlength'=>10)); ?>
-	</div>
+	<?php echo $form->textFieldRow($model,'id',array('class'=>'span5','maxlength'=>10)); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'email'); ?>
-		<?php echo $form->textField($model,'email',array('size'=>45,'maxlength'=>45)); ?>
-	</div>
+	<?php echo $form->textFieldRow($model,'email',array('class'=>'span5','maxlength'=>45)); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'created'); ?>
-		<?php echo $form->textField($model,'created'); ?>
-	</div>
+	<?php echo $form->textFieldRow($model,'created',array('class'=>'span5')); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'modified'); ?>
-		<?php echo $form->textField($model,'modified'); ?>
-	</div>
+	<?php echo $form->textFieldRow($model,'modified',array('class'=>'span5')); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'last_login'); ?>
-		<?php echo $form->textField($model,'last_login'); ?>
-	</div>
+	<?php echo $form->textFieldRow($model,'last_login',array('class'=>'span5')); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'last_login_ip'); ?>
-		<?php echo $form->textField($model,'last_login_ip',array('size'=>45,'maxlength'=>45)); ?>
-	</div>
+	<?php echo $form->textFieldRow($model,'last_login_ip',array('class'=>'span5','maxlength'=>45)); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>45,'maxlength'=>45)); ?>
-	</div>
+	<?php echo $form->textFieldRow($model,'name',array('class'=>'span5','maxlength'=>45)); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'catch'); ?>
-		<?php echo $form->textField($model,'catch',array('size'=>60,'maxlength'=>180)); ?>
-	</div>
+	<?php echo $form->textFieldRow($model,'catch',array('class'=>'span5','maxlength'=>180)); ?>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Search'); ?>
+	<div class="form-actions">
+		<?php $this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+			'label'=>'Search',
+		)); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
-
-</div><!-- search-form -->
