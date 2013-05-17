@@ -42,13 +42,13 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('email, password, created, modified, last_login, last_login_ip', 'required'),
-			array('email, last_login_ip, name', 'length', 'max'=>45),
+			array('email, password', 'required'),
+			array('email, name', 'length', 'max'=>45),
 			array('password', 'length', 'max'=>128),
 			array('catch', 'length', 'max'=>180),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, email, password, created, modified, last_login, last_login_ip, name, catch', 'safe', 'on'=>'search'),
+			array('id, email, created, modified, last_login, last_login_ip, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -94,13 +94,11 @@ class User extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('email',$this->email,true);
-		$criteria->compare('password',$this->password,true);
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('modified',$this->modified,true);
 		$criteria->compare('last_login',$this->last_login,true);
 		$criteria->compare('last_login_ip',$this->last_login_ip,true);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('catch',$this->catch,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
