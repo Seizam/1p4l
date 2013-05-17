@@ -57,10 +57,10 @@ class User extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
-		);
+            'imprints' => array(self::HAS_MANY, 'Imprint', 'user_id'),
+            'links'=> array(self::HAS_MANY, 'Link', 'user_id'),
+ 		);
 	}
 
 	/**

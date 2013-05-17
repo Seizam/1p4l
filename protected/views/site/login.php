@@ -28,9 +28,7 @@ $this->breadcrumbs=array(
 
 	<?php echo $form->textFieldRow($model,'email'); ?>
 
-	<?php echo $form->passwordFieldRow($model,'password',array(
-        'hint'=>'Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>',
-    )); ?>
+	<?php echo $form->passwordFieldRow($model,'password'); ?>
 
 	<?php echo $form->checkBoxRow($model,'rememberMe'); ?>
 
