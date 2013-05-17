@@ -9,25 +9,23 @@
 
 	<?php echo $form->textFieldRow($model,'email',array('class'=>'span5','maxlength'=>45)); ?>
 
-	<?php echo $form->passwordFieldRow($model,'password',array('class'=>'span5','maxlength'=>128)); ?>
-
-	<?php echo $form->textFieldRow($model,'created',array('class'=>'span5')); ?>
-
-	<?php echo $form->textFieldRow($model,'modified',array('class'=>'span5')); ?>
-
-	<?php echo $form->textFieldRow($model,'last_login',array('class'=>'span5')); ?>
-
-	<?php echo $form->textFieldRow($model,'last_login_ip',array('class'=>'span5','maxlength'=>45)); ?>
+	<?php echo $form->passwordFieldRow($model,'password',array('class'=>'span5','maxlength'=>64)); ?>
 
 	<?php echo $form->textFieldRow($model,'name',array('class'=>'span5','maxlength'=>45)); ?>
 
 	<?php echo $form->textFieldRow($model,'catch',array('class'=>'span5','maxlength'=>180)); ?>
+    
+	<?php if(CCaptcha::checkRequirements()): ?>
+		<?php echo $form->captchaRow($model,'verifyCode',array(
+            'hint'=>'Please enter the letters as they are shown in the image above.<br/>Letters are not case-sensitive.',
+        )); ?>
+	<?php endif; ?>
 
 	<div class="form-actions">
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+			'label'=>'Create',
 		)); ?>
 	</div>
 
