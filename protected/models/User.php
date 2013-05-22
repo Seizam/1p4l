@@ -103,4 +103,16 @@ class User extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+	/**
+	 * 
+	 */
+	public function touchOnLogin()
+	{
+		Yii::trace('User->touchOnLogin on user ' . $this->id);
+		$this->last_login_ip = Yii::app()->request->userHostAddress;
+		$this->last_login = new CDbExpression('NOW()');
+		$this->update(array('last_login_ip', 'last_login'));
+	}
+
 }

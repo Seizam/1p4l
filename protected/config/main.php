@@ -38,8 +38,8 @@ return array(
 	// application components
 	'components'=>array(
 		'user'=>array(
-			// enable cookie-based authentication
-			'allowAutoLogin'=>true,
+			'class'=>'WebUser', // extends CWebUser
+			'allowAutoLogin'=>true, // enable cookie-based authentication
 		),
         'bootstrap'=>array(
             'class'=>'bootstrap.components.Bootstrap',
@@ -72,11 +72,16 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
-				// show log messages on web pages
-                /*
+				// next only while development   
 				array(
 					'class'=>'CWebLogRoute',
-				),*/
+					'categories'=>array('apps.*', 'application', 'system.db.*'), // all levels of "apps", "application" and db categories
+				),
+				array(
+					'class'=>'CFileLogRoute',
+					'logFile'=>'application_debug.log',
+					'categories'=>array('apps.*', 'application', 'system.db.*'), // all levels of "apps", "application" and db categories
+				),
                  
 			),
 		),
