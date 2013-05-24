@@ -27,7 +27,7 @@ class ImprintController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','iterate'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -46,7 +46,7 @@ class ImprintController extends Controller
 
 	/**
 	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
+	 * @param int $id the id of the model to be displayed
 	 */
 	public function actionView($id)
 	{
@@ -147,6 +147,33 @@ class ImprintController extends Controller
 			'model'=>$model,
 		));
 	}
+	
+	/**
+	 * 
+	 * @param string $imprint
+	 */
+	public function actionIterate($init = null, $iterations = null, $target = null, $write = 1, $insert = false) {
+		$imprintHelper = ImprintHelper::newImprintHelper();
+		
+		$imprintHelper->initialize($init);
+		
+		if ($iterations !== null) {
+			$imprintHelper->getImprintator()->setMaxIterations($iterations);
+		}
+		
+		if ($target !== null) {
+			$imprintHelper->getImprintator()->setTarget($target);
+		}
+		
+		$imprintHelper->run();
+		
+		if ($write > 0) {
+			$imprintHelper->write ($write);
+		}
+		if ($insert) {
+			$imprintHelper->insert();
+		}
+	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -156,6 +183,20 @@ class ImprintController extends Controller
 	public function loadModel($id)
 	{
 		$model=Imprint::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+	
+	/**
+	 * Returns the data model based on the primary key given in the GET variable.
+	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer the ID of the model to be loaded
+	 */
+	public function loadModelfromImprint($imprint)
+	{
+		$criteria = new CDbCriteria(array('condition'=>'imprint=:imprint','params'=>array(':imprint'=>$imprint)));
+		$model=Imprint::model()->find($criteria);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

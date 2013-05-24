@@ -21,5 +21,6 @@ $this->menu=array(
 		'id',
 		'user_id',
 		'imprint',
+		'position'
 	),
 )); ?>

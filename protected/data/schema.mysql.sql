@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Ven 17 Mai 2013 à 19:20
+-- Généré le: Mar 21 Mai 2013 à 15:18
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
@@ -35,18 +35,13 @@ CREATE TABLE `cache` (
 CREATE TABLE `imprint` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
-  `imprint` varchar(9) NOT NULL,
+  `imprint` varchar(16) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `imprint` (`imprint`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Contenu de la table `imprint`
---
-
-INSERT INTO `imprint` (`id`, `user_id`, `imprint`) VALUES
-(1, 1, '0');
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -83,4 +78,4 @@ CREATE TABLE `user` (
   `catch` varchar(180) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
