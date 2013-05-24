@@ -52,12 +52,7 @@ class ImprintHelper {
 	}
 	
 	private function getLastImprint() {
-		$criteria = new CDbCriteria();
-		$criteria->select='imprint';
-		$criteria->addInCondition('type', array(Imprint::$IMPRINT_TYPE_AUTOMATIC));
-		$criteria->order= 'imprint DESC';
-		$imprint = Imprint::model()->find($criteria);
-		
+		$imprint = Imprint::model()->lastAutomatic()->find();
 		return $imprint->imprint;
 	}
 	
