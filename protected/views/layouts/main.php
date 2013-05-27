@@ -22,6 +22,7 @@
                 array('label'=>'Home', 'url'=>array('/site/index')),
                 array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
                 array('label'=>'Contact', 'url'=>array('/site/contact')),
+				array('label'=>'Create account', 'url'=>array('/user/create'), 'visible'=>Yii::app()->user->isGuest),
                 array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
                 array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
             ),
@@ -36,6 +37,17 @@
 			'links'=>$this->breadcrumbs,
 		)); ?><!-- breadcrumbs -->
 	<?php endif?>
+
+	<?php
+		$this->widget('bootstrap.widgets.TbAlert', array(
+			'block' => true, // display a larger alert block?
+			'fade' => true, // use transitions?
+			'closeText' => '&times;', // close link text - if set to false, no close link is displayed
+			'alerts' => array( // configurations per alert type
+				'success' => array('block' => true, 'fade' => true, 'closeText' => '&times;'), // success, info, warning, error or danger
+			),
+		) );
+	?>
 
 	<?php echo $content; ?>
 

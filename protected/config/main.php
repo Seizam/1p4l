@@ -19,6 +19,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'ext.yii-mail.YiiMailMessage',
 	),
     'theme'=>'bootstrap',
 
@@ -71,6 +72,7 @@ return array(
 				array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
+					'logFile'=>'warning.log',
 				),
 				// next only while development   
 				array(
@@ -79,18 +81,25 @@ return array(
 				),
 				array(
 					'class'=>'CFileLogRoute',
-					'logFile'=>'application_debug.log',
+					'logFile'=>'debug.log',
 					'categories'=>array('apps.*', 'application', 'system.db.*'), // all levels of "apps", "application" and db categories
 				),
                  
 			),
 		),
+		'mail' => array(
+			'class' => 'ext.yii-mail.YiiMail',
+			'transportType' => 'php',
+			'viewPath' => 'application.views.mail',
+			'logging' => true,
+			'dryRun' => false
+		),
 	),
-
+	
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-		// this is used in contact page
-		'adminEmail'=>'contact@seizam.com',
+		'adminEmail'=>'contact@seizam.com', // this is used in contact page
+		'emailFrom'=>'contact@seizam.com', // used for email sending		
 	),
 );

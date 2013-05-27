@@ -16,6 +16,12 @@
  */
 class User extends CActiveRecord
 {
+
+	const STATUS_EMAIL_TO_CONFIRM = 0;
+	const STATUS_ACTIVE = 10;
+	const STATUS_PASSWORD_TO_CHANGE = 20;
+	const STATUS_UNACTIVE = 99;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -42,9 +48,11 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('email, password', 'required'),
+			// array('email, password', 'required'),
 			array('email, name, password', 'length', 'max'=>45),
 			array('catch', 'length', 'max'=>180),
+			array('email', 'email'),
+			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, email, created, modified, last_login, last_login_ip, name', 'safe', 'on'=>'search'),
@@ -59,6 +67,7 @@ class User extends CActiveRecord
 		return array(
             'imprints' => array(self::HAS_MANY, 'Imprint', 'user_id'),
             'links'=> array(self::HAS_MANY, 'Link', 'user_id'),
+			'token'=> array(self::HAS_ONE, 'Token', 'user_id'),
  		);
 	}
 
@@ -113,6 +122,33 @@ class User extends CActiveRecord
 		$this->last_login_ip = Yii::app()->request->userHostAddress;
 		$this->last_login = new CDbExpression('NOW()');
 		$this->update(array('last_login_ip', 'last_login'));
+	}
+
+	/**
+	 * This is invoked before the record is saved.
+	 * @return boolean whether the record should be saved.
+	 */
+	protected function beforeSave()
+	{
+		Yii::trace('User->beforeSave');
+		if(parent::beforeSave())
+		{
+			$now = new CDbExpression('NOW()');
+			
+			if($this->isNewRecord)
+			{
+				// "before create"
+				$this->password = CPasswordHelper::hashPassword($this->password);
+				$this->created = $now;
+			}
+			
+			$this->modified = $now;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }

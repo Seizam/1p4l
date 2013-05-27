@@ -11,7 +11,7 @@ class UserIdentity extends CUserIdentity
 	/**
 	 * @var User user
 	 */
-	private $user = null;
+	private $_user = null;
 
 	/**
 	 * Constructor.

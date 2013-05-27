@@ -27,7 +27,7 @@ class UserController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create'),
+				'actions'=>array('index','view','create','captcha'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -45,6 +45,20 @@ class UserController extends Controller
 	}
 
 	/**
+	 * Declares class-based actions.
+	 */
+	public function actions()
+	{
+		return array(
+			// captcha action renders the CAPTCHA image displayed on the contact page
+			'captcha'=>array(
+				'class'=>'CCaptchaAction',
+				'backColor'=>0xFFFFFF,
+			),
+		);
+	}
+
+	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
@@ -56,25 +70,73 @@ class UserController extends Controller
 	}
 
 	/**
+	 * 
+	 * @param User $user
+	 * @param Token $token
+	 * @return boolean True on success, false on error
+	 */
+	protected function sendActivationEmail($user, $token) {
+
+		$message = new YiiMailMessage;
+
+		$message->view = 'confirmEmail';
+		$message->setBody(array('user' => $user, 'token' => $token), 'text/html');
+
+		$message->from = Yii::app()->params['emailFrom'];
+		$message->addTo($user->email);
+
+		if(!Yii::app()->mail->send($message)){
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
 	{
-		$model=new UserCreateForm;
+		$user = new UserCreate;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['User']))
+		if (isset($_POST['UserCreate']))
 		{
-			$model->attributes=$_POST['User'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+			$user->attributes = $_POST['UserCreate'];
+			if ($user->save())
+			{
+				$token = Token::model()->createForUser($user);
+				if ($token !== null)
+				{
+					if ($this->sendActivationEmail($user, $token))
+					{
+						// everything is ok
+						Yii::app()->user->setFlash('success', 'Thank you for your registration. Please check your email.');
+						$this->refresh(); // do exit
+					}
+					else
+					{
+						// error while sending email
+						$token->delete();
+						$user->delete();
+						Yii::app()->user->setFlash('error', 'Internal error while sending your activation email. Please retry.');
+					}
+				}
+				else
+				{
+					// error in token creation
+					$user->delete();
+					Yii::app()->user->setFlash('error', 'Internal error. Please retry.');
+				}		
+			}
+			// else: error in form validation
+		}		
 
-		$this->render('create',array(
-			'model'=>$model,
+		$user->password = '';
+		$user->passwordRepeat = '';
+		$user->verifyCode = '';
+
+		$this->render('create', array(
+			'model' => $user,
 		));
 	}
 
