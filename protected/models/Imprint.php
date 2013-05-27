@@ -7,9 +7,25 @@
  * @property string $id
  * @property string $user_id
  * @property string $imprint
+ * @property integer $type
+ * @property integer $state
  */
+
 class Imprint extends CActiveRecord
 {
+	
+	/** @var int */
+	public static $IMPRINT_TYPE_AUTOMATIC = 0;
+	/** @var int */
+	public static $IMPRINT_TYPE_PERSONAL = 50;
+	
+	/** @var int */
+	public static $IMPRINT_STATE_READY = 0;
+	/** @var int */
+	public static $IMPRINT_STATE_USED = 40;
+	/** @var int */
+	public static $IMPRINT_STATE_KO = 80;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -36,12 +52,13 @@ class Imprint extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, imprint', 'required'),
+			array('imprint', 'required'),
+			array('type, state', 'numerical', 'integerOnly'=>true),
 			array('user_id', 'length', 'max'=>10),
-			array('imprint', 'length', 'max'=>9),
+			array('imprint', 'length', 'max'=>16),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, user_id, imprint', 'safe', 'on'=>'search'),
+			array('id, user_id, imprint, type, state', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,8 +67,10 @@ class Imprint extends CActiveRecord
 	 */
 	public function relations()
 	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
 		return array(
-            'user' => array(self::BELONGS_TO, 'User', 'user_id')
+			'user' => array(self::BELONGS_TO, 'User', 'user_id')
 		);
 	}
 
@@ -64,6 +83,8 @@ class Imprint extends CActiveRecord
 			'id' => 'ID',
 			'user_id' => 'User',
 			'imprint' => 'Imprint',
+			'type' => 'Type',
+			'state' => 'State',
 		);
 	}
 
@@ -73,17 +94,18 @@ class Imprint extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('user_id',$this->user_id,true);
 		$criteria->compare('imprint',$this->imprint,true);
+		$criteria->compare('type',$this->type);
+		$criteria->compare('state',$this->state);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+	
 }

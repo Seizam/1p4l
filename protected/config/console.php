@@ -1,29 +1,25 @@
 <?php
 
+Yii::setPathOfAlias('ImprintHelper', dirname(__FILE__).'/../components/ImprintHelper.php');
+
 // This is the configuration for yiic console application.
 // Any writable CConsoleApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Console Application',
+	'name'=>'1p4l Console',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('log','ImprintHelper'),
 
 	// application components
 	'components'=>array(
 		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
-		// uncomment the following to use a MySQL database
-		/*
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
+			'connectionString' => 'mysql:host=localhost;dbname=1p4l',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
+			'username' => '1p4l',
+			'password' => '1p4l',
 			'charset' => 'utf8',
 		),
-		*/
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
