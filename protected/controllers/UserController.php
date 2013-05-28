@@ -97,11 +97,11 @@ class UserController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$user = new UserCreate;
+		$user = new User('insert');
 
-		if (isset($_POST['UserCreate']))
+		if (isset($_POST['User']))
 		{
-			$user->attributes = $_POST['UserCreate'];
+			$user->attributes = $_POST['User'];
 			if ($user->save())
 			{
 				$token = Token::model()->createForUser($user);

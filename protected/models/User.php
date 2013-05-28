@@ -4,7 +4,7 @@
  * This is the model class for table "user".
  *
  * The followings are the available columns in table 'user':
- * @property string $id
+ * @property int $id
  * @property string $email
  * @property string $password
  * @property string $created
@@ -13,6 +13,7 @@
  * @property string $last_login_ip
  * @property string $name
  * @property string $catch
+ * @property int $status
  */
 class User extends CActiveRecord
 {
@@ -20,7 +21,11 @@ class User extends CActiveRecord
 	const STATUS_EMAIL_TO_CONFIRM = 0;
 	const STATUS_ACTIVE = 10;
 	const STATUS_PASSWORD_TO_CHANGE = 20;
-	const STATUS_UNACTIVE = 99;
+	const STATUS_UNACTIVE = 90;
+	
+	/* Used for create() */
+	public $passwordRepeat;
+	public $verifyCode;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -48,10 +53,17 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			// array('email, password', 'required'),
-			array('email, name, password', 'length', 'max'=>45),
+			array('name', 'length', 'max'=>128),
+			array('password', 'length', 'max'=>45),
+			array('email', 'length', 'max'=>256),
 			array('catch', 'length', 'max'=>180),
 			array('email', 'email'),
+			
+			// The following rules are used by create() ('insert' scenario)
+			array('email, password, passwordRepeat, name, verifyCode', 'required', 'on'=>'insert'),
+			array('email', 'unique', 'message' => 'This email address is already registered.', 'on'=>'insert'),
+			array('passwordRepeat', 'compare', 'compareAttribute' => 'password', 'message' => 'You must enter the same password twice.', 'on'=>'insert'),
+			array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements(), 'on'=>'insert'),
 			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -80,12 +92,14 @@ class User extends CActiveRecord
 			'id' => 'ID',
 			'email' => 'Email',
 			'password' => 'Password',
+			'passwordRepeat' => 'Password Repeat',
 			'created' => 'Created',
 			'modified' => 'Modified',
 			'last_login' => 'Last Login',
 			'last_login_ip' => 'Last Login Ip',
 			'name' => 'Name',
 			'catch' => 'Catch',
+			'verifyCode' => 'Verification Code',
 		);
 	}
 
@@ -119,9 +133,9 @@ class User extends CActiveRecord
 	public function touchOnLogin()
 	{
 		Yii::trace('User->touchOnLogin on user ' . $this->id);
-		$this->last_login_ip = Yii::app()->request->userHostAddress;
 		$this->last_login = new CDbExpression('NOW()');
-		$this->update(array('last_login_ip', 'last_login'));
+		$this->last_login_ip = Yii::app()->request->userHostAddress;
+		$this->update(array( 'last_login','last_login_ip'));
 	}
 
 	/**
@@ -130,19 +144,21 @@ class User extends CActiveRecord
 	 */
 	protected function beforeSave()
 	{
-		Yii::trace('User->beforeSave');
 		if(parent::beforeSave())
 		{
 			$now = new CDbExpression('NOW()');
 			
+			$this->modified = $now;
+			
+			// Only on create()
 			if($this->isNewRecord)
 			{
-				// "before create"
 				$this->password = CPasswordHelper::hashPassword($this->password);
 				$this->created = $now;
+				$this->last_login_ip = Yii::app()->request->userHostAddress;
+				$this->status = self::STATUS_EMAIL_TO_CONFIRM;
 			}
 			
-			$this->modified = $now;
 			return true;
 		}
 		else
