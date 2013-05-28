@@ -119,17 +119,24 @@ class UserController extends Controller
 		));
 	}
 
-	public function actionConfirmEmail($token) {
+	public function actionConfirmEmail($token)
+	{
 		$token = Token::model()->with('user')->findByAttributes(array('token' => $token));
+
 		if ($token !== null && $token->user !== null)
 		{
-			Yii::trace('actionConfirmEmail token='.$token->id.' user='.$token->user->id);
-			/** @todo Implement account activation */
-			Yii::app()->user->setFlash('success', 'Your account is now active. Please login.');
+			if ($token->user->confirmEmail()) {
+				$token->delete();
+				Yii::app()->user->setFlash('success', 'Your account is now active. You can login.');
+				$this->redirect(array('site/login'));
+			}
+			else
+			{
+				Yii::app()->user->setFlash('error', 'Internal error. Please retry.');
+			}
 		}
 		else
 		{
-			// Token not found
 			Yii::app()->user->setFlash('error', 'Invalid email confirmation link.');
 		}
 

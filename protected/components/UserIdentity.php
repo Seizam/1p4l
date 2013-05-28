@@ -41,7 +41,7 @@ class UserIdentity extends CUserIdentity
 		}
 		else
 		{
-			$this->user = $user;
+			$this->_user = $user;
 			$this->errorCode = self::ERROR_NONE;
 		}
 		return $this->errorCode === self::ERROR_NONE;
@@ -54,7 +54,7 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function getId()
 	{
-		return ($this->user === null) ? 0 : $this->user->id;
+		return ($this->_user === null) ? 0 : $this->_user->id;
 	}
 
 	/**

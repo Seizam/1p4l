@@ -128,14 +128,31 @@ class User extends CActiveRecord
 	}
 
 	/**
-	 * 
+	 * updates <code>last_login</code> and <code>last_login_ip</code> fields of
+	 * the current record
+	 * @return boolean whether the update is successful
 	 */
 	public function touchOnLogin()
 	{
-		Yii::trace('User->touchOnLogin on user ' . $this->id);
+		Yii::trace('User->touchOnLogin() user=' . $this->id);
 		$this->last_login = new CDbExpression('NOW()');
 		$this->last_login_ip = Yii::app()->request->userHostAddress;
-		$this->update(array( 'last_login','last_login_ip'));
+		return $this->update(array( 'last_login','last_login_ip'));
+	}
+
+	/**
+	 * updates the field <code>status</code> of the current record from 
+	 * <code>STATUS_EMAIL_TO_CONFIRM</code> to 
+	 * <code>STATUS_ACTIVE</code>
+	 * @return boolean whether the update is successful
+	 */
+	public function confirmEmail() {
+		if ($this->status == self::STATUS_EMAIL_TO_CONFIRM)
+		{
+			$this->status = self::STATUS_ACTIVE;
+			return $this->update();
+		}
+		return false;
 	}
 
 	/**
