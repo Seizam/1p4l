@@ -3,7 +3,9 @@
     <head></head>
 	<body>
 		<p>Dear <?php echo $user->name; ?>,</p>
-		<p>To complete your account creation on 1P4L, please visit this page: <?php echo $token->token; ?></p>
+		<p>To complete your account creation on 1P4L, please visit this page: <?php 
+			$href = $this->createAbsoluteUrl('user/confirmEmail', array('token' => $token->token));
+			echo CHtml::link(CHtml::encode($href), $href); ?></p>
 		<p>----<br />We look forward to serving you!<br />The 1P4L team</p>
 	</body>
 </html>

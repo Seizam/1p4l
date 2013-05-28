@@ -93,11 +93,7 @@ class Token extends CActiveRecord
 	{
 		$token = new Token('create');
 		$token->user_id = $user->id;
-		$token->token = '';
-		for ($i=0 ; $i<8 ; $i++)
-		{
-			$token->token .= substr(md5(rand(0, 1000000)), 0, 8);
-		} // note: token has less than 10^(8*8) possibilities because of md5
+		$token->token = md5(strval($user->id) . strval($user->email)) . md5(strval(microtime()) . strval(rand(0, 1000000)));
 		$token->created = new CDbExpression('NOW()');
 		if ($token->insert())
 		{

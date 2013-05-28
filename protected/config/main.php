@@ -90,7 +90,7 @@ return array(
 		'mail' => array(
 			'class' => 'ext.yii-mail.YiiMail',
 			'transportType' => 'php',
-			'viewPath' => 'application.views.mail',
+			'viewPath' => 'application.views.email',
 			'logging' => true,
 			'dryRun' => false
 		),

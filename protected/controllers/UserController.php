@@ -26,15 +26,15 @@ class UserController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','captcha'),
+			array('allow',  // allow all users 
+				'actions'=>array('index','view','create','captcha', 'confirmEmail'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+			array('allow', // allow authenticated user
 				'actions'=>array('create','update'),
 				'users'=>array('@'),
 			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+			array('allow', // allow admin user
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
 			),
@@ -111,7 +111,7 @@ class UserController extends Controller
 					{
 						// everything is ok
 						Yii::app()->user->setFlash('success', 'Thank you for your registration. Please check your email.');
-						$this->refresh(); // do exit
+						$this->redirect(Yii::app()->homeUrl); // redirect to home and exit
 					}
 					else
 					{
@@ -123,14 +123,15 @@ class UserController extends Controller
 				}
 				else
 				{
-					// error in token creation
+					// error while creating token
 					$user->delete();
 					Yii::app()->user->setFlash('error', 'Internal error. Please retry.');
 				}		
 			}
-			// else: error in form validation
+			// else: error while validating form
 		}		
 
+		// always clear sensitive data
 		$user->password = '';
 		$user->passwordRepeat = '';
 		$user->verifyCode = '';
@@ -138,6 +139,23 @@ class UserController extends Controller
 		$this->render('create', array(
 			'model' => $user,
 		));
+	}
+
+	public function actionConfirmEmail($token) {
+		$token = Token::model()->with('user')->findByAttributes(array('token' => $token));
+		if ($token !== null && $token->user !== null)
+		{
+			Yii::trace('actionConfirmEmail token='.$token->id.' user='.$token->user->id);
+			/** @todo Implement account activation */
+			Yii::app()->user->setFlash('success', 'Your account is now active. Please login.');
+		}
+		else
+		{
+			// Token not found
+			Yii::app()->user->setFlash('error', 'Invalid email confirmation link.');
+		}
+
+		$this->redirect(Yii::app()->homeUrl);
 	}
 
 	/**
