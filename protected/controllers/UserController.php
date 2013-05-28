@@ -70,28 +70,6 @@ class UserController extends Controller
 	}
 
 	/**
-	 * 
-	 * @param User $user
-	 * @param Token $token
-	 * @return boolean True on success, false on error
-	 */
-	protected function sendActivationEmail($user, $token) {
-
-		$message = new YiiMailMessage;
-
-		$message->view = 'confirmEmail';
-		$message->setBody(array('user' => $user, 'token' => $token), 'text/html');
-
-		$message->from = Yii::app()->params['emailFrom'];
-		$message->addTo($user->email);
-
-		if(!Yii::app()->mail->send($message)){
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
@@ -107,7 +85,7 @@ class UserController extends Controller
 				$token = Token::model()->createForUser($user);
 				if ($token !== null)
 				{
-					if ($this->sendActivationEmail($user, $token))
+					if ($this->sendEmail($user->email, 'confirmEmail', array('user' => $user, 'token' => $token)))
 					{
 						// everything is ok
 						Yii::app()->user->setFlash('success', 'Thank you for your registration. Please check your email.');
