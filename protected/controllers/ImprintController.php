@@ -27,7 +27,7 @@ class ImprintController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','iterate'),
+				'actions'=>array('index','view','test'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -152,26 +152,21 @@ class ImprintController extends Controller
 	 * 
 	 * @param string $imprint
 	 */
-	public function actionIterate($init = null, $iterations = null, $target = null, $write = 1, $insert = false) {
-		$imprintHelper = ImprintHelper::newImprintHelper();
-		
-		$imprintHelper->initialize($init);
-		
-		if ($iterations !== null) {
-			$imprintHelper->getImprintator()->setMaxIterations($iterations);
+	public function actionTest($user = null) {
+		echo "<pre>Hello World\n";
+		$user = User::model()->findByPk($user);
+		if ($user == null) {
+			echo "No user found\n";
+			return;
 		}
+		echo "Here we have $user->name with email $user->email\n";
 		
-		if ($target !== null) {
-			$imprintHelper->getImprintator()->setTarget($target);
-		}
+		Imprint::assignToUser($user);
 		
-		$imprintHelper->run();
+		echo "We assigner him a new imprint\n";
 		
-		if ($write > 0) {
-			$imprintHelper->write ($write);
-		}
-		if ($insert) {
-			$imprintHelper->insert();
+		foreach ($user->imprints as $imprint) {
+			echo "$imprint->imprint ";
 		}
 	}
 

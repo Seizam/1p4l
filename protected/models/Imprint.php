@@ -43,6 +43,21 @@ class Imprint extends CActiveRecord
 	{
 		return 'imprint';
 	}
+	
+	public function scopes() {
+		return array(
+			'lastAutomatic' => array(
+				'order' => 'imprint DESC',
+				'limit' => 1,
+				'condition' => 'type='.self::$IMPRINT_TYPE_AUTOMATIC
+			),
+			'firstReady' => array(
+				'order' => 'imprint ASC',
+				'limit' => 1, 
+				'condition' => 'type='.self::$IMPRINT_TYPE_AUTOMATIC.' AND state='.self::$IMPRINT_STATE_READY
+			)
+		);
+	}
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -106,6 +121,17 @@ class Imprint extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	/**
+	 * 
+	 * @param User $user
+	 * @return Imprint
+	 */
+	public static function assignToUser($user) {
+		$criteria = self::model()->firstReady()->getDbCriteria();
+		$attributes = array('user_id'=>$user->id, 'state'=>self::$IMPRINT_STATE_USED);
+		self::model()->updateAll($attributes, $criteria);
 	}
 	
 }
