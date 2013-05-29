@@ -53,21 +53,22 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'length', 'max'=>128),
-			array('password', 'length', 'max'=>45),
-			array('email', 'length', 'max'=>256),
-			array('catch', 'length', 'max'=>180),
-			array('email', 'email'),
+			array('name', 'length', 'max' => 128),
+			array('name', 'required'),
+			array('catch', 'length', 'max' => 180),
 			
-			// The following rules are used by create() ('insert' scenario)
-			array('email, password, passwordRepeat, name, verifyCode', 'required', 'on'=>'insert'),
-			array('email', 'unique', 'message' => 'This email address is already registered.', 'on'=>'insert'),
-			array('passwordRepeat', 'compare', 'compareAttribute' => 'password', 'message' => 'You must enter the same password twice.', 'on'=>'insert'),
-			array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements(), 'on'=>'insert'),
+			// The following rules will only be validated on database insert (first call to the save() method)
+			array('email', 'email', 'on' => 'insert'),
+			array('email', 'length', 'max' => 256, 'on' => 'insert'),
+			array('email', 'unique', 'message' => 'This email address is already registered.', 'on' => 'insert'),
+			array('password', 'length', 'min' => 5, 'max' => 45, 'on' => 'insert'),
+			array('passwordRepeat', 'compare', 'compareAttribute' => 'password', 'message' => 'You must enter the same password twice.', 'on' => 'insert'),
+			array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements(), 'on' => 'insert'),
+			array('name, email, password, passwordRepeat, verifyCode', 'required', 'on' => 'insert'),
 			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, email, created, modified, last_login, last_login_ip, name', 'safe', 'on'=>'search'),
+			array('id, status, email, created, modified, last_login, last_login_ip, name', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -90,6 +91,7 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'status' => 'Status',
 			'email' => 'Email',
 			'password' => 'Password',
 			'passwordRepeat' => 'Password Repeat',
@@ -115,6 +117,7 @@ class User extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
+		$criteria->compare('status',$this->status,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('modified',$this->modified,true);

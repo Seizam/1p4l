@@ -26,20 +26,25 @@ class UserController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users 
-				'actions'=>array('index','view','create','captcha', 'confirmEmail'),
-				'users'=>array('*'),
+			array('allow', // everyone
+				'actions' => array('captcha'),
+				'users' => array('*'),
 			),
-			array('allow', // allow authenticated user
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
+			array('allow', // anonymous
+				'actions' => array('create', 'confirmEmail', 'login'),
+				'users' => array('?'),
 			),
-			array('allow', // allow admin user
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+			array('allow', // authenticated
+				'actions' => array('logout'),
+				'users' => array('@'),
 			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
+			array('allow', // admin
+				'actions' => array('index', 'view', 'update', 'delete'),
+				'users' => array('@'),
+				'expression' => '$user->isAdmin',
+			),
+			array('deny', // non-match = default = deny
+				'users' => array('*'),
 			),
 		);
 	}
@@ -59,14 +64,38 @@ class UserController extends Controller
 	}
 
 	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
+	 * Displays the login page
 	 */
-	public function actionView($id)
+	public function actionLogin()
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		$model=new LoginForm;
+
+		// if it is ajax validation request
+		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+
+		// collect user input data
+		if(isset($_POST['LoginForm']))
+		{
+			$model->attributes=$_POST['LoginForm'];
+			// validate user input and redirect to the previous page if valid
+			if($model->validate() && $model->login())
+				$this->redirect(Yii::app()->user->returnUrl);
+		}
+		// display the login form
+		$this->render('login',array('model'=>$model));
+	}
+
+	/**
+	 * Logs out the current user and redirect to homepage.
+	 */
+	public function actionLogout()
+	{
+		Yii::app()->user->logout();
+		$this->redirect(Yii::app()->homeUrl);
 	}
 
 	/**
@@ -128,7 +157,7 @@ class UserController extends Controller
 			if ($token->user->confirmEmail()) {
 				$token->delete();
 				Yii::app()->user->setFlash('success', 'Your account is now active. You can login.');
-				$this->redirect(array('site/login'));
+				$this->redirect(array('login'));
 			}
 			else
 			{
@@ -144,26 +173,54 @@ class UserController extends Controller
 	}
 
 	/**
+	 * Lists all models.
+	 */
+	public function actionIndex()
+	{
+
+		$model = new User('search');
+		$model->unsetAttributes();  // clear any default values
+		if (isset($_GET['User']))
+			$model->attributes = $_GET['User'];
+
+		$this->render('index', array(
+			'model' => $model,
+		));
+
+	}
+
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id)
+	{
+		$this->render('view',array(
+			'model' => $this->loadModel($id),
+		));
+	}
+
+	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+		$model = $this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if (isset($_POST['User']))
 		{
-			$model->attributes=$_POST['User'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			$model->attributes = $_POST['User'];
+			if ($model->save())
+				$this->redirect(array('view', 'id' => $model->id));
 		}
 
-		$this->render('update',array(
-			'model'=>$model,
+		$this->render('update', array(
+			'model' => $model,
 		));
 	}
 
@@ -181,36 +238,10 @@ class UserController extends Controller
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
-	}
-
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('User');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new User('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
 	}
 
 	/**

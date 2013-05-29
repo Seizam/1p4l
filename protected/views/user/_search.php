@@ -5,6 +5,8 @@
 
 	<?php echo $form->textFieldRow($model,'id',array('class'=>'span5','maxlength'=>10)); ?>
 
+	<?php echo $form->textFieldRow($model,'status',array('class'=>'span5','maxlength'=>10)); ?>
+
 	<?php echo $form->textFieldRow($model,'email',array('class'=>'span5','maxlength'=>45)); ?>
 
 	<?php echo $form->textFieldRow($model,'created',array('class'=>'span5')); ?>

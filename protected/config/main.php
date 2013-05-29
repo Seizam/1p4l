@@ -41,6 +41,7 @@ return array(
 		'user'=>array(
 			'class'=>'WebUser', // extends CWebUser
 			'allowAutoLogin'=>true, // enable cookie-based authentication
+			'loginUrl' => array('/user/login'),
 		),
         'bootstrap'=>array(
             'class'=>'bootstrap.components.Bootstrap',
