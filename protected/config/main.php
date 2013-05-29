@@ -13,7 +13,7 @@ return array(
 	'name'=>'1p4l',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('log', 'efontawesome'),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -21,6 +21,7 @@ return array(
 		'application.components.*',
 		'ext.yii-mail.YiiMailMessage',
 	),
+	
     'theme'=>'bootstrap',
 
 	'modules'=>array(

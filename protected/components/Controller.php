@@ -47,4 +47,8 @@ class Controller extends CController
 
 		return Yii::app()->mail->send($message);
 	}
+	
+	protected function getAdminNames() {
+		return array('clement@seizam.com','yann@seizam.com');
+	}
 }
