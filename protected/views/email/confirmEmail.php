@@ -3,9 +3,10 @@
     <head></head>
 	<body>
 		<p>Dear <?php echo $user->name; ?>,</p>
-		<p>To complete your account creation on 1P4L, please visit this page: <?php 
-			$href = $this->createAbsoluteUrl('user/confirmEmail', array('token' => $token->token));
-			echo CHtml::link(CHtml::encode($href), $href); ?></p>
+		<p>To complete your account creation on 1 Page 4 Life, <?php 
+			$text = 'please visit this page to confirm your email address';
+			$url = $this->createAbsoluteUrl('user/confirmEmail', array('token' => $token->token));
+			echo CHtml::link(CHtml::encode($text), $url); ?>.</p>
 		<p>----<br />We look forward to serving you!<br />The 1P4L team</p>
 	</body>
 </html>

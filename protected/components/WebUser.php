@@ -29,11 +29,18 @@ class WebUser extends CWebUser
 		$id = $this->id;
 		if ($id !== null && ($this->_model === null || $this->_model->id != $id))
 		{
-			Yii::trace("WebUser->getModel(): looking for user {$id}");
 			$this->_model = User::model()->findByPk($id);
 		}
 
-		Yii::trace('WebUser->getModel(): returning '.gettype($this->_model));
 		return $this->_model;
+	}
+
+	/**
+	 * Returns a value indicating whether the user is an admin.
+	 * @return boolean whether the current application user is an admin.
+	 */
+	public function getIsAdmin()
+	{
+		return ( isset($this->model) && $this->model->id < 10 );
 	}
 }
