@@ -27,9 +27,9 @@ class AddressLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button icon (eg. twitter)
+	 * @return string The  icon (eg. twitter)
 	 */
-	public function getButtonIcon() {
+	public function getIcon() {
 		switch ($this->link->type) {
 			case Link::TYPE_ADDRESS_PRO :
 				return 'building';
@@ -43,17 +43,17 @@ class AddressLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button label (eg. Github)
+	 * @return string The  label (eg. Github)
 	 */
-	public function getButtonLabel() {
+	public function getLabel() {
 		return $this->link->link;
 	}
 	
 	/**
 	 * 
-	 * @return string The button legend (eg. Perso)
+	 * @return string The  legend (eg. Perso)
 	 */
-	public function getButtonLegend() {
+	public function getLegend() {
 		switch ($this->link->type) {
 			case Link::TYPE_ADDRESS_PRO :
 				return 'pro';

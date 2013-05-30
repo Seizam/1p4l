@@ -27,9 +27,9 @@ class ServiceLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button icon (eg. twitter)
+	 * @return string The  icon (eg. twitter)
 	 */
-	public function getButtonIcon() {
+	public function getIcon() {
 		switch ($this->link->type) {
 			case Link::TYPE_SERVICE_SKYPE :
 				return 'facetime-video';
@@ -42,16 +42,16 @@ class ServiceLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button label (eg. Github)
+	 * @return string The  label (eg. Github)
 	 */
-	public function getButtonLabel() {
+	public function getLabel() {
 		switch ($this->link->type) {
 			case Link::TYPE_SERVICE_SKYPE :
 				return 'skype:'.$this->link->link;
 				
 			case Link::TYPE_SERVICE :
 			default :
-				return parent::getButtonLabel();
+				return parent::getLabel();
 		}
 	}
 

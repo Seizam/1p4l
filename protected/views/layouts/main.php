@@ -36,8 +36,8 @@
 				<?php echo $content; ?>
 			</div>
 			<div class="row-fluid" id="footer">
-				<p class="pull-right"><?php echo Yii::powered(); ?></p>
-				<p><a href="http://www.onepageforlife.com">1 Page 4 Life</a> is provided by <a href="http://atelier.seizam.com">Seizam</a>.</p>
+				<div class="span4"><a href="http://www.onepageforlife.com">1 Page 4 Life</a> by <a href="http://atelier.seizam.com">Seizam</a>.</div>
+				<div class="span4 offset4 align-right"><?php echo Yii::powered(); ?></div>
 			</div><!-- footer -->
 		</div><!-- page -->
 	</body>

@@ -1,27 +1,109 @@
-#page {
-    padding-top: 60px;
-	max-width: 767px;
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) {
+	#page {
+		padding-top: 7%;
+		max-width: 767px;
+	}
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+	#page {
+		padding-top: 20px;
+		max-width: 480px;
+	}
+
+	.gravatar {
+		float: right;
+		max-width: 142px;
+	}
+}
+
+body {
+	background-color: #eeeeee;
 }
 
 #mainframe {
-	border: 3px solid #eeeeee;
+	border: 2px solid #999999;
 	border-radius: 6px 6px 6px 6px;
 	padding: 20px;
 }
 
 .name {
 	color: #999999;
-	letter-spacing: 2px;
 	margin-top: 0;
+	font-size: 5em;
+	line-height: 1em;
+	font-weight: lighter;
+	text-align: center;
 }
 
 .catch {
+	font-weight: normal;
+	text-align: center;
 }
 
-.links .btn {
-	margin-bottom: 10px;
+.align-right {
+	text-align: right;
 }
 
-.links .btn-link.disabled {
+/* THE LINKS AREA */
+
+.links a {
+	text-align: left;
+	padding: 6px 0;
+	color: black;
+	opacity: 0.6;
+	line-height: 1.8em;
+	transition: 0.75s ease 0s;
+}
+
+.links a:hover {
+	color: inherit;
+	opacity: 2;
+	text-decoration: none;
+	transition: 0.75s ease 0s;
+}
+
+.links a.disabled:hover {
+	opacity: 0.6;
+}
+
+.links a i {
+	width: 1em;
+	display: block;
+	float: left;
+	font-size: 1.8em;
+	text-align: center;
+}
+
+.links a span {
+	padding-left: 1em;
+	word-wrap: break-word;
+}
+
+.links a.disabled {
 	background-color: transparent;
 }
+
+/* THE ICONS COLORS */
+.icon-facebook-sign {
+	color: #3B5998;
+}
+
+.icon-twitter-sign {
+	color: #00BBF5;
+}
+
+.icon-google-plus-sign {
+	color: #C13629;
+}
+
+.icon-pinterest-sign {
+	color: #CD2628;
+}
+
+.icon-linkedin-sign {
+	color: #0073B2;
+}
+

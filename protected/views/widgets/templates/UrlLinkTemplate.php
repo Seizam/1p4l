@@ -27,24 +27,24 @@ class UrlLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button icon (eg. twitter)
+	 * @return string The  icon (eg. twitter)
 	 */
-	public function getButtonIcon() {
+	public function getIcon() {
 		switch ($this->link->type) {
 			case Link::TYPE_URL_GITHUB :
-				return 'github';
+				return 'github-sign';
 			case Link::TYPE_URL_LINKEDIN :
-				return 'linkedin';
+				return 'linkedin-sign';
 			case Link::TYPE_URL_VIADEO :
 				return 'cogs';
 			case Link::TYPE_URL_TWITTER :
-				return 'twitter';
+				return 'twitter-sign';
 			case Link::TYPE_URL_FACEBOOK :
-				return 'facebook';
+				return 'facebook-sign';
 			case Link::TYPE_URL_GOOGLEPLUS :
-				return 'google-plus';
+				return 'google-plus-sign';
 			case Link::TYPE_URL_PINTEREST :
-				return 'pinterest';
+				return 'pinterest-sign';
 			case Link::TYPE_URL_YOUTUBE :
 			case Link::TYPE_URL_VIMEO :
 				return 'play-circle';
@@ -61,9 +61,9 @@ class UrlLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button label (eg. Github)
+	 * @return string The  label (eg. Github)
 	 */
-	public function getButtonLabel() {
+	public function getLabel() {
 		$matches = array();
 		$pattern = '/^(https?:\/\/)?(www\.)?([a-z0-9\-\.]*)/i';
 		preg_match($pattern, $this->link->link, $matches);
@@ -72,9 +72,9 @@ class UrlLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button target url (eg. http://www.seizam.com)
+	 * @return string The  target url (eg. http://www.seizam.com)
 	 */
-	public function getButtonUrl() {
+	public function getUrl() {
 		return $this->link->link;
 	}
 	
@@ -82,7 +82,7 @@ class UrlLinkTemplate extends LinkTemplate {
 	 * 
 	 * @return boolean
 	 */
-	public function getButtonDisabled() {
+	public function getDisabled() {
 		return false;
 	}
 

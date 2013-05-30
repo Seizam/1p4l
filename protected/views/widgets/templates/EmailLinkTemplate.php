@@ -27,9 +27,9 @@ class EmailLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button icon (eg. twitter)
+	 * @return string The  icon (eg. twitter)
 	 */
-	public function getButtonIcon() {
+	public function getIcon() {
 		switch ($this->link->type) {
 			case Link::TYPE_EMAIL_PRO :
 				return 'envelope-alt';
@@ -43,17 +43,17 @@ class EmailLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button label (eg. Github)
+	 * @return string The  label (eg. Github)
 	 */
-	public function getButtonLabel() {
+	public function getLabel() {
 		return $this->link->link;
 	}
 	
 	/**
 	 * 
-	 * @return string The button legend (eg. Perso)
+	 * @return string The  legend (eg. Perso)
 	 */
-	public function getButtonLegend() {
+	public function getLegend() {
 		switch ($this->link->type) {
 			case Link::TYPE_EMAIL_PRO :
 				return 'pro';
@@ -67,9 +67,9 @@ class EmailLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button target url (eg. http://www.seizam.com)
+	 * @return string The  target url (eg. http://www.seizam.com)
 	 */
-	public function getButtonUrl() {
+	public function getUrl() {
 		return 'mailto:'.$this->link->link;
 	}
 	
@@ -77,7 +77,7 @@ class EmailLinkTemplate extends LinkTemplate {
 	 * 
 	 * @return boolean
 	 */
-	public function getButtonDisabled() {
+	public function getDisabled() {
 		return false;
 	}
 

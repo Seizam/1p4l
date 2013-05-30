@@ -116,7 +116,11 @@ class Link extends CActiveRecord
 	}
 	
 	public function isEmail() {
-		return $this->type >= self::TYPE_EMAIL && $this->type < self::TYPE_ADDRESS;
+		return $this->type >= self::TYPE_EMAIL && $this->type < self::TYPE_PHONE;
+	}
+	
+	public function isPhone() {
+		return $this->type >= self::TYPE_PHONE && $this->type < self::TYPE_ADDRESS;
 	}
 	
 	public function isAddress() {

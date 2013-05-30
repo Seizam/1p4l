@@ -27,21 +27,21 @@ class PhoneLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button icon (eg. twitter)
+	 * @return string The  icon (eg. twitter)
 	 */
-	public function getButtonIcon() {
+	public function getIcon() {
 		return 'phone';
 	}
 	
 	/**
 	 * 
-	 * @return string The button label (eg. Github)
+	 * @return string The  label (eg. Github)
 	 */
-	public function getButtonLabel() {
+	public function getLabel() {
 		return $this->link->link;
 	}
 	
-	public function getButtonLegend() {
+	public function getLegend() {
 		switch ($this->link->type) {
 			case Link::TYPE_PHONE_PRO :
 				return 'pro';
@@ -55,9 +55,9 @@ class PhoneLinkTemplate extends LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The button target url (eg. http://www.seizam.com)
+	 * @return string The  target url (eg. http://www.seizam.com)
 	 */
-	public function getButtonUrl() {
+	public function getUrl() {
 		return 'tel:'.$this->link->link;
 	}
 	
@@ -65,7 +65,7 @@ class PhoneLinkTemplate extends LinkTemplate {
 	 * 
 	 * @return boolean
 	 */
-	public function getButtonDisabled() {
+	public function getDisabled() {
 		return false;
 	}
 
