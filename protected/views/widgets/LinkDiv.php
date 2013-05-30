@@ -10,20 +10,18 @@ class LinkDiv extends CWidget {
 	 * @var Link 
 	 */
 	public $linkTemplate = null;
-	
-	public $span = 6;
 
 	public function run() {
 		$this->widget('bootstrap.widgets.TbButton', array(
 			'type' => $this->linkTemplate->getType(),
 			'size' => $this->linkTemplate->getSize(),
 			'icon' => $this->linkTemplate->getIcon(),
-			'label' => '<span>'.$this->linkTemplate->getLabel().'</span>',
+			'label' => '<div>'.$this->linkTemplate->getLabel().'</div>',
 			'encodeLabel' => false,
 			'url' => $this->linkTemplate->getUrl(),
 			'disabled' => $this->linkTemplate->getDisabled(),
-			'htmlOptions' => array('class'=> 'span'.$this->span)
-			
+			//'block' => true,
+			'htmlOptions' => array('class' => "span{$this->linkTemplate->getSpan()}"),
 		));
 	}
 }

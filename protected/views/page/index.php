@@ -1,5 +1,5 @@
 <div class="row-fluid">
-	<div class="span3">
+	<div class="span4">
 		<?php
 		$this->widget('ext.yii-gravatar.YiiGravatar', array(
 			'email' => $model->user->email,
@@ -16,7 +16,7 @@
 		));
 		?>
 	</div>
-	<div class="span9">
+	<div class="span8">
 		<h1 class="name"><?php echo $model->user->name ?></h1>
 		<h4 class="catch"><?php echo $model->user->catch ?></h4>
 		<hr/>
@@ -24,14 +24,14 @@
 		<?php
 			$first = true;
 			foreach ($model->user->links as $link) {
-				if ($first) echo '<div class="row-fluid">';
+				//if ($first) echo '<div class="row-fluid">';
 				$this->widget('application.views.widgets.LinkDiv', array(
 					'linkTemplate' => LinkTemplate::newFromLink($link)
 				));
-				if (!$first) echo '</div>';
+				//if (!$first) echo '</div>';
 				$first = !$first;
 			}
-			if (!$first) echo '</div>'
+			//if (!$first) echo '</div>'
 		?>
 		</div>
 	</div>

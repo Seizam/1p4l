@@ -68,6 +68,14 @@ class LinkTemplate {
 	
 	/**
 	 * 
+	 * @return int The column width (spanN)
+	 */
+	public function getSpan() {
+		return 6;
+	}
+	
+	/**
+	 * 
 	 * @return string The  icon (eg. twitter)
 	 */
 	public function getIcon() {

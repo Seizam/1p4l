@@ -13,9 +13,10 @@
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
 	</head>
 
-	<body>
+	<body class="opfl">
 		<div class="container" id="page">
 			<div class="row-fluid">
+				<div class="span12">
 					<?php
 					$alertConfig = array('block' => true, 'fade' => true, 'closeText' => '&times;');
 					$this->widget('bootstrap.widgets.TbAlert', array(
@@ -31,13 +32,24 @@
 						),
 					));
 					?>
+				</div>
 			</div>
 			<div id="mainframe">
 				<?php echo $content; ?>
 			</div>
 			<div class="row-fluid" id="footer">
-				<div class="span4"><a href="http://www.onepageforlife.com">1 Page 4 Life</a> by <a href="http://atelier.seizam.com">Seizam</a>.</div>
-				<div class="span4 offset4 align-right"><?php echo Yii::powered(); ?></div>
+				<div class="span2 offset10 align-center">
+					<?php echo CHtml::link('<i class="icon-question-sign"></i>', array('site/about'))
+							.' '
+							.CHtml::link('<i class="icon-heart"></i>', 'http://atelier.seizam.com')
+							.' '
+							.CHtml::link('<i class="icon-eye-open"></i>', 'http://twitter.github.io/bootstrap/')
+							.' '
+							.CHtml::link('<i class="icon-cog"></i>', 'http://www.yiiframework.com/')
+							.' '
+							.CHtml::link('<i class="icon-legal"></i>', array('site/legal'));
+					?>
+				</div>
 			</div><!-- footer -->
 		</div><!-- page -->
 	</body>
