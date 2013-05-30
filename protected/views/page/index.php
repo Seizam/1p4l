@@ -1,27 +1,39 @@
-<h1>1PFL.com/<?php echo $model->imprint ?></h1>
+<div class="row-fluid">
+	<div class="span4">
+		<?php
+		$this->widget('ext.yii-gravatar.YiiGravatar', array(
+			'email' => $model->user->email,
+			'size' => 320,
+			'defaultImage' => 'mm',
+			'secure' => true,
+			'rating' => 'g',
+			'emailHashed' => false,
+			'htmlOptions' => array(
+				'alt' => 'Gravatar of ' . $model->user->name,
+				'title' => 'Gravatar of ' . $model->user->name,
+				'class' => 'img-rounded'
+			)
+		));
+		?>
+	</div>
+	<div class="span8">
+		<h1 class="name"><?php echo $model->user->name ?></h1>
+		<h4 class="catch"><?php echo $model->user->catch ?></h4>
+		<hr/>
+		<div class="row-fluid links">
+		<?php
+			$first = true;
+			foreach ($model->user->links as $link) {
+				if ($first) echo '<div class="row-fluid">';
+				$this->widget('application.views.widgets.LinkButton', array(
+					'linkTemplate' => LinkTemplate::newFromLink($link)
+				));
+				if (!$first) echo '</div>';
+				$first = !$first;
+			}
+			if (!$first) echo '</div>'
+		?>
+		</div>
+	</div>
+</div>
 
-<h2>User</h2>
-<?php
-$this->widget('bootstrap.widgets.TbDetailView', array(
-	'data' => $model,
-	'attributes' => array(
-		'id',
-		'user.email',
-		'user.created',
-		'user.modified',
-		'user.last_login',
-		'user.last_login_ip',
-		'user.name',
-		'user.catch',
-	),
-));
-?>
-
-<h2>Links</h2>
-<?php
-foreach ($model->user->links as $link) {
-	$this->widget('application.views.widgets.LinkButton', array(
-		'link' => $link
-	));
-}
-?>

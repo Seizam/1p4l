@@ -127,6 +127,7 @@ class LinkController extends Controller
 	 */
 	public function actionIndex()
 	{
+		
 		$dataProvider=new CActiveDataProvider('Link');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,

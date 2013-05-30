@@ -1,3 +1,27 @@
 #page {
     padding-top: 60px;
+	max-width: 767px;
+}
+
+#mainframe {
+	border: 3px solid #eeeeee;
+	border-radius: 6px 6px 6px 6px;
+	padding: 20px;
+}
+
+.name {
+	color: #999999;
+	letter-spacing: 2px;
+	margin-top: 0;
+}
+
+.catch {
+}
+
+.links .btn {
+	margin-bottom: 10px;
+}
+
+.links .btn-link.disabled {
+	background-color: transparent;
 }

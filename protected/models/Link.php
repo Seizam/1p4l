@@ -114,4 +114,12 @@ class Link extends CActiveRecord
 	public function isService() {
 		return $this->type >= self::TYPE_SERVICE && $this->type < self::TYPE_EMAIL;
 	}
+	
+	public function isEmail() {
+		return $this->type >= self::TYPE_EMAIL && $this->type < self::TYPE_ADDRESS;
+	}
+	
+	public function isAddress() {
+		return $this->type >= self::TYPE_ADDRESS;
+	}
 }

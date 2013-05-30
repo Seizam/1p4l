@@ -1,7 +1,5 @@
 <?php
 
-Yii::setPathOfAlias('ImprintHelper', dirname(__FILE__).'/../components/ImprintHelper.php');
-
 // This is the configuration for yiic console application.
 // Any writable CConsoleApplication properties can be configured here.
 return array(
@@ -9,7 +7,7 @@ return array(
 	'name'=>'1p4l Console',
 
 	// preloading 'log' component
-	'preload'=>array('log','ImprintHelper'),
+	'preload'=>array('log'),
 
 	// application components
 	'components'=>array(
