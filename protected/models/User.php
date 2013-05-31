@@ -18,10 +18,9 @@
 class User extends CActiveRecord
 {
 
-	const STATUS_EMAIL_TO_CONFIRM = 0;
-	const STATUS_ACTIVE = 10;
-	const STATUS_PASSWORD_TO_CHANGE = 20;
-	const STATUS_UNACTIVE = 90;
+	const STATUS_UNACTIVE = 10;
+	const STATUS_ACTIVE = 30;
+	const STATUS_KO = 90;
 	
 	/* Used for create() */
 	public $passwordRepeat;
@@ -144,18 +143,29 @@ class User extends CActiveRecord
 	}
 
 	/**
-	 * updates the field <code>status</code> of the current record from 
-	 * <code>STATUS_EMAIL_TO_CONFIRM</code> to 
-	 * <code>STATUS_ACTIVE</code>
+	 * 
+	 * @param string $token
+	 * @return User
+	 */
+	public function findToActivate($token)
+	{
+		return $this->with(array(
+			'token' => array(
+				'joinType' => 'INNER JOIN',
+				'condition' => 'token.token=:token',
+				'params' => array(':token' => $token)
+			)
+		))->findByAttributes(array('status' => self::STATUS_UNACTIVE));
+	}
+
+	/**
+	 * updates the field <code>status</code> to <code>STATUS_ACTIVE</code> to 
+	 * 
 	 * @return boolean whether the update is successful
 	 */
-	public function confirmEmail() {
-		if ($this->status == self::STATUS_EMAIL_TO_CONFIRM)
-		{
-			$this->status = self::STATUS_ACTIVE;
-			return $this->update();
-		}
-		return false;
+	public function activate() {
+		$this->status = self::STATUS_ACTIVE;
+		return $this->update();
 	}
 
 	/**
@@ -176,7 +186,7 @@ class User extends CActiveRecord
 				$this->password = CPasswordHelper::hashPassword($this->password);
 				$this->created = $now;
 				$this->last_login_ip = Yii::app()->request->userHostAddress;
-				$this->status = self::STATUS_EMAIL_TO_CONFIRM;
+				$this->status = self::STATUS_UNACTIVE;
 			}
 			
 			return true;

@@ -31,12 +31,12 @@ class UserController extends Controller
 				'users' => array('*'),
 			),
 			array('allow', // anonymous
-				'actions' => array('create', 'confirmEmail', 'login'),
+				'actions' => array('create', 'activate', 'login'),
 				'users' => array('?'),
 			),
 			array('allow', // authenticated
 				'actions' => array('logout'),
-				'users' => array('@'),
+				'users' => array('*'),
 			),
 			array('allow', // admin
 				'actions' => array('index', 'view', 'update', 'delete'),
@@ -114,7 +114,7 @@ class UserController extends Controller
 				$token = Token::model()->createForUser($user);
 				if ($token !== null)
 				{
-					if ($this->sendEmail($user->email, 'confirmEmail', array('user' => $user, 'token' => $token)))
+					if ($this->sendEmail($user->email, 'activate', array('user' => $user, 'token' => $token)))
 					{
 						// everything is ok
 						Yii::app()->user->setFlash('success', 'Thank you for your registration. Please check your email.');
@@ -148,22 +148,20 @@ class UserController extends Controller
 		));
 	}
 
-	public function actionConfirmEmail($token)
+	public function actionActivate($token)
 	{
-		$token = Token::model()->with('user')->findByAttributes(array('token' => $token));
-				
-		if ($token !== null && $token->user !== null)
+		$user = User::model()->findToActivate($token);
+		
+		if ( $user !== null && Imprint::model()->assignToUser($user) )
 		{
-			if (Imprint::model()->assignToUser($token->user) && $token->user->confirmEmail())
-			{
-				$token->delete();
-				Yii::app()->user->setFlash('success', 'Your account is now active, congrats! Please login...');					
-				$this->redirect(array('login'));
-			}
+			$user->activate();
+			$user->token->delete();
+			
+			Yii::app()->user->setFlash('success', 'Your account is now active, congrats! Please login...');					
+			$this->redirect(array('login'));
 		}
 
 		Yii::app()->user->setFlash('error', 'Account creation failed. Please try again later.');
-
 		$this->redirect(Yii::app()->homeUrl);
 	}
 
