@@ -1,24 +1,3 @@
-/* Portrait tablet to landscape and desktop */
-@media (min-width: 768px) {
-	#page {
-		padding-top: 5%;
-		max-width: 767px;
-	}
-}
-
-/* Landscape phone to portrait tablet */
-@media (max-width: 767px) {
-	#page {
-		padding-top: 20px;
-		max-width: 480px;
-	}
-
-	.gravatar {
-		float: right;
-		max-width: 142px;
-	}
-}
-
 .opfl {
 	background-color: #F5F5F5;
 }
@@ -27,6 +6,8 @@
 	background-color: #ffffff;
 	padding: 20px;
 	border: 1px solid #E3E3E3;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
 	border-radius: 6px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
 }
@@ -47,6 +28,7 @@
 	border: 1px solid #E3E3E3;
 }
 
+
 .align-right {
 	text-align: right;
 }
@@ -57,23 +39,16 @@
 
 /* THE LINKS AREA */
 
-.links.row-fluid [class*="span"] {
-	margin: 0;
+.links {
+	border: 1px solid #E3E3E3;
+	padding: 4px 0 0 12px;
+	margin: 30px 0 0 0;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	border-right: none;
+	border-bottom: none;
 }
-
-
-.links.row-fluid .span1 {width: 8.3333%;}
-.links.row-fluid .span2 {width: 16.6666%;}
-.links.row-fluid .span3 {width: 25%;}
-.links.row-fluid .span4 {width: 33.3333%;}
-.links.row-fluid .span5 {width: 41.6666%;}
-.links.row-fluid .span6 {width: 50%;}
-.links.row-fluid .span7 {width: 58.3333%;}
-.links.row-fluid .span8 {width: 66.6666%;}
-.links.row-fluid .span9 {width: 75%;}
-.links.row-fluid .span10 {width: 83.3333%;}
-.links.row-fluid .span11 {width: 91.6666%;}
-.links.row-fluid .span12 {width: 100%;}
 
 .links a {
 	text-align: left;
@@ -137,3 +112,46 @@
 	transition: 0.75s ease 0s;
 }
 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) {
+	#page {
+		padding-top: 5%;
+		max-width: 767px;
+	}
+
+
+	.links .row-fluid [class*="span"] {
+		margin: 0;
+	}
+
+	.links .row-fluid .span1 {width: 8.3333%;}
+	.links .row-fluid .span2 {width: 16.6666%;}
+	.links .row-fluid .span3 {width: 25%;}
+	.links .row-fluid .span4 {width: 33.3333%;}
+	.links .row-fluid .span5 {width: 41.6666%;}
+	.links .row-fluid .span6 {width: 50%;}
+	.links .row-fluid .span7 {width: 58.3333%;}
+	.links .row-fluid .span8 {width: 66.6666%;}
+	.links .row-fluid .span9 {width: 75%;}
+	.links .row-fluid .span10 {width: 83.3333%;}
+	.links .row-fluid .span11 {width: 91.6666%;}
+	.links .row-fluid .span12 {width: 100%;}
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+	#page {
+		padding-top: 20px;
+		max-width: 480px;
+	}
+
+	.gravatar {
+		float: right;
+		max-width: 142px;
+	}
+
+	.links {
+		padding: 20px 0 0 0;
+		border-left: none;
+	}
+}

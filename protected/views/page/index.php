@@ -19,20 +19,21 @@
 	<div class="span8">
 		<h1 class="name"><?php echo $model->user->name ?></h1>
 		<h4 class="catch"><?php echo $model->user->catch ?></h4>
-		<hr/>
-		<div class="row-fluid links">
-		<?php
-			$first = true;
-			foreach ($model->user->links as $link) {
-				//if ($first) echo '<div class="row-fluid">';
-				$this->widget('application.views.widgets.LinkDiv', array(
-					'linkTemplate' => LinkTemplate::newFromLink($link)
-				));
-				//if (!$first) echo '</div>';
-				$first = !$first;
-			}
-			//if (!$first) echo '</div>'
-		?>
+		<div class="links">
+			<div class="row-fluid">
+				<?php
+				$first = true;
+				foreach ($model->user->links as $link) {
+					//if ($first) echo '<div class="row-fluid">';
+					$this->widget('application.views.widgets.LinkDiv', array(
+						'linkTemplate' => LinkTemplate::newFromLink($link)
+					));
+					//if (!$first) echo '</div>';
+					$first = !$first;
+				}
+				//if (!$first) echo '</div>'
+				?>
+			</div>
 		</div>
 	</div>
 </div>
