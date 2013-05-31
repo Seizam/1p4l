@@ -87,7 +87,7 @@ class ImprintHelper {
 		return "Found {$this->imprintator->getValidated()} imprints\n
          In {$this->imprintator->getIterations()} iterations\n
          From a total space of {$this->imprintator->getSpace()}\n
-         Resulting in space usage of {$this->imprintator->getSpaceUsage()}";
+         Resulting in space usage of {$this->imprintator->getSpaceUsage()}%";
 	}
 	
 	/**
