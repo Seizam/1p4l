@@ -53,7 +53,7 @@ return array(
 			'showScriptName' => false,
 			'caseSensitive' => false,
 			'rules'=>array(
-				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
+				'site/static/<view:\w+>'=>'site/static',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 				'<imprint:\w+>'=>'page/index/imprint/<imprint>',
