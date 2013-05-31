@@ -89,7 +89,7 @@ class ImprintHelper {
 	 * Insert a collection to the DB
 	 */
 	private function insertCollection($collection) {
-		$sql = 'INSERT INTO  `1p4l`.`imprint` (`id`,`user_id`,`imprint`,`type`,`state`) VALUES '.$collection->getSQLValues().';';
+		$sql = 'INSERT INTO  `1p4l`.`imprint` (`id`,`user_id`,`imprint`,`type`,`status`) VALUES '.$collection->getSQLValues().';';
 		$command = Yii::app()->db->createCommand($sql);
 		$return = $command->execute();
 		return $return;
