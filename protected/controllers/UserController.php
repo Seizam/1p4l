@@ -151,23 +151,18 @@ class UserController extends Controller
 	public function actionConfirmEmail($token)
 	{
 		$token = Token::model()->with('user')->findByAttributes(array('token' => $token));
-
+				
 		if ($token !== null && $token->user !== null)
 		{
-			if ($token->user->confirmEmail()) {
+			if (Imprint::model()->assignToUser($token->user) && $token->user->confirmEmail())
+			{
 				$token->delete();
-				Yii::app()->user->setFlash('success', 'Your account is now active. You can login.');
+				Yii::app()->user->setFlash('success', 'Your account is now active, congrats! Please login...');					
 				$this->redirect(array('login'));
 			}
-			else
-			{
-				Yii::app()->user->setFlash('error', 'Internal error. Please retry.');
-			}
 		}
-		else
-		{
-			Yii::app()->user->setFlash('error', 'Invalid email confirmation link.');
-		}
+
+		Yii::app()->user->setFlash('error', 'Account creation failed. Please try again later.');
 
 		$this->redirect(Yii::app()->homeUrl);
 	}

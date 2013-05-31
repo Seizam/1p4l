@@ -77,7 +77,7 @@ class ImprintHelper {
 	 * Insert in the DB
 	 */
 	private function insertCollection($collection) {
-		$sql = 'INSERT INTO  `1p4l`.`imprint` (`id`,`user_id`,`imprint`,`type`,`state`) VALUES '.$collection->getSQLValues().';';
+		$sql = 'INSERT INTO  `1p4l`.`imprint` (`id`,`user_id`,`imprint`,`type`,`status`) VALUES '.$collection->getSQLValues().';';
 		$command = Yii::app()->db->createCommand($sql);
 		$return = $command->execute();
 		return $return;
@@ -508,7 +508,7 @@ class ImprintCollection {
 	private static function getSQLValue($imprint) {
 		$sql = '(';
 		
-		$fields = array('null','null','"'.$imprint.'"', Imprint::$IMPRINT_TYPE_AUTOMATIC, Imprint::$IMPRINT_STATE_READY);
+		$fields = array('null','null','"'.$imprint.'"', Imprint::$IMPRINT_TYPE_AUTOMATIC, Imprint::$IMPRINT_STATUS_READY);
 		foreach ($fields as $field) {
 			$sql .= $field.',';
 		}

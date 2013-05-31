@@ -1,4 +1,4 @@
-INSERT INTO `1p4l`.`imprint` (`id`, `user_id`, `imprint`, `type`, `state`)
+INSERT INTO `1p4l`.`imprint` (`id`, `user_id`, `imprint`, `type`, `status`)
 VALUES (
 NULL, NULL, '00001', '0', '0'
 ), (

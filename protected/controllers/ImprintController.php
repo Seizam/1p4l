@@ -147,7 +147,7 @@ class ImprintController extends Controller
 			'model'=>$model,
 		));
 	}
-	
+
 	/**
 	 * 
 	 * @param string $imprint
@@ -160,11 +160,16 @@ class ImprintController extends Controller
 			return;
 		}
 		echo "Here we have $user->name with email $user->email\n";
-		
-		Imprint::assignToUser($user);
-		
-		echo "We assigner him a new imprint\n";
-		
+
+		if (Imprint::model()->assignToUser($user))
+		{
+			echo "We assigned him a new imprint.\n";
+		}
+		else
+		{
+			echo "No imprint available.\n";
+		}
+
 		foreach ($user->imprints as $imprint) {
 			echo "$imprint->imprint ";
 		}

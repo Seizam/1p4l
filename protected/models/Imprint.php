@@ -8,7 +8,7 @@
  * @property string $user_id
  * @property string $imprint
  * @property integer $type
- * @property integer $state
+ * @property integer $status
  */
 
 class Imprint extends CActiveRecord
@@ -20,11 +20,11 @@ class Imprint extends CActiveRecord
 	public static $IMPRINT_TYPE_PERSONAL = 50;
 	
 	/** @var int */
-	public static $IMPRINT_STATE_READY = 0;
+	public static $IMPRINT_STATUS_READY = 0;
 	/** @var int */
-	public static $IMPRINT_STATE_USED = 40;
+	public static $IMPRINT_STATUS_USED = 40;
 	/** @var int */
-	public static $IMPRINT_STATE_KO = 80;
+	public static $IMPRINT_STATUS_KO = 80;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -47,14 +47,14 @@ class Imprint extends CActiveRecord
 	public function scopes() {
 		return array(
 			'lastAutomatic' => array(
-				'order' => 'imprint DESC',
+				'order' => 'id DESC',
 				'limit' => 1,
 				'condition' => 'type='.self::$IMPRINT_TYPE_AUTOMATIC
 			),
 			'firstReady' => array(
-				'order' => 'imprint ASC',
+				'order' => 'id ASC',
 				'limit' => 1, 
-				'condition' => 'type='.self::$IMPRINT_TYPE_AUTOMATIC.' AND state='.self::$IMPRINT_STATE_READY
+				'condition' => 'type='.self::$IMPRINT_TYPE_AUTOMATIC.' AND status='.self::$IMPRINT_STATUS_READY
 			)
 		);
 	}
@@ -68,12 +68,12 @@ class Imprint extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('imprint', 'required'),
-			array('type, state', 'numerical', 'integerOnly'=>true),
+			array('type, status', 'numerical', 'integerOnly'=>true),
 			array('user_id', 'length', 'max'=>10),
 			array('imprint', 'length', 'max'=>16),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, user_id, imprint, type, state', 'safe', 'on'=>'search'),
+			array('id, user_id, imprint, type, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,7 +99,7 @@ class Imprint extends CActiveRecord
 			'user_id' => 'User',
 			'imprint' => 'Imprint',
 			'type' => 'Type',
-			'state' => 'State',
+			'status' => 'Status',
 		);
 	}
 
@@ -116,22 +116,23 @@ class Imprint extends CActiveRecord
 		$criteria->compare('user_id',$this->user_id,true);
 		$criteria->compare('imprint',$this->imprint,true);
 		$criteria->compare('type',$this->type);
-		$criteria->compare('state',$this->state);
+		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
-	
+
 	/**
-	 * 
-	 * @param User $user
-	 * @return Imprint
+	 * Assign an imprint to the user
+	 * @param User $user the user
+	 * @return boolean whether an imprint has been assigned to the user
 	 */
-	public static function assignToUser($user) {
+	public function assignToUser($user)
+	{
 		$criteria = self::model()->firstReady()->getDbCriteria();
-		$attributes = array('user_id'=>$user->id, 'state'=>self::$IMPRINT_STATE_USED);
-		self::model()->updateAll($attributes, $criteria);
+		$attributes = array('user_id'=>$user->id, 'status'=>self::$IMPRINT_STATUS_USED);
+		return (self::model()->updateAll($attributes, $criteria) == 1);
 	}
-	
+
 }
