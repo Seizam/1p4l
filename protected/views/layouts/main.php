@@ -39,7 +39,9 @@
 			</div>
 			<div class="row-fluid" id="footer">
 				<div class="span2 offset10 align-center">
-					<?php echo CHtml::link('<i class="icon-question-sign"></i>', array('site/about'))
+					<?php echo CHtml::link('<i class="icon-info-sign"></i>', array('site/about'))
+							.' '
+							.CHtml::link('<i class="icon-question-sign"></i>', array('site/faq'))
 							.' '
 							.CHtml::link('<i class="icon-heart"></i>', 'http://atelier.seizam.com')
 							.' '

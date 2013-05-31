@@ -53,9 +53,9 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'length', 'max' => 128),
-			array('name', 'required'),
-			array('catch', 'length', 'max' => 180),
+			array('name', 'length', 'max' => 128, 'on' => array('insert','update')),
+			array('name', 'required', 'on' => array('insert','update')),
+			array('catch', 'length', 'max' => 180, 'on' => array('insert','update')),
 			
 			// The following rules will only be validated on database insert (first call to the save() method)
 			array('email', 'email', 'on' => 'insert'),

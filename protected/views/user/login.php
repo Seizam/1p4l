@@ -9,10 +9,8 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<h1>Login</h1>
-
-<p>Please fill out the following form with your login credentials:</p>
-
+<h1>Login <small>Please fill out the following form</small></h1>
+<hr/>
 <div class="form">
 
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
@@ -25,7 +23,7 @@ $this->breadcrumbs=array(
 )); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
+<hr/>
 	<?php echo $form->textFieldRow($model,'email'); ?>
 
 	<?php echo $form->passwordFieldRow($model,'password'); ?>

@@ -63,7 +63,7 @@ class LinkTemplate {
 	 * @return string The  size (eg. large)
 	 */
 	public function getSize() {
-		return 'default';
+		return 'large';
 	}
 	
 	/**

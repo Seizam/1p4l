@@ -1,8 +1,14 @@
-<h1>Create Account</h1>
+<h1>Create One Page For You <small>Please fill out the following form</small></h1>
+<hr/>
+<div class="row-fluid">
 
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
-	'id'=>'user-form',
-	'enableAjaxValidation'=>false,
+	'id'=>'user-create-form',
+    'type'=>'horizontal',
+	'enableClientValidation'=>true,
+	'clientOptions'=>array(
+		'validateOnSubmit'=>true,
+	),
 )); ?>
 
 	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
@@ -34,3 +40,4 @@
 	</div>
 
 <?php $this->endWidget(); ?>
+</div>

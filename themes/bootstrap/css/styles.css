@@ -40,7 +40,10 @@
 /* THE LINKS AREA */
 
 .links {
-	border: 1px solid #E3E3E3;
+	border-top: 1px solid #E3E3E3;
+	padding-top: 10px;
+	margin-top: 15px;
+	/*border: 1px solid #E3E3E3;
 	padding: 4px 0 0 12px;
 	margin: 30px 0 0 0;
 	-webkit-border-radius: 6px;
@@ -48,26 +51,56 @@
 	border-radius: 6px;
 	border-right: none;
 	border-bottom: none;
+	background-image: -moz-linear-gradient(left top, #F5F5F5 5%, #FFFFFF 20%);
+	background-image: linear-gradient(left top, #F5F5F5 5%, #FFFFFF 20%);
+	background-image: -o-linear-gradient(left top, #F5F5F5 5%, #FFFFFF 20%);
+	background-image: -webkit-linear-gradient(left top, #F5F5F5 5%, #FFFFFF 20%);
+	background-image: -ms-linear-gradient(left top, #F5F5F5 5%, #FFFFFF 20%); */
 }
 
 .links a {
 	text-align: left;
-	padding: 0.4em 0;
+	padding: 0.4em;
 	color: black;
 	opacity: 0.6;
 	line-height: 1em;
-	transition: 0.75s ease 0s;
+	transition: 0.4s ease 0s;
 }
 
-.links a:hover {
+.links a:hover, .links a:focus {
 	color: inherit;
 	opacity: 1;
 	text-decoration: none;
-	transition: 0.75s ease 0s;
+	-moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #F5F5F5;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #B3B3B3;
+    border-image: none;
+    border-radius: 4px 4px 4px 4px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+	
+	transition: 0.4s ease 0s;
 }
 
-.links a.disabled:hover {
+.links a:active, .links a.active {
+	background-image: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+	outline: 0 none;
+	transition: none;
+}
+
+.links a.disabled:hover,
+.links a.disabled:focus ,
+.links a.disabled:active,
+.links a.disabled.active{
 	opacity: 0.6;
+	border-color: transparent;
+	box-shadow: none;
+	background: none;
 }
 
 .links a i {
@@ -79,8 +112,8 @@
 }
 
 .links a div {
-	padding: 0.3em 0.3em 0.3em 2.2em;
-	word-wrap: break-word;
+	padding: 0.3em 0.5em;
+	overflow: hidden;
 }
 
 .links a.disabled {
@@ -100,16 +133,15 @@
 
 /* THE FOOTER */
 #footer a {
-	color: black;
-	opacity: 0.4;
-	transition: 0.75s ease 0s;
+	color: #E3E3E3;
+	font-size: 1em;
+	transition: 0.8s ease 0s;
 }
 
 #footer a:hover {
-	color: inherit;
-	opacity: 1;
+	color: #000000;
 	text-decoration: none;
-	transition: 0.75s ease 0s;
+	transition: 0.8s ease 0s;
 }
 
 /* Portrait tablet to landscape and desktop */
@@ -148,10 +180,5 @@
 	.gravatar {
 		float: right;
 		max-width: 142px;
-	}
-
-	.links {
-		padding: 20px 0 0 0;
-		border-left: none;
 	}
 }
