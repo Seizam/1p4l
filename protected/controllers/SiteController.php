@@ -14,7 +14,7 @@ class SiteController extends Controller
 				'backColor'=>0xFFFFFF,
 			),
 			// page action renders "static" pages stored under 'protected/views/site/pages'
-			'page'=>array(
+			'static'=>array(
 				'class'=>'CViewAction',
 			),
 		);
