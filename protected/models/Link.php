@@ -13,6 +13,43 @@
  */
 class Link extends CActiveRecord
 {
+	// Generic
+	const TYPE_UNKNOWN = 0;
+	// URL (facebook, website, etc...)
+	const TYPE_URL = 100;
+	// Professional networks
+	const TYPE_URL_GITHUB = 101;
+	const TYPE_URL_LINKEDIN = 102;
+	const TYPE_URL_VIADEO = 103;
+	// Social networks
+	const TYPE_URL_TWITTER = 201;
+	const TYPE_URL_FACEBOOK = 202;
+	const TYPE_URL_GOOGLEPLUS = 203;
+	const TYPE_URL_PINTEREST = 204;
+	// Video
+	const TYPE_URL_YOUTUBE = 301;
+	const TYPE_URL_VIMEO = 302;
+	// Audio
+	const TYPE_URL_SOUNDCLOUD = 320;
+	// Photo
+	const TYPE_URL_500px = 340;
+	const TYPE_URL_FLICKR = 341;
+	// Services (skype, IM, icq...)
+	const TYPE_SERVICE = 800;
+	const TYPE_SERVICE_SKYPE = 801;
+	// Email (a@b.c)
+	const TYPE_EMAIL = 900;
+	const TYPE_EMAIL_PRO = 901;
+	const TYPE_EMAIL_PERSO = 902;
+	// Phone (tel:+33123456789)
+	const TYPE_PHONE = 910;
+	const TYPE_PHONE_PRO = 911;
+	const TYPE_PHONE_PERSO = 912;
+	// Address (32 regent street...)
+	const TYPE_ADDRESS = 920;
+	const TYPE_ADDRESS_PRO = 921;
+	const TYPE_ADDRESS_PERSO = 922;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -39,13 +76,9 @@ class Link extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, type, link', 'required'),
+			array('type, link', 'required'),
 			array('position, type', 'numerical', 'integerOnly'=>true),
-			array('user_id', 'length', 'max'=>10),
-			array('label', 'length', 'max'=>45),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, user_id, position, type, label, link', 'safe', 'on'=>'search'),
+			array('label', 'length', 'max' => 45),
 		);
 	}
 
@@ -73,27 +106,24 @@ class Link extends CActiveRecord
 			'link' => 'Link',
 		);
 	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('position',$this->position);
-		$criteria->compare('type',$this->type);
-		$criteria->compare('label',$this->label,true);
-		$criteria->compare('link',$this->link,true);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+	
+	public function isUrl() {
+		return $this->type >= self::TYPE_URL && $this->type < self::TYPE_SERVICE;
+	}
+	
+	public function isService() {
+		return $this->type >= self::TYPE_SERVICE && $this->type < self::TYPE_EMAIL;
+	}
+	
+	public function isEmail() {
+		return $this->type >= self::TYPE_EMAIL && $this->type < self::TYPE_PHONE;
+	}
+	
+	public function isPhone() {
+		return $this->type >= self::TYPE_PHONE && $this->type < self::TYPE_ADDRESS;
+	}
+	
+	public function isAddress() {
+		return $this->type >= self::TYPE_ADDRESS;
 	}
 }

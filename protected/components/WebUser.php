@@ -41,6 +41,6 @@ class WebUser extends CWebUser
 	 */
 	public function getIsAdmin()
 	{
-		return ( isset($this->model) && $this->model->id < 10 );
+		return ( isset($this->model) && $this->model->id < 3 );
 	}
 }

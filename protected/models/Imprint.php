@@ -135,4 +135,14 @@ class Imprint extends CActiveRecord
 		return (self::model()->updateAll($attributes, $criteria) == 1);
 	}
 
+	/**
+	 * Finds a single active record with the specified $imprint.
+	 * @param $string $imprint primary key value(s).
+	 * @return CActiveRecord the record found. Null if none is found.
+	 */
+	public function findByImprint($imprint) {
+		Yii::trace(get_class($this).'.findByImprint()','system.db.ar.CActiveRecord');
+		return $this->findByAttributes(array('imprint'=>$imprint));
+	}
+
 }

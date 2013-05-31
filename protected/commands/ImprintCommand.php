@@ -80,8 +80,8 @@ class ImprintCommand extends CConsoleCommand {
 	 */
 	public function actionIndex($init = null, $iterations = null, $target = null, $write = 100, $insert = false) {
 		
-		require_once dirname(__FILE__).'/../components/ImprintHelper.php';
-		require_once dirname(__FILE__).'/../models/Imprint.php';
+		Yii::import('application.components.ImprintHelper');
+		Yii::import('application.models.Imprint');
 		
 		$imprintHelper = ImprintHelper::newImprintHelper();
 		

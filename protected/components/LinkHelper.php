@@ -89,7 +89,7 @@ class ImprintHelper {
 	 * Insert a collection to the DB
 	 */
 	private function insertCollection($collection) {
-		$sql = 'INSERT INTO  `1p4l`.`imprint` (`id`,`user_id`,`imprint`,`type`,`status`) VALUES '.$collection->getSQLValues().';';
+		$sql = 'INSERT INTO  `1p4l`.`imprint` (`id`,`user_id`,`imprint`,`type`,`state`) VALUES '.$collection->getSQLValues().';';
 		$command = Yii::app()->db->createCommand($sql);
 		$return = $command->execute();
 		return $return;
@@ -103,7 +103,7 @@ class ImprintHelper {
 		return "Found {$this->imprintator->getValidated()} imprints\n
          In {$this->imprintator->getIterations()} iterations\n
          From a total space of {$this->imprintator->getSpace()}\n
-         Resulting in space usage of {$this->imprintator->getSpaceUsage()}%";
+         Resulting in space usage of {$this->imprintator->getSpaceUsage()}";
 	}
 	
 	/**
@@ -520,7 +520,7 @@ class ImprintCollection {
 	private static function getSQLValue($imprint) {
 		$sql = '(';
 		
-		$fields = array('null','null','"'.$imprint.'"', Imprint::$IMPRINT_TYPE_AUTOMATIC, Imprint::$IMPRINT_STATUS_READY);
+		$fields = array('null','null','"'.$imprint.'"', Imprint::$IMPRINT_TYPE_AUTOMATIC, Imprint::$IMPRINT_STATE_READY);
 		foreach ($fields as $field) {
 			$sql .= $field.',';
 		}
