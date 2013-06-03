@@ -1,4 +1,11 @@
-<h1>Create One Page For You <small>Please fill out the following form</small></h1>
+<?php
+/* @var $this SiteController */
+/* @var $model ContactForm */
+/* @var $form TbActiveForm */
+
+$this->pageTitle=Yii::app()->name . ' - Signup';
+?>
+<h1>Signup <small>Please fill out the following form</small></h1>
 <hr/>
 <div class="row-fluid">
 
@@ -10,10 +17,6 @@
 		'validateOnSubmit'=>true,
 	),
 )); ?>
-
-	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
-
-	<?php // /* error already displayed near each field */ echo $form->errorSummary($model); ?>
 
 	<?php echo $form->textFieldRow($model,'email',array('class'=>'span5','maxlength'=>45)); ?>
 
@@ -35,6 +38,7 @@
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
+			'size'=>'large',
 			'label'=>'Create',
 		)); ?>
 	</div>

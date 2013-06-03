@@ -4,12 +4,9 @@
 /* @var $form TbActiveForm */
 
 $this->pageTitle=Yii::app()->name . ' - Contact Us';
-$this->breadcrumbs=array(
-	'Contact',
-);
 ?>
 
-<h1>Contact Us</h1>
+<h1>Contact Us <small>Please fill out the following form</small></h1>
 
 <?php if(Yii::app()->user->hasFlash('contact')): ?>
 

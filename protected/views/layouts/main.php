@@ -11,6 +11,7 @@
 
 		<?php Yii::app()->bootstrap->register(); ?>
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+			<link href="/apps/1p4l/themes/bootstrap/css/styles.css" type="text/css" rel="stylesheet">
 	</head>
 
 	<body class="opfl">

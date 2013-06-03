@@ -4,9 +4,6 @@
 /* @var $form CActiveForm  */
 
 $this->pageTitle=Yii::app()->name . ' - Login';
-$this->breadcrumbs=array(
-	'Login',
-);
 ?>
 
 <h1>Login <small>Please fill out the following form</small></h1>
@@ -34,6 +31,7 @@ $this->breadcrumbs=array(
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
             'buttonType'=>'submit',
             'type'=>'primary',
+			'size'=>'large',
             'label'=>'Login',
         )); ?>
 	</div>
