@@ -1,21 +1,23 @@
+<?php
+/* @var $this SiteController */
+/* @var $model ContactForm */
+/* @var $form TbActiveForm */
+
+$this->pageTitle=Yii::app()->name . ' - Link';
+?>
+<h1>Link <small>Please fill out the following form</small></h1>
+<hr/>
+<div class="row-fluid">
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'link-form',
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
-
 	<?php echo $form->errorSummary($model); ?>
-
-	<?php echo $form->textFieldRow($model,'user_id',array('class'=>'span5','maxlength'=>10)); ?>
-
-	<?php echo $form->textFieldRow($model,'position',array('class'=>'span5')); ?>
-
-	<?php echo $form->textFieldRow($model,'type',array('class'=>'span5')); ?>
 
 	<?php echo $form->textFieldRow($model,'label',array('class'=>'span5','maxlength'=>45)); ?>
 
-	<?php echo $form->textAreaRow($model,'link',array('rows'=>6, 'cols'=>50, 'class'=>'span8')); ?>
+	<?php echo $form->textAreaRow($model,'link',array('rows'=>6, 'cols'=>50, 'class'=>'span12')); ?>
 
 	<div class="form-actions">
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
@@ -26,3 +28,5 @@
 	</div>
 
 <?php $this->endWidget(); ?>
+
+</div>

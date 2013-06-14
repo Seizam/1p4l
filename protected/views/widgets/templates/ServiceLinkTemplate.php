@@ -47,7 +47,7 @@ class ServiceLinkTemplate extends LinkTemplate {
 	public function getLabel() {
 		switch ($this->link->type) {
 			case Link::TYPE_SERVICE_SKYPE :
-				return 'skype:'.$this->link->link;
+				return $this->link->link;
 				
 			case Link::TYPE_SERVICE :
 			default :

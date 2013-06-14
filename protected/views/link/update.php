@@ -1,18 +1,36 @@
 <?php
-$this->breadcrumbs=array(
-	'Links'=>array('index'),
-	$model->id=>array('view','id'=>$model->id),
-	'Update',
-);
+/* @var $this SiteController */
+/* @var $model ContactForm */
+/* @var $form TbActiveForm */
 
-$this->menu=array(
-	array('label'=>'List Link','url'=>array('index')),
-	array('label'=>'Create Link','url'=>array('create')),
-	array('label'=>'View Link','url'=>array('view','id'=>$model->id)),
-	array('label'=>'Manage Link','url'=>array('admin')),
-);
+$this->pageTitle=Yii::app()->name . ' - Link';
 ?>
+<h1>Update Link <small>Please fill out the following form</small></h1>
+<hr/>
+<div class="row-fluid">
+<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
+	'id'=>'link-update-form',
+    'type'=>'horizontal',
+	'enableClientValidation'=>true,
+	'clientOptions'=>array(
+		'validateOnSubmit'=>true,
+	),
+)); ?>
 
-<h1>Update Link <?php echo $model->id; ?></h1>
+	<?php echo $form->errorSummary($model); ?>
 
-<?php echo $this->renderPartial('_form',array('model'=>$model)); ?>
+	<?php echo $form->textFieldRow($model,'link',array('maxlength'=>1024, 'class'=>'span12')); ?>
+
+	<?php echo $form->textFieldRow($model,'label',array('class'=>'span5','maxlength'=>45)); ?>
+
+	<div class="form-actions">
+		<?php $this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+		)); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+
+</div>

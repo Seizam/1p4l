@@ -40,9 +40,9 @@
 			</div>
 			<div class="row-fluid" id="footer">
 				<div class="span2 offset10 align-center">
-					<?php echo CHtml::link('<i class="icon-info-sign"></i>', array('site/about'))
+					<?php echo CHtml::link('<i class="icon-info-sign"></i>', array('site/static/about'))
 							.' '
-							.CHtml::link('<i class="icon-question-sign"></i>', array('site/faq'))
+							.CHtml::link('<i class="icon-question-sign"></i>', array('site/static/faq'))
 							.' '
 							.CHtml::link('<i class="icon-heart"></i>', 'http://atelier.seizam.com')
 							.' '
@@ -50,7 +50,7 @@
 							.' '
 							.CHtml::link('<i class="icon-cog"></i>', 'http://www.yiiframework.com/')
 							.' '
-							.CHtml::link('<i class="icon-legal"></i>', array('site/legal'));
+							.CHtml::link('<i class="icon-legal"></i>', array('site/static/legal'));
 					?>
 				</div>
 			</div><!-- footer -->

@@ -87,7 +87,7 @@ class LinkTemplate {
 	 * @return string The  label (eg. Github)
 	 */
 	public function getLabel() {
-		return $this->link->label == null ? $this->link->label : $this->link->link ;
+		return $this->link->label != null ? $this->link->label : $this->link->link ;
 	}
 	
 	/**
@@ -112,6 +112,14 @@ class LinkTemplate {
 	 */
 	public function getDisabled() {
 		return true;
+	}
+	
+	
+	/**
+	 * @return int
+	 */
+	public function getId() {
+		return $this->link->id;
 	}
 	
 	

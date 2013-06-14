@@ -7,6 +7,8 @@ $this->pageTitle=Yii::app()->name . ' - Contact Us';
 ?>
 
 <h1>Contact Us <small>Please fill out the following form</small></h1>
+<hr/>
+<div class="row-fluid">
 
 <?php if(Yii::app()->user->hasFlash('contact')): ?>
 
@@ -15,12 +17,6 @@ $this->pageTitle=Yii::app()->name . ' - Contact Us';
     )); ?>
 
 <?php else: ?>
-
-<p>
-If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-</p>
-
-<div class="form">
 
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id'=>'contact-form',
@@ -31,8 +27,6 @@ If you have business inquiries or other questions, please fill out the following
 	),
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
 	<?php echo $form->errorSummary($model); ?>
 
     <?php echo $form->textFieldRow($model,'name'); ?>
@@ -41,7 +35,7 @@ If you have business inquiries or other questions, please fill out the following
 
     <?php echo $form->textFieldRow($model,'subject',array('size'=>60,'maxlength'=>128)); ?>
 
-    <?php echo $form->textAreaRow($model,'body',array('rows'=>6, 'class'=>'span8')); ?>
+    <?php echo $form->textAreaRow($model,'body',array('rows'=>6, 'class'=>'span12')); ?>
 
 	<?php if(CCaptcha::checkRequirements()): ?>
 		<?php echo $form->captchaRow($model,'verifyCode',array(
@@ -54,11 +48,12 @@ If you have business inquiries or other questions, please fill out the following
             'buttonType'=>'submit',
             'type'=>'primary',
             'label'=>'Submit',
+			'size'=>'large'
         )); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 
-</div><!-- form -->
-
 <?php endif; ?>
+
+</div>

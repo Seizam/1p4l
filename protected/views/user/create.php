@@ -26,7 +26,7 @@ $this->pageTitle=Yii::app()->name . ' - Signup';
 
 	<?php echo $form->textFieldRow($model,'name',array('class'=>'span5','maxlength'=>45)); ?>
 
-	<?php echo $form->textFieldRow($model,'catch',array('class'=>'span5','maxlength'=>180)); ?>
+	<?php echo $form->textFieldRow($model,'catch',array('class'=>'span12','maxlength'=>180)); ?>
     
 	<?php if(CCaptcha::checkRequirements()): ?>
 		<?php echo $form->captchaRow($model,'verifyCode',array(

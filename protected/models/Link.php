@@ -4,8 +4,8 @@
  * This is the model class for table "link".
  *
  * The followings are the available columns in table 'link':
- * @property string $id
- * @property string $user_id
+ * @property integer $id
+ * @property integer $user_id
  * @property integer $position
  * @property integer $type
  * @property string $label
@@ -76,10 +76,23 @@ class Link extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type, link', 'required'),
-			array('position, type', 'numerical', 'integerOnly'=>true),
+			array('link', 'required'),
 			array('label', 'length', 'max' => 45),
+			array('link', 'length', 'max'=> 1024)
 		);
+	}
+	
+	public function beforeValidate() {
+		
+		$linkHelper = LinkHelper::newLinkHelper($this->link);
+		$this->link = $linkHelper->getLink();
+		$this->type = $linkHelper->getType();
+		
+		return parent::beforeValidate();
+	}
+	
+	public function formatLink() {
+		
 	}
 
 	/**

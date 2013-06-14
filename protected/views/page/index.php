@@ -17,6 +17,7 @@
 		?>
 	</div>
 	<div class="span8">
+		<?php if ($model->user->id == Yii::app()->user->id) echo CHtml::link('<i class="icon-pencil"></i>', array('page/update', 'id' => $model->user->id), array('class' => 'pull-right btn-update')); ?>
 		<h1 class="name"><?php echo $model->user->name ?></h1>
 		<h4 class="catch"><?php echo $model->user->catch ?></h4>
 		<div class="links">

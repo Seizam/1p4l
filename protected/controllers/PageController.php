@@ -3,8 +3,7 @@
 class PageController extends Controller {
 
 	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
+	 * @var string the default layout for the views
 	 */
 	public $layout = '//layouts/main';
 
@@ -39,18 +38,50 @@ class PageController extends Controller {
 		);
 	}
 
-	public function actionIndex($imprint) {
+	public function actionIndex($imprint = null, $id = null) {
+		if ($imprint === null) {
+			if ($id === null) {
+				$id = Yii::app()->user->id;
+			}
+			$model = $this->loadModelFromUserId($id);
+		} else {
+			$model = $this->loadModelFromImprint($imprint);
+		}
+		
 		Yii::import('application.views.widgets.templates.*');
-		$this->render('index', array('model' => $this->loadModel($imprint)));
+		
+		$this->render('index', array('model' => $model));
 	}
 
-	public function actionUpdate() {
-		$this->render('update');
+	public function actionUpdate($imprint = null, $id = null) {
+		if ($imprint === null) {
+			if ($id === null) {
+				$id = Yii::app()->user->id;
+			}
+			$model = $this->loadModelFromUserId($id);
+		} else {
+			$model = $this->loadModelFromImprint($imprint);
+		}
+		
+		if (!Yii::app()->user->isAdmin && $model->user->id !== Yii::app()->user->id) {
+			throw new CHttpException('403','You are not authorized to perform this action.');
+		}
+		
+		Yii::import('application.views.widgets.templates.*');
+		
+		$this->render('update', array('model' => $model));
 	}
 
-	public function loadModel($imprint) {
-		$model = Imprint::model()->with('user', 'user.links')->findByImprint($imprint);
-		if ($model->user === null)
+	public function loadModelFromImprint($imprint) {
+		$model = Imprint::model()->findByImprintEager($imprint);
+		if ($model === null || $model->user === null)
+			throw new CHttpException(404, 'The requested page does not exist.');
+		return $model;
+	}
+	
+	public function loadModelFromUserId($id) {
+		$model = Imprint::model()->findByUserIdEager($id);
+		if ($model === null)
 			throw new CHttpException(404, 'The requested page does not exist.');
 		return $model;
 	}

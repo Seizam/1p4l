@@ -21,7 +21,7 @@ class LinkDiv extends CWidget {
 			'url' => $this->linkTemplate->getUrl(),
 			'disabled' => $this->linkTemplate->getDisabled(),
 			//'block' => true,
-			'htmlOptions' => array('class' => "span{$this->linkTemplate->getSpan()}"),
+			'htmlOptions' => array('class' => "btn-link span{$this->linkTemplate->getSpan()}"),
 		));
 	}
 }

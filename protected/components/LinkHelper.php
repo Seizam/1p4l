@@ -1,816 +1,294 @@
 <?php
 
 /**
- * ImprintHelper class file.
+ * LinkHelper class file.
  *
  * @author Clément Dietschy <clement@seizam.com>
  * @link http://www.seizam.com/
  * @license GPL3
  */
 
-class ImprintHelper {
+class LinkHelper {
 	/**
-	 * The iterator
-	 * @var Imprintator 
+	 * @var string 
 	 */
-	private $imprintator;
+	protected $link;
 	
 	/**
-	 * The alphabet
-	 * @var ImprintAlphabet 
+	 * @param string $link
 	 */
-	private $alphabet;
-	
-	/**
-	 * The collection
-	 * @var ImprintCollection 
-	 */
-	private $collection;
-	
-	/**
-	 * 
-	 */
-	private function __construct() {
-		$this->alphabet = ImprintAlphabet::newAlphabet();
+	protected function __construct($link) {
+		$this->link = $link;
 	}
 	
 	/**
-	 * 
-	 * @return \ImprintHelper
+	 * @param string $link
+	 * @return \LinkHelper
 	 */
-	public static function newImprintHelper() {
-		return new ImprintHelper();
-	}
-	
-	/**
-	 * 
-	 * @param string $string The imprint from which to start. If null starts from the last in DB.
-	 * @return string The imprint from which it starts
-	 */
-	public function initialize($string = null) {
-		if ($string === null) $string = $this->getLastImprint ();
-		
-		$this->imprintator = Imprintator::newFromString($string, $this->alphabet);
-		
-		return $this->imprintator->toString();
-	}
-	
-	/**
-	 * 
-	 * @return string The last automatic imprint in the DB
-	 */
-	private function getLastImprint() {
-		$imprint = Imprint::model()->lastAutomatic()->find();
-		return $imprint->imprint;
-	}
-	
-	/**
-	 * Runs the whole chabang
-	 */
-	public function run() {
-		$this->collection = $this->imprintator->run();
-	}
-	
-	/**
-	 * Write to DB
-	 * @return int The number of rows added to DB
-	 */
-	public function insert() {
-		$return = 0;
-		foreach ($this->collection->chunk(1000) as $collection) {
-			$return += $this->insertCollection($collection);
-			echo "$return ";
-		}
-		echo "\n\n";
-		return $return;
-	}
-	
-	/**
-	 * Insert a collection to the DB
-	 */
-	private function insertCollection($collection) {
-		$sql = 'INSERT INTO  `1p4l`.`imprint` (`id`,`user_id`,`imprint`,`type`,`status`) VALUES '.$collection->getSQLValues().';';
-		$command = Yii::app()->db->createCommand($sql);
-		$return = $command->execute();
-		return $return;
-	}
-	
-	/**
-	 * 
-	 * @return string Some general purpose statistics
-	 */
-	public function getStats() {
-		return "Found {$this->imprintator->getValidated()} imprints\n
-         In {$this->imprintator->getIterations()} iterations\n
-         From a total space of {$this->imprintator->getSpace()}\n
-         Resulting in space usage of {$this->imprintator->getSpaceUsage()}";
-	}
-	
-	/**
-	 * 
-	 * @return Imprintator
-	 */
-	public function getImprintator() {
-		return $this->imprintator;
-	}
-}
-
-/**
- * The ITERATOR (also represents an Imprint)
- */
-class Imprintator {
-
-	/**
-	 * The array of $size characters representing the current imprint
-	 * @var ImprintCharacter[]
-	 */
-	private $imprint = array();
-
-	/**
-	 * The size of the $imprint array
-	 * @var int 
-	 */
-	private $size = 0;
-
-	/**
-	 * @var ImprintAlphabet
-	 */
-	private $alphabet;
-
-	/**
-	 *
-	 * @var int 
-	 */
-	private $iterations = 0;
-
-	/**
-	 *
-	 * @var int 
-	 */
-	private $maxIterations = 1000000;
-
-	/**
-	 * @var int;
-	 */
-	private $target = 1000000;
-
-	/**
-	 *
-	 * @var int 
-	 */
-	private $validated = 0;
-	
-	/**
-	 *
-	 * @var int 
-	 */
-	private $space = 0;
-
-	/**
-	 * The colums to jump next iteration
-	 * @var int 
-	 */
-	private $jump = null;
-	
-	/**
-	 *
-	 * @var ImprintCollection 
-	 */
-	private $collection = null;
-	
-	/**
-	 * @var int;
-	 */
-	private $write = 100;
-
-	/**
-	 * 
-	 * @param array $imprint
-	 */
-	private function __construct($imprint, $alphabet) {
-		$this->imprint = $imprint;
-		$this->size = count($imprint);
-		$this->alphabet = $alphabet;
-		$this->collection = ImprintCollection::newImprintCollection();
-	}
-
-	/**
-	 * 
-	 * @param ImprintCharacter[] $imprint
-	 * @return \Imprintator
-	 */
-	public static function newFromArray($imprint, $alphabet) {
-		return new Imprintator($imprint, $alphabet);
-	}
-
-	/**
-	 * 
-	 * @param string $imprint
-	 * @return \Imprintator
-	 */
-	public static function newFromString($string, $alphabet) {
-		$array = str_split(trim($string));
-		$imprint = array();
-		foreach ($array as $i => $character) {
-			$imprint[$i] = ImprintCharacter::newFromCharacter($alphabet, $character);
-		}
-		return new Imprintator($imprint, $alphabet);
-	}
-
-	public static function newFromZero($alphabet) {
-		$imprint = array();
-		$imprint[] = ImprintCharacter::newFromCharacter($alphabet);
-		return new Imprintator($imprint, $alphabet);
-	}
-
-	/**
-	 * 
-	 * @param int $int
-	 */
-	public function setMaxIterations($int = 1000000) {
-		$this->maxIterations = $int;
-	}
-
-	/**
-	 * 
-	 * @param int $int
-	 */
-	public function setTarget($int = 1000000) {
-		$this->target = $int;
-	}
-	
-	/**
-	 * 
-	 * @param int $int
-	 */
-	public function setWrite($int = 100) {
-		$this->write = $int;
-	}
-
-	/**
-	 * DO IT !
-	 */
-	public function run() {
-		$intStart = $this->toInt();
-		$this->iterate();
-		$this->space = $this->toInt() - $intStart;
-		return $this->collection;
-	}
-	
-	public function getSpace() {
-		return $this->space;
-	}
-	
-	public function getValidated() {
-		return $this->validated;
-	}
-	
-	public function getSpaceUsage() {
-		return round($this->validated/$this->space * 100, 2);
-	}
-	
-	public function getIterations() {
-		return $this->iterations;
-	}
-	
-
-	/**
-	 * Validate the imprint
-	 * @return boolean
-	 */
-	private function validate() {
-		return $this->validateNoFollow() && $this->validateNumbers(1);
-	}
-
-	/**
-	 * Validate the rule "No symbol following itself (aa bb 33...) "
-	 * @return boolean
-	 */
-	private function validateNoFollow() {
-		for ($column = 0; $column <= $this->size - 2; $column++) {
-			if (!$this->validateColumn($column)) {
-				$this->setJump($column + 1);
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * 
-	 * @param int $column
-	 */
-	private function validateColumn($column) {
-		if ($this->imprint[$column]->isNumber() && $this->imprint[$column+1]->isNumber()) {
-			return false;
-		} elseif ($this->imprint[$column]->equals($this->imprint[$column+1])) { //isLetter
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Validate the rule "At least $min letters"
-	 * @return boolean
-	 */
-	private function validateLetters($min = 0) {
-		if ($min == 0) return true;
-		
-		$count = 0;
-		foreach ($this->imprint as $character) {
-			if ($character->isLetter()) {
-				$count++;
-			}
-		}
-		return $count >= $min;
-	}
-
-	/**
-	 * Validate the rule "At least $min numbers"
-	 * @return boolean
-	 */
-	private function validateNumbers($min = 0) {
-		if ($min == 0) return true;
-		
-		$count = 0;
-		foreach ($this->imprint as $character) {
-			if ($character->isNumber()) {
-				$count++;
-			}
-		}
-		return $count >= $min;
-	}
-
-	/**
-	 * Validate the rule "Starts with a letter"
-	 * @return type
-	 */
-	private function validateStartWithLetter() {
-		if ($this->imprint[0]->isLetter()) {
-			return true;
+	public static function newLinkHelper($link, $iterate = true) {
+		if ($iterate) {
+			return UrlLinkHelper::newLinkHelper($link);
 		} else {
-			$this->setJump(0);
-			return false;
+			return new LinkHelper($link);
 		}
-	}
-
-	/**
-	 * 
-	 * @param int $jump
-	 */
-	private function setJump($jump = null) {
-		if ($this->jump == null || $jump < $this->jump)
-			$this->jump = $jump;
-	}
-
-	/**
-	 * Set the jump to null
-	 */
-	private function resetJump() {
-		$this->jump = null;
-	}
-
-	/**
-	 * Iterator bis
-	 */
-	private function iterate() {
-		while ($this->iterations++ < $this->maxIterations && $this->validated < $this->target) {
-			$this->jump();
-			if ($this->validate()) {
-				$this->write();
-				$this->validated++;
-			}
-		}
-		echo "\n\n";
 	}
 	
-	private function write() {
-		$string = $this->toString();
-		$this->collection->addImprint($string);
-		if ($this->write != 0 && $this->validated%$this->write == 0) {
-			echo "$string ";
-		}
-	}
-
 	/**
-	 * Increments the last column
-	 * @param int $i
-	 */
-	private function increment($column = null) {
-		if ($column === null)
-			$column = $this->size - 1;
-
-		if ($this->imprint[$column]->increment()) {
-			if ($column == 0) {
-				$this->size = array_unshift($this->imprint, ImprintCharacter::newFromCharacter($this->alphabet));
-				$column = 1;
-			}
-			$this->increment($column - 1);
-		}
-	}
-
-	/**
-	 * Increments the $this->jump column 
-	 * @param int $i
-	 */
-	private function jump() {
-		if ($this->jump === null) {
-			$this->increment();
-		} else {
-			$this->reset($this->jump);
-			$this->increment($this->jump);
-		}
-		$this->resetJump();
-	}
-
-	/**
-	 * Reset to 0 the columns after $i
-	 * @param type $i
-	 */
-	private function reset($i = -1) {
-		for ($j = $i + 1; $j < $this->size; $j++) {
-			$this->imprint[$j]->reset();
-		}
-	}
-
-	/**
-	 * Convert imprint to string
 	 * @return string
 	 */
-	public function toString() {
-		$string = '';
-		foreach ($this->imprint as $character) {
-			$string .= $character->getCharacter();
-		}
-		return $string;
+	public function getLink() {
+		return $this->link;
 	}
 	
 	/**
-	 * Convert imprint to int
+	 * @return int
 	 */
-	public function toInt() {
-		$int = 0;
-		foreach ($this->imprint as $column => $character) {
-			$pow = $this->size - $column - 1;
-			$int += $character->getInteger()*pow($this->alphabet->getCount(),$pow);
-		}
-		return $int;
-	}
-	
-	public function getMaxIterations() {
-		return $this->maxIterations;
-	}
-	
-	public function getTarget() {
-		return $this->target;
+	public function getType() {
+		return Link::TYPE_UNKNOWN;
 	}
 
 }
 
-/**
- * Collection of Imprints
- */
-class ImprintCollection {
+class UrlLinkHelper extends LinkHelper {
+	
 	/**
-	 * @var string[] 
+	 * @var string 
 	 */
-	private $imprints = array();
+	protected $protocol, $subdomain, $domain, $query;
 	
 	/**
 	 * 
+	 * @param string $protocol
+	 * @param string $subdomain
+	 * @param string $domain
+	 * @param string $query
 	 */
-	private function __construct($imprints = null) {
-		if ($imprints === null) $this->imprints = array();
-		else $this->imprints = $imprints;
+	protected function __construct($protocol, $subdomain, $domain, $query) {
+		$this->protocol = strtolower($protocol);
+		$this->subdomain = strtolower($subdomain);
+		$this->domain = strtolower($domain);
+		$this->query = $query;
 	}
 	
 	/**
 	 * 
-	 * @return \ImprintCollection
+	 * @param string $link
+	 * @param boolean $iterate
+	 * @return \UrlLinkHelper
 	 */
-	public static function newImprintCollection($imprints = null) {
-		return new ImprintCollection($imprints);
+	public static function newLinkHelper($link, $iterate = true) {
+		$pattern = '/^(https?:\/\/)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z]{2,63})\/?(^@*)/i';
+		$matches = array();
+		if (preg_match($pattern, $link, $matches)) {
+			return new UrlLinkHelper($matches[1], $matches[2], $matches[3], $matches[4]);
+		} else {
+			return EmailLinkHelper::newLinkHelper($link, false);
+		}
 	}
 	
-	public function addImprint($string) {
-		$this->imprints[] = $string;
-	}
-	
-	public function setImprints($array) {
-		$this->imprints = $array;
-	}
-	
-	public function getSQLValues() {
-		$sql = '';
-		
-		foreach ($this->imprints as $imprint) {
-			$sql .= self::getSQLValue($imprint).',';
+	/**
+	 * @return int
+	 */
+	public function getType() {
+		switch ($this->domain) {
+			case 'github.com' : return Link::TYPE_URL_GITHUB;
+			case 'linkedin.com' : return Link::TYPE_URL_LINKEDIN;
+			case 'viadeo.com' : return Link::TYPE_URL_VIADEO;
+			case 'twitter.com' : return Link::TYPE_URL_TWITTER;
+			case 'facebook.com' : return Link::TYPE_URL_FACEBOOK;
+			case 'google.com' : return Link::TYPE_URL_GOOGLEPLUS;
+			case 'pinterest.com' : return Link::TYPE_URL_PINTEREST;
+			case 'youtube.com' : return Link::TYPE_URL_YOUTUBE;
+			case 'vimeo.com' : return Link::TYPE_URL_VIMEO;
+			case 'soundcloud.com' : return Link::TYPE_URL_SOUNDCLOUD;
+			case '500px.com' : return Link::TYPE_URL_500px;
+			case 'flickr.com' : return Link::TYPE_URL_FLICKR;
+			default : return Link::TYPE_URL;
 		}
 		
-		$sql = rtrim($sql, ',');
-		
-		return $sql;
 	}
 	
 	/**
-	 * 
-	 * @param string $imprint
 	 * @return string
 	 */
-	private static function getSQLValue($imprint) {
-		$sql = '(';
-		
-		$fields = array('null','null','"'.$imprint.'"', Imprint::$IMPRINT_TYPE_AUTOMATIC, Imprint::$IMPRINT_STATE_READY);
-		foreach ($fields as $field) {
-			$sql .= $field.',';
-		}
-		
-		$sql = rtrim($sql, ',').')';
-		
-		return $sql;
-	}
-	
-	/**
-	 * 
-	 * @param int $factor
-	 */
-	public function getString($factor = 500) {
-		foreach ($this->imprints as $id => $string) {
-			if ($id%$factor==0) {
-				echo "$string ";
-			}
-		}
-	}
-	
-	public function getSize() {
-		return count($this->imprints);
-	}
-	
-	public function chunk($size = 1000) {
-		$arrays = array_chunk($this->imprints, $size);
-		$collections = array();
-		foreach ($arrays as $array) {
-			$collections[] = self::newImprintCollection($array);
-		}
-		return $collections;
+	public function getLink() {
+		return $this->protocol.$this->subdomain.$this->domain.'/'.$this->query;
 	}
 }
 
-/**
- * The Alphabet (space of characters available)
- */
-class ImprintAlphabet {
-
+class EmailLinkHelper extends LinkHelper {
+	
 	/**
-	 * The N allowed numbers
-	 * @var char[] 
+	 * @var string 
 	 */
-	private $numbers = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-
-	/**
-	 * N
-	 * @var int 
-	 */
-	private $numberCount;
-
-	/**
-	 * The M allowed letters
-	 * @var char[] 
-	 */
-	private $letters = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r', 't', 'v', 'w', 'x', 'y');
-
-	/**
-	 * M
-	 * @var int
-	 */
-	private $letterCount;
-
-	/**
-	 * The N+M allowed characters
-	 * @var char[] 
-	 */
-	private $characters = array();
-
-	/**
-	 * N+M
-	 * @var type 
-	 */
-	private $characterCount;
-
+	protected $local, $subdomain, $domain;
+	
 	/**
 	 * 
-	 * @param char[] $numbers
-	 * @param char[] $letters
+	 * @param string $local
+	 * @param string $subdomain
+	 * @param string $domain
 	 */
-	private function __construct($numbers = null, $letters = null) {
-		if ($numbers !== null)
-			$this->numbers = $numbers;
-		if ($letters !== null)
-			$this->letters = $letters;
-
-		$this->numberCount = count($this->numbers);
-		$this->letterCount = count($this->letters);
-		$this->characters = array_merge($this->numbers, $this->letters);
-		$this->characterCount = count($this->characters);
+	protected function __construct($local, $subdomain, $domain) {
+		$this->local = $local;
+		$this->subdomain = strtolower($subdomain);
+		$this->domain = strtolower($domain);
 	}
-
+	
 	/**
 	 * 
-	 * @param char[] $numbers
-	 * @param char[] $letters
-	 * @return \ImprintAlphabet
+	 * @param string $link
+	 * @param boolean $iterate
+	 * @return \EmailLinkHelper
 	 */
-	public static function newAlphabet($numbers = null, $letters = null) {
-		return new ImprintAlphabet($numbers, $letters);
+	public static function newLinkHelper($link, $iterate = true) {
+		$pattern = '/^(mailto:)?(.{1,64})@([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z]{2,63})$/i';
+		$matches = array();
+		if (preg_match($pattern, $link, $matches)) {
+			return new EmailLinkHelper($matches[2], $matches[3], $matches[4]);
+		} else {
+			return PhoneLinkHelper::newLinkHelper($link, false);
+		}
 	}
-
+	
 	/**
-	 * 
-	 * @param char $character
+	 * @return string
+	 */
+	public function getLink() {
+		return $this->local.'@'.$this->subdomain.$this->domain;
+	}
+	
+	/**
 	 * @return int
 	 */
-	public function getIntegerFromCharacter($character) {
-		$integer = array_search(strtolower($character), $this->characters);
-		if ($integer === false)
-			throw new CException('Character is not in the Alphabet');
-		return $integer;
+	public function getType() {
+		return Link::TYPE_EMAIL;
 	}
-
-	/**
-	 * 
-	 * @param int $integer
-	 * @return char
-	 */
-	public function getCharacterFromInteger($integer) {
-		return $this->characters[$integer];
-	}
-
-	/**
-	 * @param int $integer
-	 */
-	public function isNumber($integer) {
-		return $integer < $this->numberCount;
-	}
-
-	/**
-	 * 
-	 * @param int $integer
-	 * @return boolean
-	 */
-	public function isLetter($integer) {
-		return !$this->isNumber($integer);
-	}
-
-	/**
-	 * 
-	 * @param int $integer
-	 * @return boolean
-	 */
-	public function validate($integer) {
-		return $integer >= 0 && $integer < $this->characterCount;
-	}
-
-	/**
-	 * 
-	 * @return int
-	 */
-	public function getCount() {
-		return $this->characterCount;
-	}
-
 }
 
-/**
- * One character of the Imprint
- */
-class ImprintCharacter {
-
+class PhoneLinkHelper extends LinkHelper {
+	
 	/**
-	 * The alphabet
-	 * @var ImprintAlphabet 
+	 * @var string 
 	 */
-	private $alphabet;
-
-	/**
-	 * The character as an integer
-	 * @var int 
-	 */
-	private $integer;
-
+	protected $country, $numbers;
+	
 	/**
 	 * 
-	 * @param ImprintAlphabet $alphabet
-	 * @param int $integer
+	 * @param string $local
+	 * @param string $subdomain
+	 * @param string $domain
 	 */
-	private function __construct($alphabet, $integer) {
-
-		$this->alphabet = $alphabet;
-		$this->integer = $integer;
+	protected function __construct($country, $numbers) {
+		$this->country = $country;
+		$this->numbers = $numbers;
 	}
-
+	
 	/**
 	 * 
-	 * @param ImprintAlphabet $alphabet
-	 * @param Int $integer
-	 * @return \ImprintCharacter
+	 * @param string $link
+	 * @param boolean $iterate
+	 * @return \EmailLinkHelper
 	 */
-	public static function newFromInteger($alphabet, $integer = 0) {
-		return new ImprintCharacter($alphabet, $integer);
+	public static function newLinkHelper($link, $iterate = true) {
+		$worklink = str_replace(array('.','_','-','/','\\',',','(',')'), ' ' ,$link);
+		$pattern = '/^(tel:)?(\+[0-9]{1,4})?([0-9 ]{3,})$/i';
+		$matches = array();
+		if (preg_match($pattern, $worklink, $matches)) {
+			return new PhoneLinkHelper($matches[2], $matches[3]);
+		} else {
+			return ServiceLinkHelper::newLinkHelper($link, false);
+		}
 	}
-
+	
 	/**
-	 * 
-	 * @param ImprintAlphabet $alphabet
-	 * @param char $character
-	 * @return \ImprintCharacter
+	 * @return string
 	 */
-	public static function newFromCharacter($alphabet, $character = null) {
-		if ($character === null)
-			return self::newFromInteger($alphabet);
-
-		$integer = $alphabet->getIntegerFromCharacter($character);
-		return new ImprintCharacter($alphabet, $integer);
+	public function getLink() {
+		return $this->country.' '.$this->numbers;
 	}
-
+	
 	/**
-	 * 
-	 * @param ImprintAlphabet $alphabet
-	 * @param mixed $guess
-	 * @return \ImprintCharacter
-	 */
-	public static function newFromGuess($alphabet, $guess) {
-		if (is_int($guess))
-			return self::newFromInteger($alphabet, $guess);
-		else
-			return self::newFromCharacter($alphabet, $guess);
-	}
-
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public function isNumber() {
-		return $this->alphabet->isNumber($this->integer);
-	}
-
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public function isLetter() {
-		return $this->alphabet->isLetter($this->integer);
-	}
-
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public function validate() {
-		return $this->alphabet->validate($this->integer);
-	}
-
-	/**
-	 * 
-	 * @param ImprintCharacter $character
-	 */
-	public function equals($character) {
-		return $this->integer === $character->getInteger();
-	}
-
-	/**
-	 * 
 	 * @return int
 	 */
-	public function getInteger() {
-		return $this->integer;
+	public function getType() {
+		return Link::TYPE_PHONE;
 	}
+}
 
+class ServiceLinkHelper extends LinkHelper {
+	
+	/**
+	 * @var string 
+	 */
+	protected $service, $query;
+	
+	/**
+	 * @param string $service
+	 * @param string $query
+	 */
+	protected function __construct($service, $query) {
+		$this->service = strtolower($service);
+		$this->query = $query;
+	}
+	
 	/**
 	 * 
-	 * @return char
+	 * @param string $link
+	 * @param boolean $iterate
+	 * @return \EmailLinkHelper
 	 */
-	public function getCharacter() {
-		return $this->alphabet->getCharacterFromInteger($this->integer);
-	}
-
-	/**
-	 * @return boolean true if back to 0
-	 */
-	public function increment() {
-
-		$this->integer++;
-		if ($this->integer == $this->alphabet->getCount()) {
-			$this->integer = 0;
-			return true;
+	public static function newLinkHelper($link, $iterate = true) {
+		$pattern = '/^([a-z]{3,}):([\w]+)$/i';
+		$matches = array();
+		if (preg_match($pattern, $link, $matches)) {
+			Yii::log(print_r($matches, true), 'trace', 'apps.bedhed');
+			return new ServiceLinkHelper($matches[1], $matches[2]);
+		} else {
+			return AddressLinkHelper::newLinkHelper($link, false);
 		}
-		return false;
 	}
-
+	
 	/**
-	 * set the value to 0
+	 * @return string
 	 */
-	public function reset() {
-		$this->integer = 0;
+	public function getLink() {
+		return $this->service.':'.$this->query;
 	}
+	
+	/**
+	 * @return int
+	 */
+	public function getType() {
+		switch ($this->service) {
+			case 'skype': return Link::TYPE_SERVICE_SKYPE;
+			default : return Link::TYPE_SERVICE;
+		}
+	}
+}
 
+class AddressLinkHelper extends LinkHelper {
+	
+	
+	/**
+	 * 
+	 * @param string $link
+	 * @param boolean $iterate
+	 * @return \EmailLinkHelper
+	 */
+	public static function newLinkHelper($link, $iterate = true) {
+		$pattern = '/^([0-9]{1,})(.+)$/i';
+		if (preg_match($pattern, $link)) {
+			return new AddressLinkHelper($link, true);
+		} else {
+			return LinkHelper::newLinkHelper($link, false);
+		}
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getType() {
+		return Link::TYPE_ADDRESS;
+	}
 }
