@@ -23,16 +23,12 @@
 		<div class="links">
 			<div class="row-fluid">
 				<?php
-				$first = true;
 				foreach ($model->user->links as $link) {
 					//if ($first) echo '<div class="row-fluid">';
 					$this->widget('application.views.widgets.LinkDiv', array(
 						'linkTemplate' => LinkTemplate::newFromLink($link)
 					));
-					//if (!$first) echo '</div>';
-					$first = !$first;
 				}
-				//if (!$first) echo '</div>'
 				?>
 			</div>
 		</div>

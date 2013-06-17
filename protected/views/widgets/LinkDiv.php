@@ -7,21 +7,22 @@ class LinkDiv extends CWidget {
 
 	/**
 	 * The Link AR
-	 * @var Link 
+	 * @var LinkTemplate 
 	 */
 	public $linkTemplate = null;
 
 	public function run() {
-		$this->widget('bootstrap.widgets.TbButton', array(
-			'type' => $this->linkTemplate->getType(),
-			'size' => $this->linkTemplate->getSize(),
-			'icon' => $this->linkTemplate->getIcon(),
-			'label' => '<div>'.$this->linkTemplate->getLabel().'</div>',
-			'encodeLabel' => false,
-			'url' => $this->linkTemplate->getUrl(),
-			'disabled' => $this->linkTemplate->getDisabled(),
-			//'block' => true,
-			'htmlOptions' => array('class' => "btn-link span{$this->linkTemplate->getSpan()}"),
-		));
+		$content = "<i class=icon-{$this->linkTemplate->getIcon()}></i>\n";
+		$content .= "<div>{$this->linkTemplate->getLabel()}</div>\n";
+		
+		$htmlOptions = array('class'=>"link-a span{$this->linkTemplate->getSpan()} {$this->linkTemplate->getSize()}");
+		
+		if ($this->linkTemplate->getDisabled()) {
+			$htmlOptions['class'] .= ' disabled';
+			echo "<div class=\"{$htmlOptions['class']}\">\n{$content}</div>";
+		} else {
+			echo CHtml::link($content, $this->linkTemplate->getUrl(), $htmlOptions);
+		}
+	
 	}
 }

@@ -33,9 +33,13 @@
 						'linkTemplate' => LinkTemplate::newFromLink($link)
 					));
 				}
-				echo "<div class=\"span6 div-link div-link-large div-link-add\">\n";
-				echo CHtml::link('<i class=icon-plus-sign></i><div>New Link</div>', array('link/create', 'id' => $model->user->id));
-				echo "</div>\n"
+
+				$content = "<i class=icon-plus-sign></i>\n";
+				$content .= "<div>Add Link</div>\n";
+				$htmlOptions = array('class' => "link-a span6 large link-add");
+
+				echo CHtml::link($content, array('link/create', 'id' => $model->user->id), $htmlOptions);
+				
 				?>
 
 			</div>
