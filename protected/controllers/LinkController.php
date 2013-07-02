@@ -34,7 +34,8 @@ class LinkController extends Controller {
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions' => array('index', 'admin', 'delete'),
-				'users' => $this->getAdminNames(),
+				'users' => array('@'),
+				'expression' => '$user->isAdmin',
 			),
 			array('deny', // deny all users
 				'users' => array('*'),

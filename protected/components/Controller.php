@@ -56,10 +56,6 @@ class Controller extends CController
 		return Yii::app()->mail->send($message);
 	}
 	
-	protected function getAdminNames() {
-		return array('clement@seizam.com','yann@seizam.com');
-	}
-	
 	/**
 	 * @return string the layout title. Defaults to the controller name and the action name.
 	 */
