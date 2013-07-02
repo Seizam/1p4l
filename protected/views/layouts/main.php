@@ -39,8 +39,9 @@
 				<h3 class="span6" id="title"><?php echo $this->layoutTitle ?></h3>
 					<?php $this->widget('zii.widgets.CMenu',
 							array('items'=> $this->menu,
+								'id'=>'menu',
 								'encodeLabel'=>false,
-								'htmlOptions'=>array('class'=>'span6 menu')
+								'htmlOptions'=>array('class'=>'span6'),
 							)
 						); ?>
 			</div>

@@ -3,7 +3,16 @@ $this->layoutTitle = CHtml::link(SHORT_BASE_URL . '/' . $model->imprint, array('
 $this->pageTitle = $model->user->name . ' - ' . SHORT_BASE_URL . '/' . $model->imprint;
 
 if ($model->user->id == Yii::app()->user->id) {
-	$this->menu = array(array('label'=>'<i class="icon-pencil"></i> Edit','url'=>array('page/update', 'id' => $model->user->id)));
+	$this->menu = array(
+		array('label'=>'<i class="icon-signout"></i> Logout',
+			'url'=>array('user/logout')
+			),
+		array('label'=>'<i class="icon-pencil"></i> Edit',
+			'url'=>array('page/update',
+				'id' => $model->user->id),
+			'linkOptions'=>array('class'=>'front')
+			)
+		);
 }
 ?>
 <div class="row-fluid">
