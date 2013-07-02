@@ -5,13 +5,13 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="language" content="en" />
 
-		<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/styles.css" />
 
 		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
 		<?php Yii::app()->bootstrap->register(); ?>
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
-			<link href="/apps/1p4l/themes/bootstrap/css/styles.css" type="text/css" rel="stylesheet">
+			
+		<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/styles.css" />
 	</head>
 
 	<body class="opfl">

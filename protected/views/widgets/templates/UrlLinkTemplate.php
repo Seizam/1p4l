@@ -6,8 +6,7 @@
  * Extended by specialized classes
  */
 class UrlLinkTemplate extends LinkTemplate {
-	
-	
+
 	/**
 	 * Create a template of the right LinkTemplate class
 	 * @param Link $link
@@ -16,7 +15,7 @@ class UrlLinkTemplate extends LinkTemplate {
 	public static function newFromLink($link) {
 		return new UrlLinkTemplate($link);
 	}
-	
+
 	/**
 	 * 
 	 * @return string The class of LinkTemplate (eg. url)
@@ -24,7 +23,7 @@ class UrlLinkTemplate extends LinkTemplate {
 	public function getClass() {
 		return 'url';
 	}
-	
+
 	/**
 	 * 
 	 * @return string The  icon (eg. twitter)
@@ -58,18 +57,22 @@ class UrlLinkTemplate extends LinkTemplate {
 				return 'link';
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return string The  label (eg. Github)
 	 */
 	public function getLabel() {
-		$matches = array();
-		$pattern = '/^(https?:\/\/)?(www\.)?([a-z0-9\-\.]*)/i';
-		preg_match($pattern, $this->link->link, $matches);
-		return $matches[3];
+		if ($this->link->label == null) {
+			$matches = array();
+			$pattern = '/^(https?:\/\/)?(www\.)?([a-z0-9\-\.]*)/i';
+			preg_match($pattern, $this->link->link, $matches);
+			return $matches[3];
+		} else {
+			return $this->link->label;
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @return string The  target url (eg. http://www.seizam.com)
@@ -77,7 +80,7 @@ class UrlLinkTemplate extends LinkTemplate {
 	public function getUrl() {
 		return $this->link->link;
 	}
-	
+
 	/**
 	 * 
 	 * @return boolean

@@ -87,12 +87,11 @@ class Link extends CActiveRecord
 		$linkHelper = LinkHelper::newLinkHelper($this->link);
 		$this->link = $linkHelper->getLink();
 		$this->type = $linkHelper->getType();
+		if ($this->label == null) {
+			$this->label = $linkHelper->getLabel();
+		}
 		
 		return parent::beforeValidate();
-	}
-	
-	public function formatLink() {
-		
 	}
 
 	/**

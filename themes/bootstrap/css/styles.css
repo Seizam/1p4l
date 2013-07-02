@@ -156,7 +156,7 @@ form {
 	margin: 0;
 	line-height: 1.2em;
 	font-size: 1.2em;
-	min-height: inherit;
+	min-height: initial;
 	
 	color: #E3E3E3;
 	font-weight: normal;
@@ -178,18 +178,18 @@ form {
 .menu li {
 	display: inline;
 	list-style: none;
+	line-height: normal;
 }
 
 #footer a,
-#title a,
-#menu a {
+#title a {
 	color: #E3E3E3;
 	transition: 0.8s ease 0s;
 }
 
 #footer a:hover,
 #title a:hover,
-#menu a:hover {
+.menu a:hover {
 	color: #000000;
 	text-decoration: none;
 	transition: 0.8s ease 0s;

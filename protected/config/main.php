@@ -80,7 +80,7 @@ return array(
 					'levels'=>'error, warning',
 					'logFile'=>'warning.log',
 				),
-				/* next only while development   
+				/* next only while development */
 				array(
 					'class'=>'CWebLogRoute',
 					'categories'=>array('apps.*', 'application', 'system.db.*'), // all levels of "apps", "application" and db categories
@@ -89,7 +89,7 @@ return array(
 					'class'=>'CFileLogRoute',
 					'logFile'=>'debug.log',
 					'categories'=>array('apps.*', 'application', 'system.db.*'), // all levels of "apps", "application" and db categories
-				),*/
+				),
                  
 			),
 		),

@@ -46,6 +46,10 @@ class LinkHelper {
 	public function getType() {
 		return Link::TYPE_UNKNOWN;
 	}
+	
+	public function getLabel() {
+		return null;
+	}
 
 }
 
@@ -54,7 +58,7 @@ class UrlLinkHelper extends LinkHelper {
 	/**
 	 * @var string 
 	 */
-	protected $protocol, $subdomain, $domain, $query;
+	protected $protocol = 'http://', $subdomain = '', $domain, $query;
 	
 	/**
 	 * 
@@ -77,11 +81,13 @@ class UrlLinkHelper extends LinkHelper {
 	 * @return \UrlLinkHelper
 	 */
 	public static function newLinkHelper($link, $iterate = true) {
-		$pattern = '/^(https?:\/\/)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z]{2,63})\/?(^@*)/i';
+		$pattern = '/^(https?:\/\/)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z]{2,63})(\/.*)/i';
 		$matches = array();
+		Yii::log($link,'trace','application');
 		if (preg_match($pattern, $link, $matches)) {
 			return new UrlLinkHelper($matches[1], $matches[2], $matches[3], $matches[4]);
 		} else {
+			Yii::log(print_r($matches, true),'trace','application');
 			return EmailLinkHelper::newLinkHelper($link, false);
 		}
 	}
@@ -108,11 +114,30 @@ class UrlLinkHelper extends LinkHelper {
 		
 	}
 	
+	public function getLabel() {
+		switch ($this->domain) {
+			case 'github.com' : return 'My Github';
+			case 'linkedin.com' : return 'My LinkedIn';
+			case 'viadeo.com' : return 'My Viadeo';
+			case 'twitter.com' : return 'My Twitter';
+			case 'facebook.com' : return 'My Facebook';
+			case 'google.com' : return 'My Google+';
+			case 'pinterest.com' : return 'My Pinterest';
+			case 'youtube.com' : return 'My YouTube';
+			case 'vimeo.com' : return 'My Vimeo';
+			case 'soundcloud.com' : return 'My SoundCloud';
+			case '500px.com' : return 'My 500px';
+			case 'flickr.com' : return 'My FlickR';
+			default : return $this->domain;
+		}
+		
+	}
+	
 	/**
 	 * @return string
 	 */
 	public function getLink() {
-		return $this->protocol.$this->subdomain.$this->domain.'/'.$this->query;
+		return $this->protocol.$this->subdomain.$this->domain.$this->query;
 	}
 }
 
