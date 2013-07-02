@@ -5,11 +5,17 @@
  */
 class Controller extends CController
 {
+	
+	/**
+	 * @var string the title displayed within the layout (can be html)
+	 */
+	private $_layoutTitle;
+	
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
 	 * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
 	 */
-	public $layout='//layouts/column1';
+	public $layout = '//layouts/main';
 	/**
 	 * @var array context menu items. This property will be assigned to {@link CMenu::items}.
 	 */
@@ -51,4 +57,26 @@ class Controller extends CController
 	protected function getAdminNames() {
 		return array('clement@seizam.com','yann@seizam.com');
 	}
+	
+	/**
+	 * @return string the layout title. Defaults to the controller name and the action name.
+	 */
+	public function getLayoutTitle() {
+		if($this->_layoutTitle!==null)
+			return $this->_layoutTitle;
+		else
+			return $this->pageTitle;
+	}
+
+	/**
+	 * @param string $value the page title.
+	 */
+	public function setLayoutTitle($value)
+	{
+		$this->_layoutTitle=$value;
+	}
+	
+	
+	
+	
 }

@@ -1,3 +1,11 @@
+<?php
+$this->layoutTitle = CHtml::link(SHORT_BASE_URL . '/' . $model->imprint, array('page/index', 'imprint' => $model->imprint));
+$this->pageTitle = $model->user->name . ' - ' . SHORT_BASE_URL . '/' . $model->imprint;
+
+if ($model->user->id == Yii::app()->user->id) {
+	$this->menu = array(array('label'=>'<i class="icon-pencil"></i> Edit','url'=>array('page/update', 'id' => $model->user->id)));
+}
+?>
 <div class="row-fluid">
 	<div class="span4">
 		<?php
@@ -17,7 +25,6 @@
 		?>
 	</div>
 	<div class="span8">
-		<?php if ($model->user->id == Yii::app()->user->id) echo CHtml::link('<i class="icon-pencil"></i>', array('page/update', 'id' => $model->user->id), array('class' => 'pull-right btn-update')); ?>
 		<h1 class="name"><?php echo $model->user->name ?></h1>
 		<h4 class="catch"><?php echo $model->user->catch ?></h4>
 		<div class="links">

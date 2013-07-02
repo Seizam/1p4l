@@ -12,8 +12,8 @@ class LinkDivUpdate extends CWidget {
 	public $linkTemplate = null;
 
 	public function run() {
-		$content = "<i class=icon-{$this->linkTemplate->getIcon()}></i>\n";
-		$content .= "<div>{$this->linkTemplate->getLabel()}</div>\n";
+		$content = "<i class=\"icon-{$this->linkTemplate->getIcon()}\"></i>\n";
+		$content .= "<div class=\"caption\">{$this->linkTemplate->getLabel()}</div>\n";
 		
 		$toolbox = "<div class=\"toolbox\">";
 		$toolbox .= CHtml::link('<i class="icon-pencil"></i>', array('link/update', 'id' => $this->linkTemplate->getId()));

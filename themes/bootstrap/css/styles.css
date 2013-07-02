@@ -1,5 +1,6 @@
 .opfl {
 	background-color: #F5F5F5;
+	line-height: 1em;
 }
 
 #mainframe {
@@ -96,21 +97,26 @@ form {
 .link-a > i, .link-div > i {
 	width: 1em;
 	float: left;
-	margin-top: 0.15em;
 	margin-right: 0.2em;
 	font-size: 1.6em;
 	text-align: center;
 }
 
-.link-a > div, .link-div > div {
+.caption {
+	line-height: 1.6em;
+}
+
+.link-div .caption {
 	overflow: hidden;
-	word-break: break-all;
 }
 
 /* THE LINKS AREA ON EDIT */
 
-.link-div > i,
-.link-div > div {
+.link-div .caption {
+	opacity: 0.6;
+}
+
+.link-div {
 	opacity: 0.4;
 }
 
@@ -118,11 +124,14 @@ form {
 	opacity: 1;
 	float: right;
 	text-align: right;
-	margin-top: 0.2em;
+	line-height: 1.6em;
 	margin-left: 0.5em;
 }
 
-.link-add {color: #5BB75B;}
+.link-div:hover {
+	opacity: 1;
+	transition: 0.4s ease 0s;
+}
 
 /* THE ICONS COLORS */
 .links [class*="icon-"] {color: #BD362F;}
@@ -138,23 +147,49 @@ form {
 .links .icon-remove {color: #DA4F49;}
 .links .icon-plus-sign {color: #5BB75B;}
 
-[class*="icon-"]:before {
-	content: "@";
-}
-
 /* COLOR CHANGE ON EDIT (link-div) */
 .link-div > [class*="icon-"] {color: #222222;}
 
 
-/* THE FOOTER */
-#footer a {
+/* THE FOOTER & LAYOUT TITLE */
+#footer, #title, .menu {
+	margin: 0;
+	line-height: 1.2em;
+	font-size: 1.2em;
+	min-height: inherit;
+	
 	color: #E3E3E3;
-	font-size: 1.3em;
-	line-height: 1.4em;
+	font-weight: normal;
+	
+	font-variant: small-caps;
+}
+
+#footer {
+	text-align: right;
+}
+
+#title {
+}
+
+.menu {
+	text-align: right;
+}
+
+.menu li {
+	display: inline;
+	list-style: none;
+}
+
+#footer a,
+#title a,
+#menu a {
+	color: #E3E3E3;
 	transition: 0.8s ease 0s;
 }
 
-#footer a:hover {
+#footer a:hover,
+#title a:hover,
+#menu a:hover {
 	color: #000000;
 	text-decoration: none;
 	transition: 0.8s ease 0s;
@@ -201,5 +236,9 @@ form {
 	
 	.catch {
 		clear: both;
+	}
+	
+	#footer, #title {
+		text-align: center;
 	}
 }

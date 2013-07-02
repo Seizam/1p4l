@@ -60,7 +60,7 @@ class LinkTemplate {
 	
 	/**
 	 * 
-	 * @return string The  size (eg. large)
+	 * @return string The  size (small, medium or large)
 	 */
 	public function getSize() {
 		return 'large';
@@ -71,7 +71,12 @@ class LinkTemplate {
 	 * @return int The column width (spanN)
 	 */
 	public function getSpan() {
-		return 6;
+		$maxlen = 18;
+		if ($this->getSize() == 'medium') $maxlen = 24;
+		elseif ($this->getSize() == 'small') $maxlen = 30;
+		
+		if (strlen($this->getLabel())>$maxlen) return 12;
+		else return 6;
 	}
 	
 	/**

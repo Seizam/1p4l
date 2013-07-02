@@ -35,11 +35,20 @@
 					?>
 				</div>
 			</div>
+			<div class="row-fluid">
+				<h3 class="span6" id="title"><?php echo $this->layoutTitle ?></h3>
+					<?php $this->widget('zii.widgets.CMenu',
+							array('items'=> $this->menu,
+								'encodeLabel'=>false,
+								'htmlOptions'=>array('class'=>'span6 menu')
+							)
+						); ?>
+			</div>
 			<div id="mainframe">
 				<?php echo $content; ?>
 			</div>
-			<div class="row-fluid" id="footer">
-				<div class="span2 offset10 align-center">
+			<div class="row-fluid">
+				<div class="span12" id="footer">
 					<?php echo CHtml::link('<i class="icon-info-sign"></i>', array('site/static/about'))
 							.' '
 							.CHtml::link('<i class="icon-question-sign"></i>', array('site/static/faq'))

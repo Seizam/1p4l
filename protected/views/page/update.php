@@ -1,3 +1,7 @@
+<?php
+$this->layoutTitle = '<b>Update</b> - ' . CHtml::link(SHORT_BASE_URL . '/' . $model->imprint, array('page/index', 'imprint' => $model->imprint));
+$this->pageTitle = 'Update - ' . SHORT_BASE_URL . '/' . $model->imprint;
+?>
 <div class="row-fluid">
 	<div class="span4">
 		<a href="http://www.gravatar.com">
@@ -35,7 +39,7 @@
 				}
 
 				$content = "<i class=icon-plus-sign></i>\n";
-				$content .= "<div>Add Link</div>\n";
+				$content .= "<div class=\"caption\">Add Link</div>\n";
 				$htmlOptions = array('class' => "link-a span6 large link-add");
 
 				echo CHtml::link($content, array('link/create', 'id' => $model->user->id), $htmlOptions);

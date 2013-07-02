@@ -12,8 +12,8 @@ class LinkDiv extends CWidget {
 	public $linkTemplate = null;
 
 	public function run() {
-		$content = "<i class=icon-{$this->linkTemplate->getIcon()}></i>\n";
-		$content .= "<div>{$this->linkTemplate->getLabel()}</div>\n";
+		$content = "<i class=\"icon-{$this->linkTemplate->getIcon()}\"></i>\n";
+		$content .= "<div class=\"caption\">{$this->linkTemplate->getLabel()}</div>\n";
 		
 		$htmlOptions = array('class'=>"link-a span{$this->linkTemplate->getSpan()} {$this->linkTemplate->getSize()}");
 		

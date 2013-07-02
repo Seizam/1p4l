@@ -2,6 +2,7 @@
 
 // Define a path alias for the Bootstrap extension as it's used internally.
 Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
+define('SHORT_BASE_URL', '1p4l.com');
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
