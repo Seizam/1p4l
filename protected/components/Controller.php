@@ -2,6 +2,8 @@
 /**
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.
+ * 
+ * @property string $layoutTitle The layout title. Defaults to $this->pageTitle.
  */
 class Controller extends CController
 {
@@ -74,6 +76,56 @@ class Controller extends CController
 	public function setLayoutTitle($value)
 	{
 		$this->_layoutTitle=$value;
+	}
+	
+	/**
+	 * Sets titles and Adds items to the menu
+	 * 
+	 * @param string $view the view to be rendered
+	 * @return boolean whether the view should be rendered.
+	 */
+	public function beforeRender($view) {
+		
+		//TITLE
+		$this->pageTitle = $this->makePageTitle();
+		
+		//LAYOUT TITLE
+		$this->layoutTitle = $this->makeLayoutTitle();
+		
+		//MENU
+		$this->menu = array_merge($this->menu, $this->makeMenuItems());
+		
+		return parent::beforeRender($view);
+	}
+	
+	/**
+	 * 
+	 * @return array the menu items
+	 */
+	protected function makeMenuItems() {
+		$items = array();
+		if (Yii::app()->user->getIsGuest()) {
+			$items[] = array('label'=>'<i class="icon-signin"></i> Login',
+			'url'=>array('user/login')
+			);
+		} else {
+			$items[] = array('label'=>'<i class="icon-signout"></i> Logout',
+			'url'=>array('user/logout')
+			);
+		}
+		
+		return $items;
+	}
+	
+	/**
+	 * @return string the HTML title
+	 */
+	protected function makePageTitle() {
+		return $this->action->id . ' - ' . SHORT_BASE_URL;
+	}
+	
+	protected function makeLayoutTitle() {
+		return CHtml::link(SHORT_BASE_URL.'/'.$this->route, Yii::app()->homeUrl);
 	}
 	
 	

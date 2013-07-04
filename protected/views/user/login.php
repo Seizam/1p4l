@@ -1,9 +1,7 @@
 <?php
-/* @var $this SiteController */
+/* @var $this UserController */
 /* @var $model LoginForm */
 /* @var $form CActiveForm  */
-
-$this->pageTitle = Yii::app()->name . ' - Login';
 ?>
 
 <h1>Login <small>Please fill out the following form</small></h1>
