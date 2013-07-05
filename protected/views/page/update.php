@@ -2,9 +2,9 @@
 $this->layoutTitle = CHtml::link(SHORT_BASE_URL . '/' . $this->route . '/' . $model->imprint, array('page/index', 'imprint' => $model->imprint));
 $this->pageTitle = 'Update - ' . SHORT_BASE_URL . '/' . $model->imprint;
 $this->menu[] = array('label' => '<i class="icon-eye-open"></i> View',
-		'url' => array('page/index',
-			'id' => $model->user->id)
-	);
+	'url' => array('page/index',
+		'id' => $model->user->id)
+);
 ?>
 <div class="row-fluid">
 	<div class="span4">
@@ -28,16 +28,11 @@ $this->menu[] = array('label' => '<i class="icon-eye-open"></i> View',
 		<p class="gravatar-notice">Change your portrait on <?php echo CHtml::link('gravatar.com', 'http://www.gravatar.com') ?></p>
 	</div>
 	<div class="span8">
-		<?php echo CHtml::link('<i class="icon-pencil"></i>', array('user/update', 'id' => $model->user->id), array('class' => 'pull-right btn-update')); ?>
-		<h1 class="name"><?php echo $model->user->name ?></h1>
-		<h4 class="catch">
-			<?php echo $model->user->catch ?>
-		</h4>
 		<?php
-	/*$this->renderPartial('_updateForm', array(
-		'model' => $model,
-	));*/
-	?>
+		$this->renderPartial('_updateUser', array(
+			'model' => $model->user,
+		));
+		?>
 		<div class="links">
 			<div class="row-fluid">
 				<?php
@@ -52,7 +47,6 @@ $this->menu[] = array('label' => '<i class="icon-eye-open"></i> View',
 				$htmlOptions = array('class' => "link-a span6 large link-add");
 
 				echo CHtml::link($content, array('link/create', 'id' => $model->user->id), $htmlOptions);
-				
 				?>
 
 			</div>

@@ -27,8 +27,18 @@ $this->pageTitle=Yii::app()->name . ' - Link';
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
-		)); ?>
+			'label'=> '<i class="icon-ok"></i> Create',
+			'encodeLabel' => false,
+		));
+		
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType' => 'link',
+			'type' => 'link',
+			'label' => '<i class="icon-undo"></i> Back',
+			'encodeLabel' => false,
+			'size' => 'large',
+			'url' => $this->createUrl('page/update')
+		)) ?>
 	</div>
 
 <?php $this->endWidget(); ?>

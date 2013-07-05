@@ -26,6 +26,7 @@ class Link extends CActiveRecord
 	const TYPE_URL_FACEBOOK = 202;
 	const TYPE_URL_GOOGLEPLUS = 203;
 	const TYPE_URL_PINTEREST = 204;
+	const TYPE_URL_TUMBLR = 205;
 	// Video
 	const TYPE_URL_YOUTUBE = 301;
 	const TYPE_URL_VIMEO = 302;
@@ -34,6 +35,7 @@ class Link extends CActiveRecord
 	// Photo
 	const TYPE_URL_500px = 340;
 	const TYPE_URL_FLICKR = 341;
+	const TYPE_URL_INSTAGRAM = 342;
 	// Services (skype, IM, icq...)
 	const TYPE_SERVICE = 800;
 	const TYPE_SERVICE_SKYPE = 801;

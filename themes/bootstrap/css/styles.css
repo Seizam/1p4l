@@ -21,8 +21,22 @@
 	font-weight: lighter;
 }
 
+input.name {
+	color: #999999;
+	margin-top: 0;
+	font-size: 4em;
+	height: 1em;
+	line-height: 1em;
+	font-weight: lighter;
+}
+
 .catch {
+	font-size: 1.2em;
 	font-weight: normal;
+}
+
+inout.catch {
+	
 }
 
 .gravatar {
@@ -142,6 +156,7 @@ form {
 .links .icon-google-plus-sign {color: #C13629;}
 .links .icon-pinterest-sign {color: #CD2628;}
 .links .icon-linkedin-sign {color: #0073B2;}
+.links .icon-tumblr-sign {color: #335169;}
 .links .disabled [class*="icon-"] {color: #222222;}
 .links .icon-pencil {color: #FAA732;}
 .links .icon-remove {color: #DA4F49;}

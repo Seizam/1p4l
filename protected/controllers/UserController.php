@@ -216,13 +216,14 @@ class UserController extends Controller
 		$model = $this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if (isset($_POST['User']))
 		{
 			$model->attributes = $_POST['User'];
 			if ($model->save())
-				$this->redirect(array('page/index', 'id' => $model->id));
+				Yii::app()->user->setFlash('success', 'Headline updated !');
+				$this->redirect(array('page/update', 'id' => $model->id));
 		}
 
 		$this->render('update', array(
@@ -237,9 +238,9 @@ class UserController extends Controller
 	 */
 	public function actionDelete($id)
 	{
+		// we only allow deletion via POST request
 		if(Yii::app()->request->isPostRequest)
 		{
-			// we only allow deletion via POST request
 			$this->loadModel($id)->delete();
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser

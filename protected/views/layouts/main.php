@@ -9,7 +9,7 @@
 		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
 		<?php Yii::app()->bootstrap->register(); ?>
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 			
 		<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/styles.css" />
 	</head>
@@ -19,19 +19,7 @@
 			<div class="row-fluid">
 				<div class="span12">
 					<?php
-					$alertConfig = array('block' => true, 'fade' => true, 'closeText' => '&times;');
-					$this->widget('bootstrap.widgets.TbAlert', array(
-						'block' => true, // display a larger alert block?
-						'fade' => true, // use transitions?
-						'closeText' => '&times;', // close link text - if set to false, no close link is displayed
-						'alerts' => array(// configurations per alert type (success, info, warning, error or danger)
-							'success' => $alertConfig,
-							'info' => $alertConfig,
-							'warning' => $alertConfig,
-							'error' => $alertConfig,
-							'danger' => $alertConfig,
-						),
-					));
+					$this->widget('bootstrap.widgets.TbAlert');
 					?>
 				</div>
 			</div>

@@ -37,21 +37,27 @@ class UrlLinkTemplate extends LinkTemplate {
 			case Link::TYPE_URL_VIADEO :
 				return 'cogs';
 			case Link::TYPE_URL_TWITTER :
-				return 'twitter-sign';
+				return 'twitter';
 			case Link::TYPE_URL_FACEBOOK :
 				return 'facebook-sign';
 			case Link::TYPE_URL_GOOGLEPLUS :
 				return 'google-plus-sign';
 			case Link::TYPE_URL_PINTEREST :
 				return 'pinterest-sign';
+			case Link::TYPE_URL_TUMBLR :
+				return 'tumblr-sign';
 			case Link::TYPE_URL_YOUTUBE :
+				return 'youtube';
 			case Link::TYPE_URL_VIMEO :
 				return 'play-circle';
 			case Link::TYPE_URL_SOUNDCLOUD :
 				return 'volume-up';
 			case Link::TYPE_URL_500px:
-			case Link::TYPE_URL_FLICKR :
 				return 'camera';
+			case Link::TYPE_URL_FLICKR :
+				return 'flickr';
+			case Link::TYPE_URL_INSTAGRAM :
+				return 'instagram';
 			case Link::TYPE_URL :
 			default :
 				return 'link';

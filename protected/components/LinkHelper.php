@@ -81,10 +81,11 @@ class UrlLinkHelper extends LinkHelper {
 	 * @return \UrlLinkHelper
 	 */
 	public static function newLinkHelper($link, $iterate = true) {
-		$pattern = '/^(https?:\/\/)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z]{2,63})(\/.*)/i';
+		$pattern = '/^(https?:\/\/)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z]{2,63})(\/.*)?/i';
 		$matches = array();
 		Yii::log($link,'trace','application');
 		if (preg_match($pattern, $link, $matches)) {
+			if (!isset($matches[4])) $matches[4] = null;
 			return new UrlLinkHelper($matches[1], $matches[2], $matches[3], $matches[4]);
 		} else {
 			Yii::log(print_r($matches, true),'trace','application');
@@ -109,6 +110,7 @@ class UrlLinkHelper extends LinkHelper {
 			case 'soundcloud.com' : return Link::TYPE_URL_SOUNDCLOUD;
 			case '500px.com' : return Link::TYPE_URL_500px;
 			case 'flickr.com' : return Link::TYPE_URL_FLICKR;
+			case 'tumblr.com' : return Link::TYPE_URL_TUMBLR;
 			default : return Link::TYPE_URL;
 		}
 		
@@ -123,11 +125,13 @@ class UrlLinkHelper extends LinkHelper {
 			case 'facebook.com' : return 'My Facebook';
 			case 'google.com' : return 'My Google+';
 			case 'pinterest.com' : return 'My Pinterest';
+			case 'tumblr.com' : return 'My Tumblr';
 			case 'youtube.com' : return 'My YouTube';
 			case 'vimeo.com' : return 'My Vimeo';
 			case 'soundcloud.com' : return 'My SoundCloud';
 			case '500px.com' : return 'My 500px';
-			case 'flickr.com' : return 'My FlickR';
+			case 'flickr.com' : return 'My Flickr';
+			case 'instagram.com' : return 'My Instagram';
 			default : return $this->domain;
 		}
 		
