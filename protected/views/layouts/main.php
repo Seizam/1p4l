@@ -7,7 +7,7 @@
 
 
 		<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-
+		<link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
 		<?php Yii::app()->bootstrap->register(); ?>
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 			

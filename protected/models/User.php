@@ -25,6 +25,7 @@ class User extends CActiveRecord
 	/* Used for create() */
 	public $passwordRepeat;
 	public $verifyCode;
+	public $acceptConditions;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -54,7 +55,7 @@ class User extends CActiveRecord
 		return array(
 			array('name', 'length', 'max' => 128, 'on' => array('insert','update')),
 			array('name', 'required', 'on' => array('insert','update')),
-			array('catch', 'length', 'max' => 180, 'on' => array('insert','update')),
+			array('catch', 'length', 'max' => 180, 'on' => array('update')),
 			
 			// The following rules will only be validated on database insert (first call to the save() method)
 			array('email', 'email', 'on' => 'insert'),
@@ -63,7 +64,8 @@ class User extends CActiveRecord
 			array('password', 'length', 'min' => 5, 'max' => 45, 'on' => 'insert'),
 			array('passwordRepeat', 'compare', 'compareAttribute' => 'password', 'message' => 'You must enter the same password twice.', 'on' => 'insert'),
 			array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements(), 'on' => 'insert'),
-			array('name, email, password, passwordRepeat, verifyCode', 'required', 'on' => 'insert'),
+			array('acceptConditions', 'boolean', 'allowEmpty' => false, 'on'=>'insert', 'message' => 'You must accept our terms and conditions.'),
+			array('name, email, password, passwordRepeat, verifyCode, acceptConditions', 'required', 'on' => 'insert'),
 			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -101,6 +103,7 @@ class User extends CActiveRecord
 			'name' => 'Name',
 			'catch' => 'Catch',
 			'verifyCode' => 'Verification Code',
+			'acceptConditions' => 'I accept 1P4L\'s ' . CHtml::link('Terms and Conditions of Use', array('site/static/legal'))
 		);
 	}
 

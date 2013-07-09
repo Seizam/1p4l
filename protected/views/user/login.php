@@ -4,7 +4,7 @@
 /* @var $form CActiveForm  */
 ?>
 
-<h1>Login <small>Please fill out the following form</small></h1>
+<h1><i class="icon-signin"></i> LogIn <small>Glad to have you back !</small></h1>
 <hr/>
 <div class="row-fluid">
 
@@ -30,7 +30,16 @@
 			'buttonType' => 'submit',
 			'type' => 'primary',
 			'size' => 'large',
-			'label' => 'Login',
+			'encodeLabel' => false,
+			'label' => '<i class="icon-signin"></i> LogIn',
+		));
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType' => 'link',
+			'type' => 'link',
+			'url' => array('user/create'),
+			'size' => 'large',
+			'encodeLabel' => false,
+			'label' => '<i class="icon-bolt"></i> SignUp'
 		));
 		?>
 	</div>

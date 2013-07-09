@@ -105,11 +105,13 @@ class Controller extends CController
 	protected function makeMenuItems() {
 		$items = array();
 		if (Yii::app()->user->getIsGuest()) {
-			$items[] = array('label'=>'<i class="icon-signin"></i> Login',
+			$items[] = array('label'=>'<i class="icon-bolt"></i> SignUp',
+			'url'=>array('user/create'));
+			$items[] = array('label'=>'<i class="icon-signin"></i> LogIn',
 			'url'=>array('user/login')
 			);
 		} else {
-			$items[] = array('label'=>'<i class="icon-signout"></i> Logout',
+			$items[] = array('label'=>'<i class="icon-signout"></i> LogOut',
 			'url'=>array('user/logout')
 			);
 		}
