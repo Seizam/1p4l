@@ -2,13 +2,13 @@
 /* @var $this PageController */
 /* @var $model Imprint */
 
-$this->layoutTitle = CHtml::link(SHORT_BASE_URL . '/' . $model->imprint, array('page/index', 'imprint' => $model->imprint));
+$this->layoutTitle = CHtml::link(SHORT_BASE_URL , array('site/index')).CHtml::link('/' . $model->imprint, array('page/index', 'imprint' => $model->imprint));
 $this->pageTitle = $model->user->name . ' - ' . SHORT_BASE_URL . '/' . $model->imprint;
 
 if ($model->user->id == Yii::app()->user->id) {
 	$this->menu[] = array('label' => '<i class="icon-pencil"></i> Edit',
 		'url' => array('page/update',
-			'id' => $model->user->id),
+			'imprint' => $model->imprint),
 		'linkOptions' => array('class' => 'front')
 	);
 }

@@ -37,7 +37,7 @@ class LinkHelper {
 	 * @return string
 	 */
 	public function getLink() {
-		return $this->link;
+		return CHtml::encode($this->link);
 	}
 	
 	/**

@@ -54,10 +54,12 @@ return array(
 			'showScriptName' => false,
 			'caseSensitive' => false,
 			'rules'=>array(
-				'site/static/<view:\w+>'=>'site/static',
-				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-				'<imprint:\w+>'=>'page/index/imprint/<imprint>',
+				''=>'site/index',
+				'static/<view>' => 'site/static',
+				'user/<action>' => 'user/<action>',
+				'page/<action>' => 'page/<action>',
+				'<imprint:\w+>/update' => 'page/update',
+				'<imprint:\w+>'=>'page/index',
 			),
 		),
         
@@ -80,7 +82,7 @@ return array(
 					'levels'=>'error, warning',
 					'logFile'=>'warning.log',
 				),
-				/* next only while development */
+				/* next only while development
 				array(
 					'class'=>'CWebLogRoute',
 					'categories'=>array('apps.*', 'application', 'system.db.*'), // all levels of "apps", "application" and db categories
@@ -89,7 +91,7 @@ return array(
 					'class'=>'CFileLogRoute',
 					'logFile'=>'debug.log',
 					'categories'=>array('apps.*', 'application', 'system.db.*'), // all levels of "apps", "application" and db categories
-				),
+				),*/
                  
 			),
 		),

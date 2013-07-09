@@ -20,13 +20,13 @@ $this->pageTitle = Yii::app()->name . ' - Signup';
 	));
 	?>
 
-	<?php echo $form->textFieldRow($model, 'email', array('class' => 'span5', 'maxlength' => 45)); ?>
+	<?php echo $form->textFieldRow($model, 'email', array('class' => 'span5', 'maxlength' => 45, 'hint' => 'This address will <b>not</b> be shared.')); ?>
 
 	<?php echo $form->passwordFieldRow($model, 'password', array('class' => 'span5', 'maxlength' => 64)); ?>
 
 	<?php echo $form->passwordFieldRow($model, 'passwordRepeat', array('class' => 'span5', 'maxlength' => 64)); ?>
 
-	<?php echo $form->textFieldRow($model, 'name', array('class' => 'span5', 'maxlength' => 45)); ?>
+	<?php echo $form->textFieldRow($model, 'name', array('class' => 'span5', 'maxlength' => 45, 'hint' => 'This is the title of your page.')); ?>
 
 	<?php /* echo $form->textFieldRow($model,'catch',array('class'=>'span12','maxlength'=>180)); */ ?>
 
@@ -48,13 +48,6 @@ $this->pageTitle = Yii::app()->name . ' - Signup';
 			'size' => 'large',
 			'encodeLabel' => false,
 			'label' => '<i class="icon-bolt"></i> Create',
-		));
-		$this->widget('bootstrap.widgets.TbButton', array(
-			'buttonType' => 'reset',
-			'type' => 'link',
-			'size' => 'large',
-			'encodeLabel' => false,
-			'label' => '<i class="icon-undo"></i> Reset'
 		));
 		$this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType' => 'link',

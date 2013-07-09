@@ -1,9 +1,14 @@
 <?php
-$this->layoutTitle = CHtml::link(SHORT_BASE_URL . '/' . $this->route . '/' . $model->imprint, array('page/index', 'imprint' => $model->imprint));
+/* @var $this PageController */
+/* @var $model Imprint */
+
+$this->layoutTitle = CHtml::link(SHORT_BASE_URL, array('site/index'))
+		.CHtml::link('/' . $model->imprint, array('page/index', 'imprint' => $model->imprint))
+		.CHtml::link('/' . $this->action->id , array('page/update', 'imprint' => $model->imprint));
 $this->pageTitle = 'Update - ' . SHORT_BASE_URL . '/' . $model->imprint;
 $this->menu[] = array('label' => '<i class="icon-eye-open"></i> View',
 	'url' => array('page/index',
-		'id' => $model->user->id)
+		'imprint' => $model->imprint)
 );
 ?>
 <div class="row-fluid">

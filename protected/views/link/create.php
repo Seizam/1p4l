@@ -1,6 +1,5 @@
 <?php
 /* @var $this SiteController */
-/* @var $model ContactForm */
 /* @var $form TbActiveForm */
 
 $this->pageTitle=Yii::app()->name . ' - Link';

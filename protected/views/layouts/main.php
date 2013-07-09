@@ -38,9 +38,9 @@
 			</div>
 			<div class="row-fluid">
 				<div class="span12" id="footer">
-					<?php echo CHtml::link('<i class="icon-info-sign"></i>', array('site/static/about'))
+					<?php echo CHtml::link('<i class="icon-info-sign"></i>', array('site/static', 'view'=>'about'))
 							.' '
-							.CHtml::link('<i class="icon-question-sign"></i>', array('site/static/faq'))
+							.CHtml::link('<i class="icon-question-sign"></i>', array('site/static', 'view'=>'faq'))
 							.' '
 							.CHtml::link('<i class="icon-heart"></i>', 'http://atelier.seizam.com')
 							.' '
@@ -48,7 +48,7 @@
 							.' '
 							.CHtml::link('<i class="icon-cog"></i>', 'http://www.yiiframework.com/')
 							.' '
-							.CHtml::link('<i class="icon-legal"></i>', array('site/static/legal'));
+							.CHtml::link('<i class="icon-legal"></i>', array('site/static', 'view'=>'legal'));
 					?>
 				</div>
 			</div><!-- footer -->
