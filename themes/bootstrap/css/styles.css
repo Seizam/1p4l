@@ -208,6 +208,7 @@ form {
 .links .icon-pencil {color: #FAA732;}
 .links .icon-remove {color: #DA4F49;}
 .links .icon-plus-sign {color: #5BB75B;}
+.links .icon-circle-arrow-up {color: #5B5BB7;}
 
 /* COLOR CHANGE ON EDIT (link-div) */
 .link-div > [class*="icon-"] {color: #222222;}

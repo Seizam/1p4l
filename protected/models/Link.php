@@ -62,6 +62,10 @@ class Link extends CActiveRecord
 		return parent::model($className);
 	}
 
+	public static function countByUser($user_id) {
+		return self::model()->countByAttributes(array('user_id' => $user_id));
+	}
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -123,7 +127,48 @@ class Link extends CActiveRecord
 			'link' => 'Link',
 		);
 	}
-	
+
+	/**
+	 * This is invoked before the record is saved.
+	 * @return boolean whether the record should be saved.
+	 */
+	protected function beforeSave() {
+		if (parent::beforeSave()) {
+			// On create() with empty position, position the link as last
+			if ($this->isNewRecord && $this->position == null) {
+				$this->position = self::countByUser($this->user_id);
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Moves the current record up in the link list.
+	 * This method updates the current record, and the record of the above link.
+	 * @return boolean True on succes, false on fail.
+	 */
+	public function moveUp() {
+
+		$ok = $this->position != null && $this->position > 0;
+
+		if ($ok) {
+			// Move above records down
+			$ok = self::model()->updateAll(
+					array('position' => $this->position), 'position=:position', array(':position' => $this->position - 1));
+			$ok = ($ok === 1);
+		}
+
+		if ($ok) {
+			// Move current record up
+			$this->position--;
+			$ok = $this->save();
+		}
+
+		return $ok;
+	}
+
 	public function isUrl() {
 		return $this->type >= self::TYPE_URL && $this->type < self::TYPE_SERVICE;
 	}

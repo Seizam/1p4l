@@ -119,7 +119,6 @@ class LinkTemplate {
 		return true;
 	}
 	
-	
 	/**
 	 * @return int
 	 */
@@ -127,6 +126,11 @@ class LinkTemplate {
 		return $this->link->id;
 	}
 	
-	
+	/**
+	 * @return int
+	 */
+	public function getPosition() {
+		return $this->link->position;
+	}
 
 }

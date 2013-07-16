@@ -74,7 +74,7 @@ class User extends CActiveRecord {
 	public function relations() {
 		return array(
 			'imprints' => array(self::HAS_MANY, 'Imprint', 'user_id'),
-			'links' => array(self::HAS_MANY, 'Link', 'user_id'),
+			'links' => array(self::HAS_MANY, 'Link', 'user_id', 'order' => 'links.position ASC'),
 			'token' => array(self::HAS_ONE, 'Token', 'user_id'),
 		);
 	}

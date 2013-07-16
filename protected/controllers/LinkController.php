@@ -29,7 +29,7 @@ class LinkController extends Controller {
 				'users' => array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' => array('create', 'update', 'delete'),
+				'actions' => array('create', 'update', 'delete', 'up'),
 				'users' => array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -67,7 +67,7 @@ class LinkController extends Controller {
 			$model->attributes = $_POST['Link'];
 			$model->user_id = Yii::app()->user->id;
 			if ($model->save()) {
-				//$this->redirect(array('page/update', 'id' => $model->user_id));
+				$this->redirect(array('page/update', 'id' => $model->user_id));
 			}
 		}
 
@@ -116,6 +116,25 @@ class LinkController extends Controller {
 		}
 
 		$model->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if (!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('page/update', 'id' => $model->user_id));
+	}
+
+	/**
+	 * Moves up a link.
+	 * @param integer $id the ID of the model to be move
+	 */
+	public function actionUp($id) {
+
+		$model = $this->loadModel($id);
+
+		if (!Yii::app()->user->isAdmin && $model->user_id !== Yii::app()->user->id) {
+			throw new CHttpException('403', 'You are not authorized to perform this action.');
+		}
+
+		$model->moveUp();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if (!isset($_GET['ajax']))

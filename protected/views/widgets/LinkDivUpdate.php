@@ -16,6 +16,12 @@ class LinkDivUpdate extends CWidget {
 		$content .= "<div class=\"caption\">{$this->linkTemplate->getLabel()}</div>\n";
 		
 		$toolbox = "<div class=\"toolbox\">";
+
+		if ($this->linkTemplate->getPosition() > 0) {
+			$toolbox .= CHtml::link('<i class="icon-circle-arrow-up"></i>', array('link/up', 'id' => $this->linkTemplate->getId()));
+			$toolbox .= " ";
+		}
+
 		$toolbox .= CHtml::link('<i class="icon-pencil"></i>', array('link/update', 'id' => $this->linkTemplate->getId()));
 		$toolbox .= " ";
 		$toolbox .= CHtml::link('<i class="icon-remove"></i>', array('link/delete', 'id' => $this->linkTemplate->getId()));
