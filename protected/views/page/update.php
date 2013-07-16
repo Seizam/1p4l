@@ -6,9 +6,11 @@ $this->layoutTitle = CHtml::link(SHORT_BASE_URL, array('site/index'))
 		.CHtml::link('/' . $model->imprint, array('page/index', 'imprint' => $model->imprint))
 		.CHtml::link('/' . $this->action->id , array('page/update', 'imprint' => $model->imprint));
 $this->pageTitle = 'Update - ' . SHORT_BASE_URL . '/' . $model->imprint;
-$this->menu[] = array('label' => '<i class="icon-eye-open"></i> View',
+unset($this->menu['mypage']);
+$this->menu['view'] = array('label' => '<i class="icon-eye-open"></i> View',
 	'url' => array('page/index',
-		'imprint' => $model->imprint)
+		'imprint' => $model->imprint),
+	'linkOptions' => array('class' => 'front')
 );
 ?>
 <div class="row-fluid">

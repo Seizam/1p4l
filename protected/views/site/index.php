@@ -4,30 +4,50 @@ $this->pageTitle = 'One Page For Life - ' . SHORT_BASE_URL;
 ?>
 
 <h1 class="row-fluid">
-	<?php echo CHtml::image('images/1p4l.png', 'One Page For Life', array('class' => 'span12')) ?>
+	<?php echo CHtml::image($this->createAbsoluteUrl('images/1p4l.png'), 'One Page For Life', array('class' => 'span12')) ?>
 </h1>
 <div class="row-fluid index-buttons">
 	<h2 class="span6">
-		The fastest way to share your contact information.
+		The easiest way to share your contact information.
 	</h2>
 	<?php
-	$this->widget('bootstrap.widgets.TbButton', array(
-		'buttonType' => 'link',
-		'type' => 'primary',
-		'url' => array('user/create'),
-		'size' => 'large',
-		'encodeLabel' => false,
-		'label' => '<i class="icon-bolt"></i> SignUp',
-		'htmlOptions' => array('class' => 'span3')
-	));
-	$this->widget('bootstrap.widgets.TbButton', array(
-		'buttonType' => 'link',
-		'url' => array('user/login'),
-		'size' => 'large',
-		'encodeLabel' => false,
-		'label' => '<i class="icon-signin"></i> LogIn',
-		'htmlOptions' => array('class' => 'span3')
-	));
+	if (Yii::app()->user->getIsGuest()) {
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType' => 'link',
+			'type' => 'primary',
+			'url' => array('user/create'),
+			'size' => 'large',
+			'encodeLabel' => false,
+			'label' => '<i class="icon-bolt"></i> SignUp',
+			'htmlOptions' => array('class' => 'span3')
+		));
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType' => 'link',
+			'url' => array('user/login'),
+			'size' => 'large',
+			'encodeLabel' => false,
+			'label' => '<i class="icon-signin"></i> LogIn',
+			'htmlOptions' => array('class' => 'span3')
+		));
+	} else {
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType' => 'link',
+			'type' => 'primary',
+			'url' => array('page/index','imprint'=>$this->getUserImprint()),
+			'size' => 'large',
+			'encodeLabel' => false,
+			'label' => '<i class="icon-file"></i> My Page',
+			'htmlOptions' => array('class' => 'span3')
+		));
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType' => 'link',
+			'url' => array('user/logout'),
+			'size' => 'large',
+			'encodeLabel' => false,
+			'label' => '<i class="icon-signout"></i> LogOut',
+			'htmlOptions' => array('class' => 'span3')
+		));
+	}
 	?>
 </div>
 <div class="row-fluid index-menu">

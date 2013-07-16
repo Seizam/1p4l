@@ -6,6 +6,7 @@ $this->layoutTitle = CHtml::link(SHORT_BASE_URL , array('site/index')).CHtml::li
 $this->pageTitle = $model->user->name . ' - ' . SHORT_BASE_URL . '/' . $model->imprint;
 
 if ($model->user->id == Yii::app()->user->id) {
+	unset($this->menu['mypage']);
 	$this->menu[] = array('label' => '<i class="icon-pencil"></i> Edit',
 		'url' => array('page/update',
 			'imprint' => $model->imprint),

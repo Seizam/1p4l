@@ -67,7 +67,7 @@ class LinkController extends Controller {
 			$model->attributes = $_POST['Link'];
 			$model->user_id = Yii::app()->user->id;
 			if ($model->save()) {
-				$this->redirect(array('page/update', 'id' => $model->user_id));
+				$this->redirect(array('page/update', 'imprint' => $this->getUserImprint()));
 			}
 		}
 
@@ -94,7 +94,7 @@ class LinkController extends Controller {
 		if (isset($_POST['Link'])) {
 			$model->attributes = $_POST['Link'];
 			if ($model->save())
-				$this->redirect(array('page/update', 'id' => $model->user_id));
+				$this->redirect(array('page/update', 'imprint' => $this->getUserImprint()));
 		}
 
 		$this->render('update', array(

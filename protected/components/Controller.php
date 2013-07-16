@@ -102,16 +102,19 @@ class Controller extends CController {
 	protected function makeMenuItems() {
 		$items = array();
 		if (Yii::app()->user->getIsGuest()) {
-			$items[] = array('label' => '<i class="icon-signin"></i> LogIn',
+			$items['login'] = array('label' => '<i class="icon-signin"></i> LogIn',
 				'url' => array('user/login')
 			);
-			$items[] = array('label' => '<i class="icon-bolt"></i> SignUp',
+			$items['signup'] = array('label' => '<i class="icon-bolt"></i> SignUp',
 				'url' => array('user/create'),
 				'linkOptions' => array('class' => 'front'));
 		} else {
-			$items[] = array('label' => '<i class="icon-signout"></i> LogOut',
+			$items['signout'] = array('label' => '<i class="icon-signout"></i> LogOut',
 				'url' => array('user/logout')
 			);
+			$items['mypage'] = array('label' => '<i class="icon-file"></i> My Page',
+				'url' => array('page/index','imprint'=> $this->getUserImprint() ),
+				'linkOptions' => array('class' => 'front'));
 		}
 
 		return $items;
@@ -124,8 +127,19 @@ class Controller extends CController {
 		return $this->action->id . ' - ' . SHORT_BASE_URL;
 	}
 
+	/**
+	 * 
+	 * @return type
+	 */
 	protected function makeLayoutTitle() {
 		return CHtml::link(SHORT_BASE_URL, Yii::app()->homeUrl);
+	}
+	
+	/**
+	 * @return string The first imprint of a user
+	 */
+	public function getUserImprint() {
+		return User::model()->findByPk(Yii::app()->user->id)->imprints[0]->imprint;
 	}
 
 }

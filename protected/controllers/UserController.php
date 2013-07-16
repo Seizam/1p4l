@@ -168,7 +168,7 @@ class UserController extends Controller
 			$this->redirect(array('login'));
 		}
 
-		Yii::app()->user->setFlash('error', 'Account creation failed. Please try again later.');
+		Yii::app()->user->setFlash('error', 'Sorry, account creation is not available for now. Please try again later.');
 		$this->redirect(Yii::app()->homeUrl);
 	}
 
@@ -223,7 +223,7 @@ class UserController extends Controller
 			$model->attributes = $_POST['User'];
 			if ($model->save())
 				Yii::app()->user->setFlash('success', 'Headline updated !');
-				$this->redirect(array('page/update', 'id' => $model->id));
+				$this->redirect(array('page/update', 'imprint' => $this->getUserImprint()));
 		}
 
 		$this->render('update', array(

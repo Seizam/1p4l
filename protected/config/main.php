@@ -54,10 +54,8 @@ return array(
 			'showScriptName' => false,
 			'caseSensitive' => false,
 			'rules'=>array(
-				''=>'site/index',
 				'static/<view>' => 'site/static',
 				'user/<action>' => 'user/<action>',
-				'page/<action>' => 'page/<action>',
 				'<imprint:\w+>/update' => 'page/update',
 				'<imprint:\w+>'=>'page/index',
 			),

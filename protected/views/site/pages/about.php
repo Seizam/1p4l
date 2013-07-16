@@ -11,7 +11,7 @@ $this->pageTitle = 'About - 1p4l.com';
 		<h3><i class="icon-bullseye"></i> What ?</h3>
 		<hr/>
 		<h5>1 Page</h5>
-		<p>One simple page with your name, your portrait and your contact info :</p>
+		<p>One simple page with your name, your portrait and your links :</p>
 		<p>Social profiles, Resume, Blog, Email, Phone...</p>
 		<hr/>
 		<h5>1 Imprint</h5>
@@ -57,7 +57,7 @@ $this->pageTitle = 'About - 1p4l.com';
 		<p>1P4L evolves with you but stays at the same address.</p>
 		<hr/>
 		<h5>Utility</h5>
-		<p>How complicated is your name ?</p>
+		<p>How complicated is your email ?</p>
 		<p>1P4L's imprint is easy to write, spell, read and remember.</p>
 		<hr/>
 		<h5>Curiosity</h5>

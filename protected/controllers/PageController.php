@@ -34,6 +34,11 @@ class PageController extends Controller {
 		);
 	}
 
+	/**
+	 * 
+	 * @param string $imprint
+	 * @param int $id the user id
+	 */
 	public function actionIndex($imprint = null, $id = null) {
 		if ($imprint === null) {
 			if ($id === null) {
@@ -68,6 +73,12 @@ class PageController extends Controller {
 		$this->render('update', array('model' => $model));
 	}
 
+	/**
+	 * 
+	 * @param string $imprint
+	 * @return Imprint
+	 * @throws CHttpException
+	 */
 	public function loadModelFromImprint($imprint) {
 		$model = Imprint::model()->findByImprintEager($imprint);
 		if ($model === null || $model->user === null)
@@ -75,6 +86,12 @@ class PageController extends Controller {
 		return $model;
 	}
 	
+	/**
+	 * 
+	 * @param int $id User Id
+	 * @return Imprint
+	 * @throws CHttpException
+	 */
 	public function loadModelFromUserId($id) {
 		$model = Imprint::model()->findByUserIdEager($id);
 		if ($model === null)
