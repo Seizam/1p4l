@@ -151,4 +151,20 @@ class Imprint extends CActiveRecord {
 				)->find();
 	}
 
+	/**
+	 * 
+	 * @return string Absolute filesystem path
+	 */
+	public function getPortraitAbsolutePath() {
+		return Yii::getPathOfAlias('webroot') . '/images/portraits/' . $this->imprint . '.jpg';
+	}
+
+	/**
+	 * 
+	 * @return string Relative URL
+	 */
+	public function getPortraitUrl() {
+		return Yii::app()->getBaseUrl() . '/images/portraits/' . $this->imprint . '.jpg';
+	}
+
 }

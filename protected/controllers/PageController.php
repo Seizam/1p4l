@@ -51,7 +51,10 @@ class PageController extends Controller {
 		
 		Yii::import('application.views.widgets.templates.*');
 		
-		$this->render('index', array('model' => $model));
+		$this->render('index', array(
+			'model' => $model,
+			'portrait' => file_exists($model->portraitAbsolutePath) ? $model->portraitUrl : null,
+		));
 	}
 
 	public function actionUpdate($imprint = null, $id = null) {
@@ -69,8 +72,12 @@ class PageController extends Controller {
 		}
 		
 		Yii::import('application.views.widgets.templates.*');
-		
-		$this->render('update', array('model' => $model));
+
+		$this->render('update', array(
+			'model' => $model,
+			'portrait' => file_exists($model->portraitAbsolutePath) ? $model->portraitUrl : null,
+		));
+
 	}
 
 	/**

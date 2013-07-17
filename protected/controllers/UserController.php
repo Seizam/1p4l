@@ -35,7 +35,7 @@ class UserController extends Controller
 				'users' => array('?'),
 			),
 			array('allow', // authenticated
-				'actions' => array('logout','update'),
+				'actions' => array('logout','update', 'uploadPortrait', 'deletePortrait'),
 				'users' => array('@'),
 			),
 			array('allow', // admin
@@ -249,6 +249,76 @@ class UserController extends Controller
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+	}
+
+	/**
+	 * (Re)uploads a portrait.
+	 * If upload is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the user
+	 */
+	public function actionUploadPortrait($id = null) {
+		if ($id === null)
+			$id = Yii::app()->user->id;
+
+		if (!Yii::app()->user->isAdmin && $id !== Yii::app()->user->id) {
+			throw new CHttpException(403, 'You are not authorized to perform this action.');
+		}
+
+		$imprint = Imprint::model()->findByUserIdEager($id);
+		if ($imprint === null) {
+			throw new CHttpException(404, 'The requested page does not exist.');
+		}
+
+		$formModel = new ImageFileForm();
+
+		if (isset($_POST['ImageFileForm'])) {
+			$formModel->attributes = $_POST['ImageFileForm'];
+			$formModel->image = CUploadedFile::getInstance($formModel, 'image');
+
+			if ($formModel->validate()) {
+				$formModel->image->saveAs($imprint->portraitAbsolutePath); // If it already exists, it will be overwritten.
+				Yii::app()->user->setFlash('success', 'Image successfully uploaded !');
+				$this->redirect(array('page/update', 'id' => $id));
+			}
+		}
+
+		// $filePath = $imprint->portraitAbsolutePath;
+
+		$this->render('uploadPortrait', array(
+			'model' => $formModel,
+			// 'portrait' => file_exists($filePath) ? $imprint->portraitUrl : null,
+		));
+	}
+
+	/**
+	 * Delete a portrait.
+	 * The browser is always redirected to the 'view' page.
+	 * @param integer $id the ID of the user
+	 */
+	public function actionDeletePortrait($id = null) {
+		if ($id === null)
+			$id = Yii::app()->user->id;
+
+		if (!Yii::app()->user->isAdmin && $id !== Yii::app()->user->id) {
+			throw new CHttpException(403, 'You are not authorized to perform this action.');
+		}
+
+		$imprint = Imprint::model()->findByUserIdEager($id);
+		if ($imprint === null) {
+			throw new CHttpException(404, 'The requested page does not exist.');
+		}
+
+		$filePath = $imprint->portraitAbsolutePath;
+
+		if (file_exists($filePath)) {
+			if (unlink($filePath)) {
+				Yii::app()->user->setFlash('success', 'Image successfully deleted !');
+			} else {
+				throw new CHttpException(500, 'The picture cannot be deleted.');
+			}
+		}
+
+		$this->redirect(array('page/update', 'id' => $id));
 	}
 
 	/**

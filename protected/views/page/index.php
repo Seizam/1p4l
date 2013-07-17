@@ -16,6 +16,11 @@ if ($model->user->id == Yii::app()->user->id) {
 ?>
 <div class="row-fluid">
 	<div class="span4">
+
+	<?php
+		if ($portrait == null) {
+	?>
+
 		<?php
 		$this->widget('ext.yii-gravatar.YiiGravatar', array(
 			'email' => $model->user->email,
@@ -31,6 +36,17 @@ if ($model->user->id == Yii::app()->user->id) {
 			)
 		));
 		?>
+
+	<?php
+		} else {
+	?>
+
+		<img alt="Portrait of <?php echo $model->user->name ?>" title="Portrait of <?php echo $model->user->name ?>" class="img-rounded" src="<?php echo $portrait ?>">
+
+	<?php
+		}
+	?>
+
 	</div>
 	<div class="span8">
 		<h1 class="name"><?php echo $model->user->name ?></h1>

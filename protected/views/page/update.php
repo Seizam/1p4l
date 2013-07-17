@@ -15,24 +15,47 @@ $this->menu['view'] = array('label' => '<i class="icon-eye-open"></i> View',
 ?>
 <div class="row-fluid">
 	<div class="span4">
+
+	<?php
+		if ($portrait == null) {
+	?>
+
 		<a href="http://www.gravatar.com">
-			<?php
-			$this->widget('ext.yii-gravatar.YiiGravatar', array(
-				'email' => $model->user->email,
-				'size' => 228,
-				'defaultImage' => 'mm',
-				'secure' => true,
-				'rating' => 'g',
-				'emailHashed' => false,
-				'htmlOptions' => array(
-					'alt' => 'Gravatar of ' . $model->user->name,
-					'title' => 'Gravatar of ' . $model->user->name,
-					'class' => 'img-rounded gravatar'
-				)
-			));
-			?>
+				<?php
+				$this->widget('ext.yii-gravatar.YiiGravatar', array(
+					'email' => $model->user->email,
+					'size' => 228,
+					'defaultImage' => 'mm',
+					'secure' => true,
+					'rating' => 'g',
+					'emailHashed' => false,
+					'htmlOptions' => array(
+						'alt' => 'Gravatar of ' . $model->user->name,
+						'title' => 'Gravatar of ' . $model->user->name,
+						'class' => 'img-rounded gravatar'
+					)
+				));
+				?>
 		</a>
-		<p class="gravatar-notice">Change your portrait on <?php echo CHtml::link('gravatar.com', 'http://www.gravatar.com') ?></p>
+		<p class="gravatar-notice">
+			Change your portrait on <?php echo CHtml::link('gravatar.com', 'http://www.gravatar.com') ?>
+			or <?php echo CHtml::link('upload it', array('user/uploadPortrait', 'id' => $model->user->id)) ?>
+		</p>
+
+	<?php
+		} else {
+	?>
+
+		<img alt="Portrait of <?php echo $model->user->name ?>" title="Portrait of <?php echo $model->user->name ?>" class="img-rounded" src="<?php echo $portrait ?>">
+		<p>
+			<?php echo CHtml::link('Reupload a new portrait', array('user/uploadPortrait', 'id' => $model->user->id)) ?>
+			or <?php echo CHtml::link('return to your Gravatar', array('user/deletePortrait', 'id' => $model->user->id)) ?>
+		</p>
+
+	<?php
+		}
+	?>
+
 	</div>
 	<div class="span8">
 		<?php
