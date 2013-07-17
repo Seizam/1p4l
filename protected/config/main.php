@@ -100,6 +100,11 @@ return array(
 			'logging' => true,
 			'dryRun' => false
 		),
+		 'image' => array(
+			'class' => 'application.extensions.image.CImageComponent',
+			'driver' => 'ImageMagick', // GD or ImageMagick
+			'params' => array('directory' => '/usr/bin'), // ImageMagick setup path
+		),
 	),
 	
 	// application-level parameters that can be accessed

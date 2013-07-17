@@ -275,18 +275,27 @@ class UserController extends Controller
 			$formModel->attributes = $_POST['ImageFileForm'];
 			$formModel->image = CUploadedFile::getInstance($formModel, 'image');
 
-			if ($formModel->validate()) {
-				$formModel->image->saveAs($imprint->portraitAbsolutePath); // If it already exists, it will be overwritten.
+			if ($formModel->validate() && !$formModel->image->hasError) {
+
+				$image = Yii::app()->image->load($formModel->image->tempName);
+
+				// Recommended order: resize, crop, sharpen, quality and rotate or flip		
+				$image->resize(228, 228, ( $image->width / $image->height > 1 ? Image::HEIGHT : Image::WIDTH ));
+				$image->crop(228, 228, 'center', 'center');
+				$image->sharpen(20);
+				$image->quality(90);
+				$image->save($imprint->portraitAbsolutePath);
+
+				unlink($formModel->image->tempName); // necessary ?
+
 				Yii::app()->user->setFlash('success', 'Image successfully uploaded !');
 				$this->redirect(array('page/update', 'id' => $id));
 			}
 		}
 
-		// $filePath = $imprint->portraitAbsolutePath;
-
 		$this->render('uploadPortrait', array(
 			'model' => $formModel,
-			// 'portrait' => file_exists($filePath) ? $imprint->portraitUrl : null,
+			// 'portrait' => file_exists($imprint->portraitAbsolutePath) ? $imprint->portraitUrl : null,
 		));
 	}
 
