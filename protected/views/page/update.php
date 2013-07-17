@@ -38,8 +38,8 @@ $this->menu['view'] = array('label' => '<i class="icon-eye-open"></i> View',
 				?>
 		</a>
 		<p class="gravatar-notice">
-			Change your portrait on <?php echo CHtml::link('gravatar.com', 'http://www.gravatar.com') ?>
-			or <?php echo CHtml::link('upload it', array('user/uploadPortrait', 'id' => $model->user->id)) ?>
+			<?php echo CHtml::link('Upload your portrait', array('user/uploadPortrait', 'id' => $model->user->id)) ?>
+			or change it on <?php echo CHtml::link('gravatar.com', 'http://www.gravatar.com') ?>
 		</p>
 
 	<?php
