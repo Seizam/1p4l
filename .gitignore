@@ -5,4 +5,5 @@ protected/runtime/*
 protected/data/*.db
 /.htaccess
 images/portraits/*
+qrcode/*
 
