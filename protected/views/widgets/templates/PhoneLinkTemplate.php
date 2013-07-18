@@ -38,7 +38,10 @@ class PhoneLinkTemplate extends LinkTemplate {
 	 * @return string The  label (eg. Github)
 	 */
 	public function getLabel() {
-		return $this->link->link;
+		$label = '';
+		if ($this->link->label != null) $label = $this->link->label . ': ';
+		$label .= $this->link->link;
+		return $label;
 	}
 	
 	public function getLegend() {

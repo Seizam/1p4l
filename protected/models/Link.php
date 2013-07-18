@@ -11,9 +11,9 @@
  * @property string $label
  * @property string $link
  */
-class Link extends CActiveRecord
-{
+class Link extends CActiveRecord {
 	// Generic
+
 	const TYPE_UNKNOWN = 0;
 	// URL (facebook, website, etc...)
 	const TYPE_URL = 100;
@@ -51,14 +51,13 @@ class Link extends CActiveRecord
 	const TYPE_ADDRESS = 920;
 	const TYPE_ADDRESS_PRO = 921;
 	const TYPE_ADDRESS_PERSO = 922;
-	
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return Link the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className = __CLASS__) {
 		return parent::model($className);
 	}
 
@@ -69,55 +68,51 @@ class Link extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName() {
 		return 'link';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
-	{
+	public function rules() {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
 			array('link', 'required'),
 			array('label', 'length', 'max' => 45),
-			array('link', 'length', 'max'=> 1024)
+			array('link', 'length', 'max' => 1024)
 		);
 	}
-	
+
 	public function beforeValidate() {
-		
+
 		$linkHelper = LinkHelper::newLinkHelper($this->link);
 		$this->link = $linkHelper->getLink();
 		$this->type = $linkHelper->getType();
-		
+
 		if ($this->label == null) {
 			$this->label = $linkHelper->getLabel();
 		} else {
 			$this->label = CHtml::encode($this->label);
 		}
-		
+
 		return parent::beforeValidate();
 	}
 
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations() {
 		return array(
-            'user' => array(self::BELONGS_TO, 'User', 'user_id')  
+			'user' => array(self::BELONGS_TO, 'User', 'user_id')
 		);
 	}
 
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels() {
 		return array(
 			'id' => 'ID',
 			'user_id' => 'User',
@@ -145,6 +140,17 @@ class Link extends CActiveRecord
 	}
 
 	/**
+	 * We need to decrement the position of all the following links
+	 * afterDelete() cannot be used here because it is always executed (even if no row was affected)
+	 */
+	public function delete() {
+		if (parent::delete()) {
+			$sql = "UPDATE {$this->tableName()} SET position = position - 1 WHERE user_id = {$this->user_id} AND position > {$this->position}";
+			$result = Yii::app()->db->createCommand($sql)->execute();
+		}
+	}
+
+	/**
 	 * Moves the current record up in the link list.
 	 * This method updates the current record, and the record of the above link.
 	 * @return boolean True on succes, false on fail.
@@ -156,7 +162,7 @@ class Link extends CActiveRecord
 		if ($ok) {
 			// Move above records down
 			$ok = self::model()->updateAll(
-					array('position' => $this->position), 'position=:position', array(':position' => $this->position - 1));
+					array('position' => $this->position), 'position=:position AND user_id=:uid', array(':position' => $this->position - 1, ':uid' => $this->user_id));
 			$ok = ($ok === 1);
 		}
 
@@ -172,20 +178,21 @@ class Link extends CActiveRecord
 	public function isUrl() {
 		return $this->type >= self::TYPE_URL && $this->type < self::TYPE_SERVICE;
 	}
-	
+
 	public function isService() {
 		return $this->type >= self::TYPE_SERVICE && $this->type < self::TYPE_EMAIL;
 	}
-	
+
 	public function isEmail() {
 		return $this->type >= self::TYPE_EMAIL && $this->type < self::TYPE_PHONE;
 	}
-	
+
 	public function isPhone() {
 		return $this->type >= self::TYPE_PHONE && $this->type < self::TYPE_ADDRESS;
 	}
-	
+
 	public function isAddress() {
 		return $this->type >= self::TYPE_ADDRESS;
 	}
+
 }

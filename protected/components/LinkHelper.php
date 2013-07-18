@@ -58,7 +58,7 @@ class UrlLinkHelper extends LinkHelper {
 	/**
 	 * @var string 
 	 */
-	protected $protocol = 'http://', $subdomain = '', $domain, $query;
+	protected $protocol = 'http://', $subdomain, $domain, $query;
 	
 	/**
 	 * 
@@ -68,7 +68,7 @@ class UrlLinkHelper extends LinkHelper {
 	 * @param string $query
 	 */
 	protected function __construct($protocol, $subdomain, $domain, $query) {
-		$this->protocol = strtolower($protocol);
+		if ($protocol != null) $this->protocol = strtolower($protocol);
 		$this->subdomain = strtolower($subdomain);
 		$this->domain = strtolower($domain);
 		$this->query = $query;
@@ -81,7 +81,7 @@ class UrlLinkHelper extends LinkHelper {
 	 * @return \UrlLinkHelper
 	 */
 	public static function newLinkHelper($link, $iterate = true) {
-		$pattern = '/^(https?:\/\/)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z]{2,63})(\/.*)?/i';
+		$pattern = '/^(https?:\/\/)?([a-z0-9\-\.]*\.)?([a-z0-9\-]+\.[a-z]{2,63})(\/.*)?$/i';
 		$matches = array();
 		Yii::log($link,'trace','application');
 		if (preg_match($pattern, $link, $matches)) {
@@ -209,8 +209,8 @@ class PhoneLinkHelper extends LinkHelper {
 	 * @param string $domain
 	 */
 	protected function __construct($country, $numbers) {
-		$this->country = $country;
-		$this->numbers = $numbers;
+		$this->country = trim($country);
+		$this->numbers = trim($numbers);
 	}
 	
 	/**
@@ -220,8 +220,8 @@ class PhoneLinkHelper extends LinkHelper {
 	 * @return \EmailLinkHelper
 	 */
 	public static function newLinkHelper($link, $iterate = true) {
-		$worklink = str_replace(array('.','_','-','/','\\',',','(',')'), ' ' ,$link);
-		$pattern = '/^(tel:)?(\+[0-9]{1,4})?([0-9 ]{3,})$/i';
+		$worklink = str_replace(array('.','_','-','/','\\',','), ' ' ,$link);
+		$pattern = '/^(tel:)?(\+[0-9]{1,4})?([0-9\(\) ]{3,})$/i';
 		$matches = array();
 		if (preg_match($pattern, $worklink, $matches)) {
 			return new PhoneLinkHelper($matches[2], $matches[3]);
@@ -234,7 +234,9 @@ class PhoneLinkHelper extends LinkHelper {
 	 * @return string
 	 */
 	public function getLink() {
-		return $this->country.' '.$this->numbers;
+		$link = $this->numbers;
+		if ($this->country != null) $link = $this->country. ' ' . $link;
+		return $link;
 	}
 	
 	/**
