@@ -1,6 +1,6 @@
 <?php
 /* @var $this SiteController */
-/* @var $model ContactForm */
+/* @var $model User */
 /* @var $form TbActiveForm */
 
 $this->pageTitle = Yii::app()->name . ' - Signup';
@@ -20,7 +20,7 @@ $this->pageTitle = Yii::app()->name . ' - Signup';
 	));
 	?>
 
-	<?php echo $form->textFieldRow($model, 'email', array('class' => 'span5', 'maxlength' => 45, 'hint' => 'This address will <b>not</b> be shared.')); ?>
+	<?php echo $form->textFieldRow($model, 'email', array('class' => 'span5', 'maxlength' => 45, 'hint' => 'This address will <b>NOT</b> be shared.')); ?>
 
 	<?php echo $form->passwordFieldRow($model, 'password', array('class' => 'span5', 'maxlength' => 64)); ?>
 
@@ -47,7 +47,7 @@ $this->pageTitle = Yii::app()->name . ' - Signup';
 			'type' => 'primary',
 			'size' => 'large',
 			'encodeLabel' => false,
-			'label' => '<i class="icon-bolt"></i> Create',
+			'label' => '<i class="icon-bolt"></i> SignUp',
 		));
 		$this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType' => 'link',

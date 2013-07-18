@@ -288,8 +288,8 @@ class UserController extends Controller
 
 				unlink($formModel->image->tempName); // necessary ?
 
-				Yii::app()->user->setFlash('success', 'Image successfully uploaded !');
-				$this->redirect(array('page/update', 'id' => $id));
+				Yii::app()->user->setFlash('success', 'Portrait successfully uploaded !');
+				$this->redirect(array('page/update', 'imprint' => $imprint->imprint));
 			}
 		}
 
@@ -327,7 +327,7 @@ class UserController extends Controller
 			}
 		}
 
-		$this->redirect(array('page/update', 'id' => $id));
+		$this->redirect(array('page/update', 'imprint' => $imprint->imprint));
 	}
 
 	/**

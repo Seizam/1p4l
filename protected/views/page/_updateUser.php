@@ -10,21 +10,23 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'clientOptions' => array(
 		'validateOnSubmit' => true,
 	),
+	'htmlOptions' => array('class' => 'focus-zone')
 		));
 ?>
 
 <div class="row-fluid">
 	<div class="span8">
-	<?php echo $form->textField($model, 'name', array('class' => 'name span12', 'maxlength' => 64)); ?>
-	<?php echo $form->error($model, 'name'); ?>
+		<?php echo $form->textField($model, 'name', array('class' => 'name span12', 'maxlength' => 64)); ?>
+		<?php echo $form->error($model, 'name'); ?>
 	</div>
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
-			'buttonType' => 'submit',
-			'label' => '<i class="icon-ok"></i> Save Headline',
-			'encodeLabel' => false,
-			'size' => 'small',
-			'htmlOptions' => array('class'=>'span4')
-		));
+	<?php
+	$this->widget('bootstrap.widgets.TbButton', array(
+		'buttonType' => 'submit',
+		'label' => '<i class="icon-ok"></i> Save Headline',
+		'encodeLabel' => false,
+		'size' => 'medium',
+		'htmlOptions' => array('class' => 'span4')
+	));
 	?>
 </div>
 <div class="row-fluid">

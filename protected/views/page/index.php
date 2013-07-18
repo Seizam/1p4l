@@ -2,7 +2,7 @@
 /* @var $this PageController */
 /* @var $model Imprint */
 
-$this->layoutTitle = CHtml::link(SHORT_BASE_URL , array('site/index')).CHtml::link('/' . $model->imprint, array('page/index', 'imprint' => $model->imprint));
+$this->layoutTitle = CHtml::link(SHORT_BASE_URL, array('site/index')) . CHtml::link('/' . $model->imprint, array('page/index', 'imprint' => $model->imprint));
 $this->pageTitle = $model->user->name . ' - ' . SHORT_BASE_URL . '/' . $model->imprint;
 
 if ($model->user->id == Yii::app()->user->id) {
@@ -16,37 +16,25 @@ if ($model->user->id == Yii::app()->user->id) {
 ?>
 <div class="row-fluid">
 	<div class="span4">
-
-	<?php
-		if ($portrait == null) {
-	?>
-
 		<?php
-		$this->widget('ext.yii-gravatar.YiiGravatar', array(
-			'email' => $model->user->email,
-			'size' => 228,
-			'defaultImage' => 'mm',
-			'secure' => true,
-			'rating' => 'g',
-			'emailHashed' => false,
-			'htmlOptions' => array(
-				'alt' => 'Gravatar of ' . $model->user->name,
-				'title' => 'Gravatar of ' . $model->user->name,
-				'class' => 'img-rounded gravatar'
-			)
-		));
-		?>
-
-	<?php
+		if ($portrait == null) {
+			$this->widget('ext.yii-gravatar.YiiGravatar', array(
+				'email' => $model->user->email,
+				'size' => 228,
+				'defaultImage' => 'mm',
+				'secure' => true,
+				'rating' => 'g',
+				'emailHashed' => false,
+				'htmlOptions' => array(
+					'alt' => 'Gravatar of ' . $model->user->name,
+					'title' => 'Gravatar of ' . $model->user->name,
+					'class' => 'img-rounded portrait'
+				)
+			));
 		} else {
-	?>
-
-		<img alt="Portrait of <?php echo $model->user->name ?>" title="Portrait of <?php echo $model->user->name ?>" class="img-rounded" src="<?php echo $portrait ?>">
-
-	<?php
+			echo CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded portrait'));
 		}
-	?>
-
+		?>
 	</div>
 	<div class="span8">
 		<h1 class="name"><?php echo $model->user->name ?></h1>

@@ -4,7 +4,7 @@
 /* @var $form CActiveForm  */
 ?>
 
-<h1>Upload your portrait <small>Please select your image file</small></h1>
+<h1><i class="icon-upload"></i> Upload <small>You Look Great !</small></h1>
 <hr/>
 <div class="row-fluid">
 
@@ -20,17 +20,14 @@
 
 	<?php /* error already displayed near each field */ echo $form->errorSummary($model); ?>
 
-	<?php
-	echo $form->fileField($model, 'image');
-	echo $form->error($model, 'image');
-	?>
+	<?php echo $form->fileFieldRow($model, 'image', array('hint'=>'Best format is 228px wide square JPEG. ')); ?>
 
 	<div class="form-actions">
 		<?php
 		$this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType' => 'submit',
 			'type' => 'primary',
-			'label' => '<i class="icon-ok"></i> Upload',
+			'label' => '<i class="icon-upload"></i> Upload',
 			'encodeLabel' => false,
 			'size' => 'large'
 		));
@@ -41,7 +38,7 @@
 			'label' => '<i class="icon-undo"></i> Back',
 			'encodeLabel' => false,
 			'size' => 'large',
-			'url' => $this->createUrl('page/update')
+			'url' => array('page/update', 'imprint' => $this->getUserImprint())
 		))
 		?> 
 	</div>

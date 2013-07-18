@@ -1,5 +1,13 @@
-body, input, button, select, textarea {
+body, button {
 	font-family: 'Raleway', sans-serif;
+}
+
+.help-block, .help-inline, input, select, textarea {
+	font-family: monospace;
+}
+
+.help-block {
+	font-size: 0.8em;
 }
 
 .opfl {
@@ -71,13 +79,12 @@ h1 i, h3 i {
 	font-weight: normal;
 }
 
-.gravatar {
+.portrait {
 	border: 1px solid #E5E5E5;
 }
 
-.gravatar-notice {
-	font-size: small;
-	text-align: center;
+.portrait-control {
+	margin-top: 5px;
 }
 
 
@@ -124,12 +131,18 @@ form {
 
 .links {
 	border-top: 1px solid #E5E5E5;
-	margin-top: 15px;
+	margin-top: 20px;
 	padding-top: 15px;
 }
 
+.links-edit {
+	border-top: none;
+	margin-top: 0;
+	padding-top: 0;
+}
+
 .links .disabled {
-	color: 0.4;
+	opacity: 0.6;
 }
 
 .link-a, .link-div {
@@ -168,6 +181,7 @@ form {
 
 .link-div {
 	opacity: 0.6;
+	transition: 0.4s ease 0s;
 }
 
 .link-div > div.toolbox {
@@ -177,7 +191,18 @@ form {
 	margin-left: 0.5em;
 }
 
-.link-div:hover {
+.link-div:hover, .link-div:active {
+	opacity: 1;
+	transition: 0.4s ease 0s;
+}
+
+/* HEADLINE AND PORTRAIT */
+.focus-zone {
+	opacity: 0.4;
+	transition: 0.4s ease 0s;
+}
+
+.focus-zone:hover, .focus-zone:active {
 	opacity: 1;
 	transition: 0.4s ease 0s;
 }
