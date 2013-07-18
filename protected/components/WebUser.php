@@ -59,6 +59,7 @@ class WebUser extends CWebUser
 	 */
 	public function getIsAdmin()
 	{
-		return ( isset($this->model) && $this->model->id < 3 );
+		return ( isset($this->model)
+				&& in_array($this->model->email, Yii::app()->params['admins']) );
 	}
 }

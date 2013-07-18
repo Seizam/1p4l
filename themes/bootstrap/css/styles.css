@@ -79,12 +79,23 @@ h1 i, h3 i {
 	font-weight: normal;
 }
 
-.portrait img {
+.portrait > img {
 	border: 1px solid #E5E5E5;
 }
 
 .portrait-control {
 	margin-top: 5px;
+}
+
+.qrcode {
+	opacity: 0.1;
+	transition: 0.4s ease 0s;
+	margin-top: 10px;
+}
+
+.qrcode:active, .qrcode:hover {
+	opacity: 0.8;
+	transition: 0.4s ease 0s;
 }
 
 

@@ -111,6 +111,7 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		'adminEmail'=>'contact@seizam.com', // this is used in contact page
-		'emailFrom'=>'contact@seizam.com', // used for email sending		
+		'emailFrom'=>'contact@seizam.com', // used for email sending
+		'admins' => array('clement@seizam.com', 'yann@seizam.com'), //user allowed to admin
 	),
 );

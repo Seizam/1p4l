@@ -35,17 +35,22 @@ if ($model->user->id == Yii::app()->user->id) {
 			echo CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded'));
 		}
 		?>
-
+		<div class="row-fluid">
 		<?php
-		$this->widget('application.extensions.qrcode.QRCodeGenerator', array(
+		$fileName = $model->imprint . '.png';
+		$fileUrl = Yii::app()->baseUrl . '/qrcode';
+		$image = $this->widget('application.extensions.qrcode.QRCodeGenerator', array(
 			'filePath' => realpath(Yii::app()->getBasePath().'/../qrcode'),
-			'filename' => $model->imprint . '.png',
-			'fileUrl' => Yii::app()->baseUrl . '/qrcode',
+			'filename' => $fileName,
+			'fileUrl' => $fileUrl,
 			'matrixPointSize' => 10,
 			'errorCorrectionLevel' => 'M',
-			'data' => $this->createAbsoluteUrl('page/index', array('imprint' => $model->imprint)),
-		));
+			'data' => $this->createAbsoluteUrl('page/index', array('imprint' => $model->imprint))
+		),true);
+		echo CHtml::link($image, $fileUrl.'/'.$fileName, array('class'=>'qrcode span4'));
 		?>
+		</div>
+
 	</div>
 	<div class="span8">
 		<h1 class="name"><?php echo $model->user->name ?></h1>
