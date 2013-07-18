@@ -83,6 +83,7 @@ class UserController extends Controller
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
+				Yii::app()->user->setFlash('success', 'LogIn successful. Welcome back!');
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
@@ -94,7 +95,8 @@ class UserController extends Controller
 	 */
 	public function actionLogout()
 	{
-		Yii::app()->user->logout();
+		Yii::app()->user->logout(false);
+		Yii::app()->user->setFlash('warning', 'You have been logged out. See you later!');
 		$this->redirect(Yii::app()->homeUrl);
 	}
 
@@ -124,7 +126,7 @@ class UserController extends Controller
 					if ($this->sendEmail($user->email, 'activate', array('user' => $user, 'token' => $token)))
 					{
 						// everything is ok
-						Yii::app()->user->setFlash('success', 'Thank you for your registration. Please check your email.');
+						Yii::app()->user->setFlash('success', 'Thanks for joining ! Please check your <b>email</b>.');
 						$this->redirect(Yii::app()->homeUrl); // redirect to home and exit
 					}
 					else
@@ -132,14 +134,14 @@ class UserController extends Controller
 						// error while sending email
 						$token->delete();
 						$user->delete();
-						Yii::app()->user->setFlash('error', 'Internal error while sending your activation email. Please retry.');
+						Yii::app()->user->setFlash('error', 'Internal error while sending your activation email. Please train again.');
 					}
 				}
 				else
 				{
 					// error while creating token
 					$user->delete();
-					Yii::app()->user->setFlash('error', 'Internal error. Please retry.');
+					Yii::app()->user->setFlash('error', 'Internal error. Please try again.');
 				}		
 			}
 			// else: error while validating form
@@ -321,9 +323,9 @@ class UserController extends Controller
 
 		if (file_exists($filePath)) {
 			if (unlink($filePath)) {
-				Yii::app()->user->setFlash('success', 'Image successfully deleted !');
+				Yii::app()->user->setFlash('success', 'Portrait successfully deleted !');
 			} else {
-				throw new CHttpException(500, 'The picture cannot be deleted.');
+				throw new CHttpException(500, 'Portrait deletion failed.');
 			}
 		}
 

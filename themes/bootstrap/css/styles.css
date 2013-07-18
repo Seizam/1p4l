@@ -79,7 +79,7 @@ h1 i, h3 i {
 	font-weight: normal;
 }
 
-.portrait {
+.portrait img {
 	border: 1px solid #E5E5E5;
 }
 
@@ -198,7 +198,7 @@ form {
 
 /* HEADLINE AND PORTRAIT */
 .focus-zone {
-	opacity: 0.4;
+	opacity: 0.6;
 	transition: 0.4s ease 0s;
 }
 
@@ -236,9 +236,9 @@ form {
 	font-size: 1.2em;
 	min-height: initial;
 	color: #e5e5e5;
-	
+
 	font-weight: normal;
-	
+
 	font-variant: small-caps;
 }
 
@@ -305,24 +305,37 @@ form {
 	.links .row-fluid .span12 {width: 100%;}
 }
 
-/* Landscape phone to portrait tablet */
+/* Phone to portrait tablet */
 @media (max-width: 767px) {
 	#page {
 		padding-top: 20px;
 		max-width: 480px;
 	}
 
-	.gravatar {
+	.row-fluid .portrait  {
 		float: left;
 		margin-right: 20px;
-		max-width: 142px;
+		margin-bottom: 10px;
+		max-width: 33%;
+		min-width: 100px;
 	}
-	
+
+	#menu {
+		border-top: 1px solid #e5e5e5;
+		-webkit-border-radius: 6px;
+		-moz-border-radius: 6px;
+		border-radius: 6px;
+	}
+
 	.catch {
 		clear: both;
 	}
-	
+
 	#footer, #title, #menu {
 		text-align: center;
+	}
+
+	.btn {
+		margin-bottom: 10px;
 	}
 }

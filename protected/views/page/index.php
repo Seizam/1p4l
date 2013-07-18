@@ -7,7 +7,7 @@ $this->pageTitle = $model->user->name . ' - ' . SHORT_BASE_URL . '/' . $model->i
 
 if ($model->user->id == Yii::app()->user->id) {
 	unset($this->menu['mypage']);
-	$this->menu[] = array('label' => '<i class="icon-pencil"></i> Edit',
+	$this->menu[] = array('label' => '<i class="icon-pencil"></i> Update',
 		'url' => array('page/update',
 			'imprint' => $model->imprint),
 		'linkOptions' => array('class' => 'front')
@@ -15,7 +15,7 @@ if ($model->user->id == Yii::app()->user->id) {
 }
 ?>
 <div class="row-fluid">
-	<div class="span4">
+	<div class="span4 portrait">
 		<?php
 		if ($portrait == null) {
 			$this->widget('ext.yii-gravatar.YiiGravatar', array(
@@ -28,11 +28,11 @@ if ($model->user->id == Yii::app()->user->id) {
 				'htmlOptions' => array(
 					'alt' => 'Gravatar of ' . $model->user->name,
 					'title' => 'Gravatar of ' . $model->user->name,
-					'class' => 'img-rounded portrait'
+					'class' => 'img-rounded'
 				)
 			));
 		} else {
-			echo CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded portrait'));
+			echo CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded'));
 		}
 		?>
 	</div>

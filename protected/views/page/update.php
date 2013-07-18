@@ -14,7 +14,7 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 );
 ?>
 <div class="row-fluid">
-	<div class="span4 focus-zone">
+	<div class="span4 focus-zone portrait">
 		<?php
 		// The portrait image
 		if ($portrait == null) {
@@ -27,13 +27,13 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 				'emailHashed' => false,
 				'htmlOptions' => array(
 					'alt' => 'Gravatar of ' . $model->user->name,
-					'class' => 'img-rounded portrait'
+					'class' => 'img-rounded'
 				)
 			), true);
 			$url = 'http://gravatar.com';
 			$title = 'Setup your portrait through Gravatar.com';
 		} else {
-			$image = CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded portrait'));
+			$image = CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded'));
 			$url = array('user/uploadPortrait', 'id' => $model->user->id);
 			$title = 'ReUpload your portrait';
 		}
@@ -43,8 +43,9 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 		<div class="row-fluid portrait-control">
 			<?php
 			// The buttons
+			$buttons = array();
 			if ($portrait == null) {
-				$this->widget('bootstrap.widgets.TbButton', array(
+				$buttons[] = $this->widget('bootstrap.widgets.TbButton', array(
 					'buttonType' => 'link',
 					'type' => 'primary',
 					'url' => array('user/uploadPortrait', 'id' => $model->user->id),
@@ -52,17 +53,17 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 					'encodeLabel' => false,
 					'label' => '<i class="icon-upload"></i> Upload',
 					'htmlOptions' => array('class' => 'span6')
-				));
-				$this->widget('bootstrap.widgets.TbButton', array(
+				), true);
+				$buttons[] = $this->widget('bootstrap.widgets.TbButton', array(
 					'buttonType' => 'link',
 					'url' => 'http://www.gravatar.com',
 					'size' => 'medium',
 					'encodeLabel' => false,
 					'label' => '<i class="icon-globe"></i> Gravatar',
 					'htmlOptions' => array('class' => 'span6')
-				));
+				), true);
 			} else {
-				$this->widget('bootstrap.widgets.TbButton', array(
+				$buttons[] = $this->widget('bootstrap.widgets.TbButton', array(
 					'buttonType' => 'link',
 					'type' => 'primary',
 					'url' => array('user/uploadPortrait', 'id' => $model->user->id),
@@ -70,8 +71,8 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 					'encodeLabel' => false,
 					'label' => '<i class="icon-upload"></i> ReUpload',
 					'htmlOptions' => array('class' => 'span6')
-				));
-				$this->widget('bootstrap.widgets.TbButton', array(
+				), true);
+				$buttons[] = $this->widget('bootstrap.widgets.TbButton', array(
 					'buttonType' => 'link',
 					'type' => 'danger',
 					'url' => array('user/deletePortrait', 'id' => $model->user->id),
@@ -79,7 +80,11 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 					'encodeLabel' => false,
 					'label' => '<i class="icon-remove"></i> Delete',
 					'htmlOptions' => array('class' => 'span6')
-				));
+				), true);
+			}
+			
+			foreach ($buttons as $button) {
+				echo $button;
 			}
 			?>
 		</div>
