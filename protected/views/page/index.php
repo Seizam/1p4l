@@ -37,7 +37,7 @@ if ($model->user->id == Yii::app()->user->id) {
 			echo CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded'));
 		}
 		?>
-		<div class="row-fluid">
+		<div class="row-fluid carrousel">
 		<?php
 			echo CHtml::link(CHtml::image($QRCodeUrl), $QRCodeUrl, array('class'=>'qrcode span4'));
 		?>

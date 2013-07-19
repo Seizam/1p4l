@@ -338,6 +338,10 @@ form {
 	.catch {
 		clear: both;
 	}
+	
+	.carrousel {
+		display: none;
+	}
 
 	#footer, #title, #menu {
 		text-align: center;
