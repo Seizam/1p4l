@@ -3,6 +3,7 @@
 class UserIdentity extends CUserIdentity
 {
 
+	const ERROR_ACCOUNT_INACTIVE = 30;
 	/**
 	 * @var string email
 	 */
@@ -38,6 +39,10 @@ class UserIdentity extends CUserIdentity
 		elseif (!CPasswordHelper::verifyPassword($this->password, $user->password))
 		{
 			$this->errorCode = self::ERROR_PASSWORD_INVALID;
+		}
+		elseif ($user->status !== User::STATUS_ACTIVE)
+		{
+			$this->errorCode = self::ERROR_ACCOUNT_INACTIVE;
 		}
 		else
 		{

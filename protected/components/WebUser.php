@@ -12,30 +12,14 @@ class WebUser extends CWebUser
 	protected function afterLogin($fromCookie)
 	{
 		parent::afterLogin($fromCookie);
+		
+		$this->returnUrl = array('page/index', 'imprint'=>$this->model->imprints[0]->imprint);
 
 		$user = $this->getModel();
 		if ($user!==null)
 		{
 			$user->touchOnLogin();
 		}
-	}
-	
-	/**
-	 * This method is called before logging in a user.
-	 * You may override this method to provide additional security check.
-	 * For example, when the login is cookie-based, you may want to verify
-	 * that the user ID together with a random token in the states can be found
-	 * in the database. This will prevent hackers from faking arbitrary
-	 * identity cookies even if they crack down the server private key.
-	 * @param mixed $id the user ID. This is the same as returned by {@link getId()}.
-	 * @param array $states a set of name-value pairs that are provided by the user identity.
-	 * @param boolean $fromCookie whether the login is based on cookie
-	 * @return boolean whether the user should be logged in
-	 * @since 1.1.3
-	 */
-	protected function beforeLogin($id, $states, $fromCookie) {
-		$this->returnUrl=array('page/index', 'imprint'=>User::model()->findByPk($id)->imprints[0]->imprint);
-		return parent::beforeLogin($id, $states, $fromCookie);
 	}
 
 	/**
