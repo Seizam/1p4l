@@ -22,13 +22,10 @@ $this->pageTitle = Yii::app()->name . ' - Contact Us';
 	
 	$name = null;
 	$email = null;
-	$user_id = 0;
 	if ($user != null) {
 		$name = $user->name;
 		$email = $user->email;
-		$user_id = $user->id;
 	}
-	echo $form->hiddenField($model, 'user_id', array('value' => $user_id));
 	?>
 
 	<?php echo $form->errorSummary($model); ?>

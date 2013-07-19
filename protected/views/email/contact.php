@@ -3,11 +3,12 @@
     <head></head>
 	<body>
 		<p>
-			<?php echo $model->body; ?>
+			<?php echo $form->body; ?>
 		</p>
 		<p>
 			----<br />
-			From: <?php echo "{$model->name} &lt;{$model->email}&gt;"; ?><br />
+			User: <?php echo $user == null ? 'NOT CONNECTED' : "{$user->name} (id={$user->id}, email={$user->email})"; ?><br />
+			Contact infos: <?php echo "{$form->name} &lt;{$form->email}&gt;"; ?><br />
 			Date: <?php echo gmdate("Y-m-d H:i:s") . ' GMT'; ?><br />
 			Ip: <?php echo Yii::app()->request->userHostAddress; ?><br />
 			Agent: <?php echo CHtml::encode(Yii::app()->request->userAgent); ?><br />
@@ -15,5 +16,5 @@
 	</body>
 </html>
 <?php 
-$mail->from = array( $model->email => $model->name );
-$mail->subject = "1P4L :: Contact :: " . $model->subject;
+$mail->from = ( $user == null ? array($form->email => $form->name) : array($user->email => $user->name) );
+$mail->subject = "1P4L :: Contact :: " . $form->subject;
