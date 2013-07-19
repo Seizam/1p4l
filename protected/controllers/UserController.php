@@ -166,8 +166,15 @@ class UserController extends Controller
 		{
 			$user->activate();
 			$user->token->delete();
-			
-			$this->sendEmail($user->email, 'activated', array('user' => $user));
+
+			$imprint = $this->getUserImprint($user->id);
+
+			QRCodeGenerator::save(
+					$this->createAbsoluteUrl('page/index', array('imprint' => $imprint)), // data
+					realpath(Yii::app()->getBasePath().'/../qrcode'), // container folder
+					$imprint . '.png' ); // filename
+
+			$this->sendEmail($user->email, 'activated', array('user' => $user, 'imprint' => $imprint));
 			Yii::app()->user->setFlash('success', 'Your account is now active, congrats! Please login...');					
 			$this->redirect(array('login'));
 		}

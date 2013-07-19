@@ -7,11 +7,11 @@
 		<p>
 			We have given you a short and easy address:<br />
 			&nbsp;&nbsp;&nbsp;&nbsp;<?php
-				$url = $this->createAbsoluteUrl('page/index', array('imprint'=> $this->getUserImprint($user->id) ) );
+				$url = $this->createAbsoluteUrl('page/index', array('imprint'=> $imprint ) );
 				echo CHtml::link(CHtml::encode($url), $url);
 			?>
 		</p>
-		<p>It points to your personnal page, awaiting for you to customise it.</p>
+		<p>It points to your personal page, awaiting for you to customise it.</p>
 		<p>Don't wait, <?php echo CHtml::link('log in', $this->createAbsoluteUrl('user/login')); ?> and edit your page!</p>
 		<p>----<br />We look forward to serving you!<br />The 1P4L team</p>
 	</body>

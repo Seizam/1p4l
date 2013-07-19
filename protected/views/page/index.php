@@ -37,17 +37,8 @@ if ($model->user->id == Yii::app()->user->id) {
 		?>
 		<div class="row-fluid">
 		<?php
-		$fileName = $model->imprint . '.png';
-		$fileUrl = Yii::app()->baseUrl . '/qrcode';
-		$image = $this->widget('application.extensions.qrcode.QRCodeGenerator', array(
-			'filePath' => realpath(Yii::app()->getBasePath().'/../qrcode'),
-			'filename' => $fileName,
-			'fileUrl' => $fileUrl,
-			'matrixPointSize' => 10,
-			'errorCorrectionLevel' => 'M',
-			'data' => $this->createAbsoluteUrl('page/index', array('imprint' => $model->imprint))
-		),true);
-		echo CHtml::link($image, $fileUrl.'/'.$fileName, array('class'=>'qrcode span4'));
+			$fileUrl = Yii::app()->baseUrl . '/qrcode/' . $model->imprint . '.png';
+			echo CHtml::link(CHtml::image($fileUrl), $fileUrl, array('class'=>'qrcode span4'));
 		?>
 		</div>
 

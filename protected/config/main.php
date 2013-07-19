@@ -21,6 +21,7 @@ return array(
 		'application.models.*',
 		'application.components.*',
 		'ext.yii-mail.YiiMailMessage',
+		'ext.qrcode.QRCodeGenerator',
 	),
 	
     'theme'=>'bootstrap',
