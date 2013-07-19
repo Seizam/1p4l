@@ -27,7 +27,7 @@ $this->pageTitle = 'About - 1p4l.com';
 		<hr/>
 		<h5>1 Imprint</h5>
 		<p>One short and easy address to remember and share :</p>
-		<p><small>e.g.</small> 1P4L.COM/<b>A3UP</b>.</p>
+		<p><code>1p4l.com/<b>b3ty9</b></code></p>
 		<hr/>
 		<h5>4 Life</h5>
 		<p>Keep the same page / imprint all your life.</p>
