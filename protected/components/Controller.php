@@ -49,11 +49,11 @@ class Controller extends CController {
 
 		$message = new YiiMailMessage;
 
-		$message->view = $view;
-		$message->setBody($body, 'text/html');
-
 		$message->from = Yii::app()->params['emailFrom'];
 		$message->addTo($to);
+
+		$message->view = $view;
+		$message->setBody($body, 'text/html');
 
 		return Yii::app()->mail->send($message);
 	}

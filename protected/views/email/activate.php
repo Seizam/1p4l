@@ -10,4 +10,4 @@
 		<p>----<br />We look forward to serving you!<br />The 1P4L team</p>
 	</body>
 </html>
-<?php $mail->subject = "1P4L :: Account activation"; ?>
+<?php $mail->subject = "Account activation"; ?>

@@ -16,5 +16,10 @@
 	</body>
 </html>
 <?php 
-$mail->from = ( $user == null ? array($form->email => $form->name) : array($user->email => $user->name) );
-$mail->subject = "1P4L :: Contact :: " . $form->subject;
+
+$from = array($form->email => $form->name);
+
+$mail->from = $from;
+$mail->replyTo = $from;
+
+$mail->subject = "Contact : " . $form->subject;
