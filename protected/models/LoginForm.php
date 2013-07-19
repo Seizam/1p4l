@@ -49,14 +49,14 @@ class LoginForm extends CFormModel {
 			if (!$this->_identity->authenticate()) {
 				switch ($this->_identity->errorCode) {
 					case UserIdentity::ERROR_UNKNOWN_IDENTITY:
-						$this->addError('email', 'Incorrect Address.');
+					case UserIdentity::ERROR_PASSWORD_INVALID:
+						$this->addError('password', 'Incorrect Address or Password.');
 						break;
 					case UserIdentity::ERROR_ACCOUNT_INACTIVE:
 						$this->addError('email', 'Please check your inbox to validate your account.');
 						break;
-					case UserIdentity::ERROR_PASSWORD_INVALID:
 					default:
-						$this->addError('password', 'Incorrect Password.');
+						$this->addError('email', 'Account error, please contact administrator.');
 						break;
 				}
 			}
