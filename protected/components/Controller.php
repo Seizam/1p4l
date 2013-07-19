@@ -149,15 +149,19 @@ class Controller extends CController {
 	/**
 	 * Get the QRCode image url and create it if necessary
 	 * @param string $imprint The imprint as a STRING
-	 * @return string The QRCode url 
+	 * @param boolean $check Check if file exist (Default TRUE)
+	 * @param boolean $force Force the creation (Default FALSE)
+	 * @return string The QRCode url
+	 * @todo Put somewhere better (dedicated controller ?)
+	 * @todo Do not check if file exist all the time
 	 */
-	protected function getQRCodeUrl($imprint) {
+	protected function getQRCodeUrl($imprint, $check = true, $force = false) {
 		
 		$containerFolder = realpath(Yii::app()->getBasePath().'/../qrcode');
 		$fileName = $imprint . '.png';
 		$filePath = realpath($containerFolder.'/'.$fileName);
 		
-		if (!file_exists($filePath)) {
+		if (($check && !file_exists($filePath)) || $force) {
 			$data = $this->createAbsoluteUrl('page/index', array('imprint' => $imprint));
 			QRCodeGenerator::save(
 					$data, // data

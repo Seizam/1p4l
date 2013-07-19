@@ -54,7 +54,7 @@ class PageController extends Controller {
 		$this->render('index', array(
 			'model' => $model,
 			'portrait' => file_exists($model->portraitAbsolutePath) ? $model->portraitUrl : null,
-			'QRCodeUrl' => $this->getQRCodeUrl($model->imprint)
+			'QRCodeUrl' => $this->getQRCodeUrl($model->imprint, false)
 		));
 	}
 
