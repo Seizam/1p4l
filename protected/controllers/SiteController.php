@@ -50,25 +50,26 @@ class SiteController extends Controller
 	 */
 	public function actionContact()
 	{
-		$model=new ContactForm;
+		$form = new ContactForm;
 		$user = Yii::app()->user->model;
-		if(isset($_POST['ContactForm']))
-		{
-			$model->attributes=$_POST['ContactForm'];
-			if($model->validate())
-			{
-				$name='=?UTF-8?B?'.base64_encode($model->name).'?=';
-				$subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
-				$headers="From: $name <{$model->email}>\r\n".
-					"Reply-To: {$model->email}\r\n".
-					"MIME-Version: 1.0\r\n".
-					"Content-type: text/plain; charset=UTF-8";
 
-				mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers);
-				Yii::app()->user->setFlash('success','Thanks for saying something. We\'ll answer as soon as possible.');
-				$this->redirect(Yii::app()->homeUrl);
+		if (isset($_POST['ContactForm'])) {
+
+			$form->attributes = $_POST['ContactForm'];
+			if ($form->validate()) {
+
+				if ($this->sendEmail(Yii::app()->params['adminEmail'], 'contact', array('form' => $form, 'user' => $user))) {
+					// everything is ok
+					Yii::app()->user->setFlash('success', 'Thanks for saying something. We\'ll answer as soon as possible.');
+					$this->redirect(Yii::app()->homeUrl); // redirect to home and exit
+					
+				} else {
+					// error while sending email
+					Yii::app()->user->setFlash('error', 'Internal error while sending your message. Please try again.');
+				}
 			}
 		}
-		$this->render('contact',array('model'=>$model, 'user'=>$user));
+
+		$this->render('contact', array('model' => $form, 'user' => $user));
 	}
 }
