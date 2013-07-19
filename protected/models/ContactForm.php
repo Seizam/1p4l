@@ -29,6 +29,14 @@ class ContactForm extends CFormModel
 		);
 	}
 
+	public function beforeValidate() {
+		$this->name = CHtml::encode($this->name);
+		//$this->subject = CHtml::encode($this->subject);
+		$this->body = nl2br(CHtml::encode($this->body));
+
+		return parent::beforeValidate();
+	}
+
 	/**
 	 * Declares customized attribute labels.
 	 * If not declared here, an attribute would have a label that is

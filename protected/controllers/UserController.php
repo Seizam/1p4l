@@ -134,7 +134,7 @@ class UserController extends Controller
 						// error while sending email
 						$token->delete();
 						$user->delete();
-						Yii::app()->user->setFlash('error', 'Internal error while sending your activation email. Please train again.');
+						Yii::app()->user->setFlash('error', 'Internal error while sending your activation email. Please try again.');
 					}
 				}
 				else
