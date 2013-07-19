@@ -11,6 +11,7 @@
 			Contact infos: <?php echo "{$form->name} &lt;{$form->email}&gt;"; ?><br />
 			Date: <?php echo gmdate("Y-m-d H:i:s") . ' GMT'; ?><br />
 			Ip: <?php echo Yii::app()->request->userHostAddress; ?><br />
+			Referrer: <?php echo Yii::app()->request->urlReferrer ?><br />
 			Agent: <?php echo CHtml::encode(Yii::app()->request->userAgent); ?><br />
 		</p>
 	</body>
