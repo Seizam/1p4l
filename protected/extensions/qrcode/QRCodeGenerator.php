@@ -13,7 +13,7 @@ class QRCodeGenerator extends CComponent {
 	 * @param int $matrixPointSize 1 <= $matrixPointSize <= 10 (default to 10)
 	 * @return string The created filename
 	 */
-	public static function save($data, $filePath, $filename = null, $errorCorrectionLevel = 'M', $matrixPointSize = 10, $margin = 10) {
+	public static function save($data, $filePath, $filename = null, $errorCorrectionLevel = 'M', $matrixPointSize = 10, $margin = 1) {
 
 		if (is_null($data)) {
 			throw new CException(Yii::t(get_class($this), 'Data must not be empty'));
@@ -37,7 +37,7 @@ class QRCodeGenerator extends CComponent {
 
 		$matrixPointSize = min(max((int) $matrixPointSize, 1), 10);
 		
-		$matrixPointSize = min(max((int) $margin, 1), 10);
+		$margin = min(max((int) $margin, 1), 10);
 
 		QRcode::png($data, $filePath, $errorCorrectionLevel, $matrixPointSize, $margin);
 

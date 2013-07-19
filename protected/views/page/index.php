@@ -1,6 +1,8 @@
 <?php
 /* @var $this PageController */
 /* @var $model Imprint */
+/* @var $portrait string */
+/* @var $QRCodeUrl string */
 
 $this->layoutTitle = CHtml::link(SHORT_BASE_URL, array('site/index')) . CHtml::link('/' . $model->imprint, array('page/index', 'imprint' => $model->imprint));
 $this->pageTitle = $model->user->name . ' - ' . SHORT_BASE_URL . '/' . $model->imprint;
@@ -37,8 +39,7 @@ if ($model->user->id == Yii::app()->user->id) {
 		?>
 		<div class="row-fluid">
 		<?php
-			$fileUrl = Yii::app()->baseUrl . '/qrcode/' . $model->imprint . '.png';
-			echo CHtml::link(CHtml::image($fileUrl), $fileUrl, array('class'=>'qrcode span4'));
+			echo CHtml::link(CHtml::image($QRCodeUrl), $QRCodeUrl, array('class'=>'qrcode span4'));
 		?>
 		</div>
 

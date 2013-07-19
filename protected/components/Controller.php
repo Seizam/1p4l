@@ -145,5 +145,29 @@ class Controller extends CController {
 		}
 		return User::model()->findByPk($user_id)->imprints[0]->imprint;
 	}
+	
+	/**
+	 * Get the QRCode image url and create it if necessary
+	 * @param string $imprint The imprint as a STRING
+	 * @return string The QRCode url 
+	 */
+	protected function getQRCodeUrl($imprint) {
+		
+		$containerFolder = realpath(Yii::app()->getBasePath().'/../qrcode');
+		$fileName = $imprint . '.png';
+		$filePath = realpath($containerFolder.'/'.$fileName);
+		
+		if (!file_exists($filePath)) {
+			$data = $this->createAbsoluteUrl('page/index', array('imprint' => $imprint));
+			QRCodeGenerator::save(
+					$data, // data
+					realpath($containerFolder), // container folder
+					$fileName ); // filename
+		}
+		
+		$fileUrl = Yii::app()->baseUrl . '/qrcode/' . $imprint . '.png';
+		
+		return $fileUrl;
+	}
 
 }

@@ -54,6 +54,7 @@ class PageController extends Controller {
 		$this->render('index', array(
 			'model' => $model,
 			'portrait' => file_exists($model->portraitAbsolutePath) ? $model->portraitUrl : null,
+			'QRCodeUrl' => $this->getQRCodeUrl($model->imprint)
 		));
 	}
 
@@ -86,7 +87,7 @@ class PageController extends Controller {
 	 * @return Imprint
 	 * @throws CHttpException
 	 */
-	public function loadModelFromImprint($imprint) {
+	protected function loadModelFromImprint($imprint) {
 		$model = Imprint::model()->findByImprintEager($imprint);
 		if ($model === null || $model->user === null)
 			throw new CHttpException(404, 'The requested page does not exist.');
@@ -99,7 +100,7 @@ class PageController extends Controller {
 	 * @return Imprint
 	 * @throws CHttpException
 	 */
-	public function loadModelFromUserId($id) {
+	protected function loadModelFromUserId($id) {
 		$model = Imprint::model()->findByUserIdEager($id);
 		if ($model === null)
 			throw new CHttpException(404, 'The requested page does not exist.');
