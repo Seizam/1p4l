@@ -96,7 +96,7 @@ class User extends CActiveRecord {
 			'name' => 'Name',
 			'catch' => 'Catch',
 			'verifyCode' => 'Verification Code',
-			'acceptConditions' => 'I accept 1P4L\'s ' . CHtml::link('Terms and Conditions of Use', array('site/static', 'view' => 'legal'))
+			'acceptConditions' => 'I accept 1P4L\'s ' . CHtml::link('Terms and Conditions', array('site/static', 'view' => 'legal'))
 		);
 	}
 
