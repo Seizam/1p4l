@@ -136,10 +136,14 @@ class Controller extends CController {
 	}
 	
 	/**
+	 * @param null|int $id
 	 * @return string The first imprint of a user
 	 */
-	public function getUserImprint() {
-		return User::model()->findByPk(Yii::app()->user->id)->imprints[0]->imprint;
+	public function getUserImprint($user_id = null) {
+		if ($user_id == null) {
+			$user_id = Yii::app()->user->id;
+		}
+		return User::model()->findByPk($user_id)->imprints[0]->imprint;
 	}
 
 }

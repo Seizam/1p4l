@@ -167,6 +167,7 @@ class UserController extends Controller
 			$user->activate();
 			$user->token->delete();
 			
+			$this->sendEmail($user->email, 'activated', array('user' => $user));
 			Yii::app()->user->setFlash('success', 'Your account is now active, congrats! Please login...');					
 			$this->redirect(array('login'));
 		}
