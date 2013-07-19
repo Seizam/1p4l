@@ -2,12 +2,15 @@
 <html>
     <head></head>
 	<body>
-		<p>Dear <?php echo $user->name; ?>,</p>
-		<p>To complete your account creation on 1 Page 4 Life, <?php 
-			$text = 'please visit this page to confirm your email address';
+		<p>Hello <?php echo $user->name; ?>,</p>
+		<p>One last step to complete signing up on 1P4L:</p>
+		<p>Please <?php 
+			$text = 'click this link to confirm your email address';
 			$url = $this->createAbsoluteUrl('user/activate', array('token' => $token->token));
 			echo CHtml::link(CHtml::encode($text), $url); ?>.</p>
-		<p>----<br />We look forward to serving you!<br />The 1P4L team</p>
+		<p>Thanks!</p>
+		<p>--<br />The 1P4L team</p>
+		<p>PS: You CAN reply to this email :)</p>
 	</body>
 </html>
-<?php $mail->subject = "Account activation"; ?>
+<?php $mail->subject = "Activate your account"; ?>
