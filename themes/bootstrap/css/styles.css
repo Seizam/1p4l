@@ -18,7 +18,7 @@ body, button {
 #mainframe {
 	background-color: #ffffff;
 	padding: 20px;
-	border: 1px solid #E5E5E5;
+	border: 1px solid #dddddd;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
@@ -26,17 +26,16 @@ body, button {
 }
 
 hr {
-	border-top: 1px solid #e5e5e5;
+	border-top: 1px solid #dddddd;
 }
 
 .page-header {
-	border-bottom: 1px solid #e5e5e5;
+	border-bottom: 1px solid #dddddd;
 	margin-top: 0;
 }
 
 h1, h3 {
 	margin-top: 0;
-	font-variant: small-caps;
 }
 
 h1 i, h3 i {
@@ -71,7 +70,6 @@ h1 i, h3 i {
 	font-size: 4em;
 	line-height: 1em;
 	font-weight: 100;
-	font-variant: normal;
 }
 
 .catch, input.name {
@@ -80,7 +78,7 @@ h1 i, h3 i {
 }
 
 .portrait > img {
-	border: 1px solid #E5E5E5;
+	border: 1px solid #dddddd;
 }
 
 .portrait-control {
@@ -94,7 +92,7 @@ h1 i, h3 i {
 }
 
 .qrcode:active, .qrcode:hover {
-	opacity: 0.8;
+	opacity: 1;
 	transition: 0.4s ease 0s;
 }
 
@@ -141,7 +139,7 @@ form {
 /* THE LINKS AREA */
 
 .links {
-	border-top: 1px solid #E5E5E5;
+	border-top: 1px solid #dddddd;
 	margin-top: 20px;
 	padding-top: 15px;
 }
@@ -209,7 +207,7 @@ form {
 
 /* HEADLINE AND PORTRAIT */
 .focus-zone {
-	opacity: 0.6;
+	opacity: 0.5;
 	transition: 0.4s ease 0s;
 }
 
@@ -246,19 +244,13 @@ form {
 	line-height: 1.2em;
 	font-size: 1.2em;
 	min-height: initial;
-	color: #e5e5e5;
+	color: #dddddd;
 
 	font-weight: normal;
-
-	font-variant: small-caps;
 }
 
 #footer {
 	text-align: right;
-}
-
-#footer .icon-twitter {
-	color: #00BBF5;
 }
 
 #title {
@@ -281,7 +273,7 @@ form {
 #footer a,
 #title a,
 #menu a {
-	color: #e5e5e5;
+	color: #dddddd;
 }
 
 #menu a.front {
@@ -336,7 +328,7 @@ form {
 	}
 
 	#menu {
-		border-top: 1px solid #e5e5e5;
+		border-top: 1px solid #dddddd;
 		-webkit-border-radius: 6px;
 		-moz-border-radius: 6px;
 		border-radius: 6px;

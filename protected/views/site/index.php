@@ -52,15 +52,15 @@ $this->pageTitle = 'One Page For Life - ' . SHORT_BASE_URL;
 </div>
 <div class="row-fluid index-menu">
 	<?php
-	echo CHtml::link('<i class="icon-info-sign"></i> About', array('site/static', 'view' => 'about'), array('class' => 'span2'))
+	echo CHtml::link('<i class="icon-twitter"></i> Twitter', 'http://www.twitter.com/1Page4Life', array('class' => 'span2'))
+	. ' '
+	. CHtml::link('<i class="icon-info-sign"></i> About', array('site/static', 'view' => 'about'), array('class' => 'span2'))
 	. ' '
 	. CHtml::link('<i class="icon-question-sign"></i> FAQ', array('site/static', 'view' => 'faq'), array('class' => 'span2'))
 	. ' '
+	. CHtml::link('<i class="icon-envelope"></i> Contact', array('site/contact'), array('class' => 'span2'))
+	. ' '
 	. CHtml::link('<i class="icon-heart"></i> Team', 'http://atelier.seizam.com', array('class' => 'span2'))
-	. ' '
-	. CHtml::link('<i class="icon-eye-open"></i> Look', 'http://twitter.github.io/bootstrap/', array('class' => 'span2'))
-	. ' '
-	. CHtml::link('<i class="icon-cog"></i> Power', 'http://www.yiiframework.com/', array('class' => 'span2'))
 	. ' '
 	. CHtml::link('<i class="icon-legal"></i> Legal', array('site/static', 'view' => 'legal'), array('class' => 'span2'));
 	?>
