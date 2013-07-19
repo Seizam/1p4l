@@ -71,8 +71,8 @@ class LinkTemplate {
 	 * @return int The column width (spanN)
 	 */
 	public function getSpan() {
-		$maxlen = 18;
-		if ($this->getSize() == 'medium') $maxlen = 24;
+		$maxlen = 20;
+		if ($this->getSize() == 'medium') $maxlen = 25;
 		elseif ($this->getSize() == 'small') $maxlen = 30;
 		
 		if (strlen($this->getLabel())>$maxlen) return 12;
