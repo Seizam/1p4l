@@ -40,7 +40,7 @@ class UserIdentity extends CUserIdentity
 		{
 			$this->errorCode = self::ERROR_PASSWORD_INVALID;
 		}
-		elseif ($user->status !== User::STATUS_ACTIVE)
+		elseif ($user->status != User::STATUS_ACTIVE)
 		{
 			$this->errorCode = self::ERROR_ACCOUNT_INACTIVE;
 		}

@@ -13,6 +13,10 @@ class WebUser extends CWebUser
 	{
 		parent::afterLogin($fromCookie);
 		
+		/**
+		 * Setup the return url to bring the user to his page
+		 * @todo fix when users have NO page or MANY pages
+		 */
 		$this->returnUrl = array('page/index', 'imprint'=>$this->model->imprints[0]->imprint);
 
 		$user = $this->getModel();

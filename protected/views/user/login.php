@@ -22,7 +22,7 @@
 
 	<?php echo $form->passwordFieldRow($model, 'password'); ?>
 
-		<?php echo $form->checkBoxRow($model, 'rememberMe'); ?>
+	<?php echo $form->checkBoxRow($model, 'rememberMe'); ?>
 
 	<div class="form-actions">
 		<?php
@@ -44,6 +44,6 @@
 		?>
 	</div>
 
-<?php $this->endWidget(); ?>
+	<?php $this->endWidget(); ?>
 
 </div>

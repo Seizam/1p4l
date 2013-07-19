@@ -127,7 +127,7 @@ class UserController extends Controller
 					if ($this->sendEmail($user->email, 'activate', array('user' => $user, 'token' => $token)))
 					{
 						// everything is ok
-						Yii::app()->user->setFlash('success', 'Thanks for joining ! Please check your <b>email</b>.');
+						Yii::app()->user->setFlash('success', 'Thanks for joining ! Please check your <b>emails</b>.');
 						$this->redirect(Yii::app()->homeUrl); // redirect to home and exit
 					}
 					else
