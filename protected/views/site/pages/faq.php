@@ -5,6 +5,17 @@ $this->pageTitle = 'FAQ - 1p4l.com';
 ?>
 
 <div class="page-header">
+	<?php
+	$this->widget('bootstrap.widgets.TbButton', array(
+		'buttonType' => 'link',
+		'type' => 'primary',
+		'label' => '<i class="icon-envelope"></i> Ask',
+		'url' => array('site/contact'),
+		'encodeLabel' => false,
+		'size' => 'large',
+		'htmlOptions' => array('class' => 'pull-right')
+	));
+	?>
 	<h1><i class="icon-question-sign"></i> FAQ <small>Question everything</small></h1>
 </div>
 

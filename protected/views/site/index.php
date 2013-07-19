@@ -8,7 +8,7 @@ $this->pageTitle = 'One Page For Life - ' . SHORT_BASE_URL;
 </h1>
 <div class="row-fluid index-buttons">
 	<h2 class="span6">
-		The easiest way to share your contact information.
+		The fastest way to share your contact information.
 	</h2>
 	<?php
 	if (Yii::app()->user->getIsGuest()) {

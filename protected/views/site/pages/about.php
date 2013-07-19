@@ -4,6 +4,17 @@
 $this->pageTitle = 'About - 1p4l.com';
 ?>
 <div class="page-header">
+	<?php
+	$this->widget('bootstrap.widgets.TbButton', array(
+		'buttonType' => 'link',
+		'type' => 'primary',
+		'label' => '<i class="icon-envelope"></i> Contact',
+		'url' => array('site/contact'),
+		'encodeLabel' => false,
+		'size' => 'large',
+		'htmlOptions' => array('class' => 'pull-right')
+	));
+	?>
 	<h1><i class="icon-info-sign"></i> About <small>The Point is to Understand</small></h1>
 </div>
 <div class="row-fluid about">
@@ -40,7 +51,7 @@ $this->pageTitle = 'About - 1p4l.com';
 		<p>Check our projects (and hire us) : <a href="http://atelier.seizam.com">the Seizam Web Atelier</a>.</p>
 		<hr/>
 		<h5>Best Technologies Ever</h5>
-		<p>Front-end : <a href="http://twitter.github.io/bootstrap/">Twitter Bootstrap</a>.</p>
+		<p>Front-end : <a href="http://twitter.github.io/bootstrap/">Twitter Bootstrap</a> &amp; <a href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a>.</p>
 		<p>Back-end : <a href="http://www.yiiframework.com/">Yii Framework</a>.</p>
 		<p>Server : <a href="http://www.debian.org/">Debian</a>, <a href="http://httpd.apache.org/">Apache</a>, <a href="https://www.mysql.com/">MySQL</a>, <a href="http://php.net/">PHP</a>.</p>
 		<p>Hosting : <a href="http://www.ovh.com/">OVH</a>.</p>
@@ -62,6 +73,6 @@ $this->pageTitle = 'About - 1p4l.com';
 		<hr/>
 		<h5>Curiosity</h5>
 		<p>Do you like to learn ?</p>
-		<p>We do too, and we do it by building awesome products.</p>
+		<p>We do too, and we do it by building useful thingies.</p>
 	</div>
 </div>
