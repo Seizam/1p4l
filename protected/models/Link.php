@@ -51,6 +51,8 @@ class Link extends CActiveRecord {
 	const TYPE_ADDRESS = 920;
 	const TYPE_ADDRESS_PRO = 921;
 	const TYPE_ADDRESS_PERSO = 922;
+	
+	private $redirect = null;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -90,6 +92,7 @@ class Link extends CActiveRecord {
 		$linkHelper = LinkHelper::newLinkHelper($this->link);
 		$this->link = $linkHelper->getLink();
 		$this->type = $linkHelper->getType();
+		$this->redirect = $linkHelper->getRedirect();
 
 		if ($this->label == null) {
 			$this->label = $linkHelper->getLabel();
@@ -193,6 +196,10 @@ class Link extends CActiveRecord {
 
 	public function isAddress() {
 		return $this->type >= self::TYPE_ADDRESS;
+	}
+	
+	public function getRedirect() {
+		return $this->redirect;
 	}
 
 }

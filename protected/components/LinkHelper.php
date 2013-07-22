@@ -47,7 +47,20 @@ class LinkHelper {
 		return Link::TYPE_UNKNOWN;
 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function getLabel() {
+		return null;
+	}
+	
+	
+	/**
+	 * In case of special/fun bhavior
+	 * @return array | string the url to redirect to
+	 */
+	public function getRedirect() {
 		return null;
 	}
 
@@ -142,6 +155,17 @@ class UrlLinkHelper extends LinkHelper {
 	 */
 	public function getLink() {
 		return $this->protocol.$this->subdomain.$this->domain.$this->query;
+	}
+	
+	/**
+	 * In case of special/fun bhavior
+	 * @return array | string the url to redirect to
+	 */
+	public function getRedirect() {
+		switch ($this->domain) {
+			case '1p4l.com' : return array('page/index', 'imprint'=>'b3ta7');
+			default : return null;
+		}
 	}
 }
 

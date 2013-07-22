@@ -6,3 +6,4 @@ protected/data/*.db
 .htaccess
 portrait/*
 qrcode/*
+/nbproject/private/
