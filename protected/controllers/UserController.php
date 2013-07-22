@@ -286,6 +286,9 @@ class UserController extends Controller
 			if ($formModel->validate() && !$formModel->image->hasError) {
 
 				$image = Yii::app()->image->load($formModel->image->tempName);
+				
+				// Save Original
+				$image->save($imprint->portraitOriginalAbsolutePath . '.' . $image->image->type);
 
 				// Recommended order: resize, crop, sharpen, quality and rotate or flip		
 				$image->resize(228, 228, ( $image->width / $image->height > 1 ? Image::HEIGHT : Image::WIDTH ));

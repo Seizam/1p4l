@@ -17,10 +17,12 @@ if ($model->user->id == Yii::app()->user->id) {
 }
 ?>
 <div class="row-fluid">
-	<div class="span4 portrait">
+	<div class="span4 left-column">
+		
 		<?php
+		// The portrait image
 		if ($portrait == null) {
-			$this->widget('ext.yii-gravatar.YiiGravatar', array(
+			$image = $this->widget('ext.yii-gravatar.YiiGravatar', array(
 				'email' => $model->user->email,
 				'size' => 228,
 				'defaultImage' => 'mm',
@@ -29,18 +31,29 @@ if ($model->user->id == Yii::app()->user->id) {
 				'emailHashed' => false,
 				'htmlOptions' => array(
 					'alt' => 'Gravatar of ' . $model->user->name,
-					'title' => 'Gravatar of ' . $model->user->name,
-					'class' => 'img-rounded'
+					'class' => 'img-rounded portrait'
 				)
-			));
+			), true);
 		} else {
-			echo CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded'));
+			$image = CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded portrait'));
 		}
+
+		echo $image;
 		?>
-		<div class="row-fluid carrousel">
-		<?php
-			echo CHtml::link(CHtml::image($QRCodeUrl), $QRCodeUrl, array('class'=>'qrcode span4'));
-		?>
+		<div class="row-fluid share-control">
+			<div class="span4">
+				<?php
+				echo CHtml::link('/' . strtoupper($model->imprint), array('page/index', 'imprint' => $model->imprint), array('class' => 'imprint-link', 'rel' => 'tooltip', 'title' => 'My Imprint'));
+				?>
+			</div>
+			<div class="span4">
+				<?php echo CHtml::link('<i class="icon-share-sign"></i> Share', 'http://www.addthis.com/bookmark.php?v=300&amp;pubid=ra-4fdafa43072e511d', array('class' => 'addthis_button')); ?>
+				<script type="text/javascript">var addthis_config = {"data_track_addressbar": false};</script>
+				<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fdafa43072e511d"></script>
+			</div>
+			<div class="span4">
+				<?php echo CHtml::link('<i class="icon-qrcode"></i> QRCode', $QRCodeUrl, array('class' => 'qrcode-link', 'rel' => 'tooltip', 'title' => 'My QRCode', 'data-toggle' => 'modal','data-target' => '#QRCodeModal')); ?>
+			</div>
 		</div>
 
 	</div>
@@ -61,4 +74,27 @@ if ($model->user->id == Yii::app()->user->id) {
 		</div>
 	</div>
 </div>
+
+<?php $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'QRCodeModal')); ?>
+<div class="modal-header">
+	<a class="close" data-dismiss="modal">&times;</a>
+	<h4><?php echo $model->user->name ?></h4>
+</div>
+
+<div class="modal-body">
+	<?php echo CHtml::image($QRCodeUrl, 'QRCode of ' . $model->imprint, array('class' => 'QRCode pull-right')); ?>
+	<p>People can flash this image to come here.</p>
+	<p>Write it, cut it, paste it, save it, load it, check it, quick reflash it.</p>
+</div>
+
+<div class="modal-footer">
+	<?php
+	$this->widget('bootstrap.widgets.TbButton', array(
+		'label' => 'Close',
+		'url' => '#',
+		'htmlOptions' => array('data-dismiss' => 'modal'),
+	));
+	?>
+</div>
+<?php $this->endWidget(); ?>
 

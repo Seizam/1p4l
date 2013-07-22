@@ -77,25 +77,25 @@ h1 i, h3 i {
 	font-weight: normal;
 }
 
-.portrait > img {
+.portrait {
 	border: 1px solid #dddddd;
 }
 
-.portrait-control {
-	margin-top: 5px;
+.share-control {
+	margin-top: 20px;
 }
 
-.qrcode {
-	opacity: 0.1;
-	transition: 0.4s ease 0s;
-	margin-top: 10px;
+.share-control [class*="span"] {
+	min-height: 1px;
 }
 
-.qrcode:active, .qrcode:hover {
-	opacity: 1;
-	transition: 0.4s ease 0s;
+.share-control a {
+	color: #dddddd;
 }
 
+.imprint-link {
+	font-family: monospace;
+}
 
 .align-right {
 	text-align: right;
@@ -142,6 +142,7 @@ form {
 	border-top: 1px solid #dddddd;
 	margin-top: 20px;
 	padding-top: 15px;
+	clear: both;
 }
 
 .links-edit {
@@ -320,26 +321,19 @@ form {
 		max-width: 480px;
 	}
 
-	.row-fluid .portrait  {
+	.row-fluid .left-column  {
 		float: left;
 		margin-right: 20px;
 		margin-bottom: 10px;
 		max-width: 33%;
 		min-width: 100px;
 	}
-
-	#menu {
-		border-top: 1px solid #dddddd;
-		-webkit-border-radius: 6px;
-		-moz-border-radius: 6px;
-		border-radius: 6px;
-	}
-
-	.catch {
-		clear: both;
-	}
 	
-	.carrousel {
+	.share-control {
+		margin-top: 5px;
+	}
+
+	#title {
 		display: none;
 	}
 

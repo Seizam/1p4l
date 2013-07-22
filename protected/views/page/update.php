@@ -14,7 +14,7 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 );
 ?>
 <div class="row-fluid">
-	<div class="span4 focus-zone portrait">
+	<div class="span4 focus-zone left-column">
 		<?php
 		// The portrait image
 		if ($portrait == null) {
@@ -27,13 +27,13 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 				'emailHashed' => false,
 				'htmlOptions' => array(
 					'alt' => 'Gravatar of ' . $model->user->name,
-					'class' => 'img-rounded'
+					'class' => 'img-rounded portrait'
 				)
 			), true);
 			$url = 'http://gravatar.com';
 			$title = 'Setup your portrait through Gravatar.com';
 		} else {
-			$image = CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded'));
+			$image = CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded portrait'));
 			$url = array('user/uploadPortrait', 'id' => $model->user->id);
 			$title = 'ReUpload your portrait';
 		}
