@@ -52,5 +52,6 @@
 				</div>
 			</div><!-- footer -->
 		</div><!-- page -->
+		<?php $this->widget( 'ext.konami.Konami'); ?>
 	</body>
 </html>
