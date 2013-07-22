@@ -81,6 +81,10 @@ h1 i, h3 i {
 	border: 1px solid #dddddd;
 }
 
+.portrait-control {
+	margin-top: 5px;
+}
+
 .share-control {
 	margin-top: 20px;
 }
