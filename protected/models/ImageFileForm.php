@@ -6,7 +6,7 @@ class ImageFileForm extends CFormModel {
 
 	public function rules() {
 		return array(
-			array('image', 'file', 'types' => 'jpg, jpeg, gif, png'),
+			array('image', 'file', 'mimeTypes'=>'image/jpeg, image/pjpeg, image/png, image/x-png', 'types' => 'jpg, jpeg, png'),
 		);
 	}
 

@@ -20,7 +20,7 @@
 
 	<?php /* error already displayed near each field */ echo $form->errorSummary($model); ?>
 
-	<?php echo $form->fileFieldRow($model, 'image', array('hint'=>'Best format is 228px wide square JPEG. ')); ?>
+	<?php echo $form->fileFieldRow($model, 'image', array('hint'=>'Best format is 228px wide square JPEG or PNG. ')); ?>
 
 	<div class="form-actions">
 		<?php
