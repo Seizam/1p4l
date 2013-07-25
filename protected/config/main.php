@@ -58,6 +58,7 @@ return array(
 				'static/<view>' => 'site/static',
 				'user/<action>' => 'user/<action>',
 				'<imprint:\w+>/update' => 'page/update',
+				'<imprint:\w+>/customize' => 'imprint/customize',
 				'<imprint:\w+>'=>'page/index',
 			),
 		),

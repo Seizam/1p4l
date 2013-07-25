@@ -22,10 +22,17 @@ class Imprint extends CActiveRecord {
 	public static $IMPRINT_STATUS_READY = 0;
 
 	/** @var int */
-	public static $IMPRINT_STATUS_USED = 40;
+	public static $IMPRINT_STATUS_USED_MAIN = 40;
+
+	/** @var int */
+	public static $IMPRINT_STATUS_USED_REDIRECT = 50;
 
 	/** @var int */
 	public static $IMPRINT_STATUS_KO = 80;
+	
+	/* Used for customize() */
+
+	public $freeOldImprint;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -69,6 +76,7 @@ class Imprint extends CActiveRecord {
 			array('type, status', 'numerical', 'integerOnly' => true),
 			array('user_id', 'length', 'max' => 10),
 			array('imprint', 'length', 'max' => 16),
+			array('freeOldImprint', 'boolean', 'allowEmpty' => false, 'on' => 'customize'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, user_id, imprint, type, status', 'safe', 'on' => 'search'),
@@ -96,6 +104,7 @@ class Imprint extends CActiveRecord {
 			'imprint' => 'Imprint',
 			'type' => 'Type',
 			'status' => 'Status',
+			'freeOldImprint' => 'Free old imprint',
 		);
 	}
 
@@ -119,14 +128,43 @@ class Imprint extends CActiveRecord {
 	}
 
 	/**
-	 * Assign an imprint to the user
+	 * Assign a main imprint to the user
 	 * @param User $user the user
 	 * @return boolean whether an imprint has been assigned to the user
 	 */
-	public function assignToUser($user) {
+	public function assignMainToUser($user) {
 		$criteria = self::model()->firstReady()->getDbCriteria();
-		$attributes = array('user_id' => $user->id, 'status' => self::$IMPRINT_STATUS_USED);
+		$attributes = array('user_id' => $user->id, 'status' => self::$IMPRINT_STATUS_USED_MAIN);
 		return (self::model()->updateAll($attributes, $criteria) == 1);
+	}
+
+	/**
+	 * 
+	 * @param Imprint $old
+	 * @param array $data
+	 * @return boolean
+	 */
+	public function customize($old, $data)
+	{
+		$this->attributes = $data;
+		$this->status = Imprint::$IMPRINT_STATUS_USED_MAIN;
+		$this->type = Imprint::$IMPRINT_TYPE_PERSONAL;
+		$this->user_id = $old->user_id;
+		//var_dump($this->freeOldImprint); die();
+		if ($this->save())
+		{
+			if ($this->freeOldImprint==1)
+			{
+				$old->status = self::$IMPRINT_STATUS_READY;
+				$old->user_id = null;
+			} else
+			{
+				$old->status = self::$IMPRINT_STATUS_USED_REDIRECT;
+			}
+			return $old->save();
+		}
+		// else
+		return false;
 	}
 
 	/**

@@ -162,7 +162,7 @@ class UserController extends Controller
 	{
 		$user = User::model()->findToActivate($token);
 		
-		if ( $user !== null && Imprint::model()->assignToUser($user) )
+		if ( $user !== null && Imprint::model()->assignMainToUser($user) )
 		{
 			$user->activate();
 			$user->token->delete();
