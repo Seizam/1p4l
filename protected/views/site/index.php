@@ -3,9 +3,9 @@
 $this->pageTitle = 'One Page For Life - ' . SHORT_BASE_URL;
 ?>
 
-<h1 class="row-fluid">
-	<?php echo CHtml::image($this->createAbsoluteUrl('images/1p4l.png'), 'One Page For Life', array('class' => 'span12')) ?>
-</h1>
+<div class="row-fluid">
+	<iframe src="http://player.vimeo.com/video/71084101" width="725" height="272" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+</div>
 <div class="row-fluid index-buttons">
 	<h2 class="span6">
 		The fastest way to share your contact information.
@@ -52,16 +52,12 @@ $this->pageTitle = 'One Page For Life - ' . SHORT_BASE_URL;
 </div>
 <div class="row-fluid index-menu">
 	<?php
-	echo CHtml::link('<i class="icon-twitter"></i> Twitter', 'http://www.twitter.com/1Page4Life', array('class' => 'span2'))
+	echo CHtml::link('<i class="icon-eye-open"></i> Example', array('page/index', 'imprint' => 'b3ta9'), array('class' => 'span3'))
 	. ' '
-	. CHtml::link('<i class="icon-info-sign"></i> About', array('site/static', 'view' => 'about'), array('class' => 'span2'))
+	. CHtml::link('<i class="icon-twitter"></i> Twitter', 'http://www.twitter.com/1Page4Life', array('class' => 'span3'))
 	. ' '
-	. CHtml::link('<i class="icon-question-sign"></i> FAQ', array('site/static', 'view' => 'faq'), array('class' => 'span2'))
+	. CHtml::link('<i class="icon-info-sign"></i> About', array('site/static', 'view' => 'about'), array('class' => 'span3'))
 	. ' '
-	. CHtml::link('<i class="icon-envelope"></i> Contact', array('site/contact'), array('class' => 'span2'))
-	. ' '
-	. CHtml::link('<i class="icon-heart"></i> Team', 'http://atelier.seizam.com', array('class' => 'span2'))
-	. ' '
-	. CHtml::link('<i class="icon-legal"></i> Legal', array('site/static', 'view' => 'legal'), array('class' => 'span2'));
+	. CHtml::link('<i class="icon-question-sign"></i> FAQ', array('site/static', 'view' => 'faq'), array('class' => 'span3'));
 	?>
 </div>

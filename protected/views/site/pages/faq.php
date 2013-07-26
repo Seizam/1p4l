@@ -35,6 +35,14 @@ $accordion = array(
 		'Your imprint is the 5 letters and numbers describing your page : <code>1p4l.com/<b>b3ty9</b></code>. It is unique, eternal and designed to be as easy to share as possible.'
 	),
 	array(
+		'Why is my imprint random ?',
+		'Imprints are automagically generated to be short and easy to read, recognize, remember, spell and share. They might not look like much, but they\'re actually pretty clever.'
+	),
+	array(
+		'What is the imprint generation algorithm ?',
+		'As imprints are the base of our anti-spam and anti-theft systems. We cannot disclose how we make them.'
+	),
+	array(
 		'Can I customize my page ?',
 		'You can choose your name, your short bio, your pictures and of course your links. Layout & design customization are not available yet.'
 	),
