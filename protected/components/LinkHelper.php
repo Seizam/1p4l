@@ -74,6 +74,11 @@ class UrlLinkHelper extends LinkHelper {
 	protected $protocol = 'http://', $subdomain, $domain, $query;
 	
 	/**
+	 * @var array the websites settings 
+	 */
+	protected $definitions;
+	
+	/**
 	 * 
 	 * @param string $protocol
 	 * @param string $subdomain
@@ -81,6 +86,7 @@ class UrlLinkHelper extends LinkHelper {
 	 * @param string $query
 	 */
 	protected function __construct($protocol, $subdomain, $domain, $query) {
+		$this->definitions = Link::getDefinitions();
 		if ($protocol != null) $this->protocol = strtolower($protocol);
 		$this->subdomain = strtolower($subdomain);
 		$this->domain = strtolower($domain);
@@ -110,44 +116,20 @@ class UrlLinkHelper extends LinkHelper {
 	 * @return int
 	 */
 	public function getType() {
-		switch ($this->domain) {
-			case 'github.com' : return Link::TYPE_URL_GITHUB;
-			case 'linkedin.com' : return Link::TYPE_URL_LINKEDIN;
-			case 'viadeo.com' : return Link::TYPE_URL_VIADEO;
-			case 'twitter.com' : return Link::TYPE_URL_TWITTER;
-			case 'facebook.com' : return Link::TYPE_URL_FACEBOOK;
-			case 'google.com' : return Link::TYPE_URL_GOOGLEPLUS;
-			case 'pinterest.com' : return Link::TYPE_URL_PINTEREST;
-			case 'youtube.com' : return Link::TYPE_URL_YOUTUBE;
-			case 'vimeo.com' : return Link::TYPE_URL_VIMEO;
-			case 'soundcloud.com' : return Link::TYPE_URL_SOUNDCLOUD;
-			case '500px.com' : return Link::TYPE_URL_500px;
-			case 'flickr.com' : return Link::TYPE_URL_FLICKR;
-			case 'tumblr.com' : return Link::TYPE_URL_TUMBLR;
-			default : return Link::TYPE_URL;
-		}
-		
+		return $this->getTypeFromDomain();
 	}
 	
 	public function getLabel() {
-		switch ($this->domain) {
-			case 'github.com' : return 'My Github';
-			case 'linkedin.com' : return 'My LinkedIn';
-			case 'viadeo.com' : return 'My Viadeo';
-			case 'twitter.com' : return 'My Twitter';
-			case 'facebook.com' : return 'My Facebook';
-			case 'google.com' : return 'My Google+';
-			case 'pinterest.com' : return 'My Pinterest';
-			case 'tumblr.com' : return 'My Tumblr';
-			case 'youtube.com' : return 'My YouTube';
-			case 'vimeo.com' : return 'My Vimeo';
-			case 'soundcloud.com' : return 'My SoundCloud';
-			case '500px.com' : return 'My 500px';
-			case 'flickr.com' : return 'My Flickr';
-			case 'instagram.com' : return 'My Instagram';
-			default : return $this->domain;
+		return $this->definitions[$this->getTypeFromDomain()][1];
+	}
+	
+	public function getTypeFromDomain() {
+		foreach ($this->definitions as $type => $definition) {
+			if ($definition[0] == $this->domain) {
+				return $type;
+			}
 		}
-		
+		return Link::TYPE_URL;
 	}
 	
 	/**

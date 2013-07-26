@@ -52,6 +52,30 @@ class Link extends CActiveRecord {
 	const TYPE_ADDRESS_PRO = 921;
 	const TYPE_ADDRESS_PERSO = 922;
 	
+	/**
+	 * 
+	 * @return Array The websites definitions type => array(domain, label, icon, color)
+	 */
+	public static function getDefinitions() {
+		return array(
+			Link::TYPE_URL => array('*', null, 'link', '#BD362F'),
+			Link::TYPE_URL_GITHUB => array('github.com', 'My Github', 'github-sign', '#333333'),
+			Link::TYPE_URL_LINKEDIN => array('linkedin.com', 'My LinkedIn', 'linkedin-sign', '#0073B2'),
+			Link::TYPE_URL_VIADEO => array('viadeo.com', 'My Viadeo', 'cogs', '#FD7B15'),
+			Link::TYPE_URL_TWITTER => array('twitter.com', 'My Twitter', 'twitter', '#00BBF5'),
+			Link::TYPE_URL_FACEBOOK => array('facebook.com', 'My Facebook', 'facebook-sign', '#3B5998'),
+			Link::TYPE_URL_GOOGLEPLUS => array('google.com', 'My Google+', 'google-plus-sign', '#C13629'),
+			Link::TYPE_URL_PINTEREST => array('pinterest.com', 'My Pinterest', 'pinterest-sign', '#CD2628'),
+			Link::TYPE_URL_TUMBLR => array('tumblr.com', 'My Tumblr', 'tumblr-sign', '#335169'),
+			Link::TYPE_URL_YOUTUBE => array('youtube.com', 'My YouTube', 'youtube', '#333333'),
+			Link::TYPE_URL_VIMEO => array('vimeo.com', 'My Vimeo', 'play-circle', '#44BBFF'),
+			Link::TYPE_URL_SOUNDCLOUD => array('soundcloud.com', 'My SoundCloud', 'cloud', '#FF5B00'),
+			Link::TYPE_URL_500px => array('500px.com', 'My 500px', 'camera', '#45BB2F'),
+			Link::TYPE_URL_FLICKR => array('flickr.com', 'My Flickr', 'flickr', '#E1006A'),
+			Link::TYPE_URL_INSTAGRAM => array('instagram.com', 'My Instagram', 'instagram', '#A17255'),
+		);
+	}
+	
 	private $redirect = null;
 
 	/**

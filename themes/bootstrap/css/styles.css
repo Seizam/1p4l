@@ -226,12 +226,18 @@ form {
 .links .icon-phone {color: #51A351}
 .links .icon-envelope, .links .icon-envelope-alt {color:#F89406}
 .links .icon-github-sign {color:#333333}
+.links .icon-cogs {color:#FD7B15}
 .links .icon-facebook-sign {color: #3B5998;}
 .links .icon-twitter {color: #00BBF5;}
 .links .icon-google-plus-sign {color: #C13629;}
 .links .icon-pinterest-sign {color: #CD2628;}
 .links .icon-linkedin-sign {color: #0073B2;}
 .links .icon-tumblr-sign {color: #335169;}
+.links .icon-flickr {color: #E1006A;}
+.links .icon-play-circle {color: #44BBFF;}
+.links .icon-cloud {color: #FF5B00;}
+.links .icon-instagram {color: #A17255;}
+.links .icon-camera {color: #45BB2F;}
 .links .disabled [class*="icon-"] {color: #222222;}
 .links .icon-pencil {color: #FAA732;}
 .links .icon-remove {color: #DA4F49;}

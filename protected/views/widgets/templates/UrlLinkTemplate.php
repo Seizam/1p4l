@@ -8,6 +8,20 @@
 class UrlLinkTemplate extends LinkTemplate {
 
 	/**
+	 * @var array the websites settings 
+	 */
+	protected $definitions;
+
+	/**
+	 * 
+	 * @param Link $link
+	 */
+	protected function __construct($link) {
+		$this->link = $link;
+		$this->definitions = Link::getDefinitions();
+	}
+
+	/**
 	 * Create a template of the right LinkTemplate class
 	 * @param Link $link
 	 * @return LinkTemplate
@@ -29,39 +43,7 @@ class UrlLinkTemplate extends LinkTemplate {
 	 * @return string The  icon (eg. twitter)
 	 */
 	public function getIcon() {
-		switch ($this->link->type) {
-			case Link::TYPE_URL_GITHUB :
-				return 'github-sign';
-			case Link::TYPE_URL_LINKEDIN :
-				return 'linkedin-sign';
-			case Link::TYPE_URL_VIADEO :
-				return 'cogs';
-			case Link::TYPE_URL_TWITTER :
-				return 'twitter';
-			case Link::TYPE_URL_FACEBOOK :
-				return 'facebook-sign';
-			case Link::TYPE_URL_GOOGLEPLUS :
-				return 'google-plus-sign';
-			case Link::TYPE_URL_PINTEREST :
-				return 'pinterest-sign';
-			case Link::TYPE_URL_TUMBLR :
-				return 'tumblr-sign';
-			case Link::TYPE_URL_YOUTUBE :
-				return 'youtube';
-			case Link::TYPE_URL_VIMEO :
-				return 'play-circle';
-			case Link::TYPE_URL_SOUNDCLOUD :
-				return 'volume-up';
-			case Link::TYPE_URL_500px:
-				return 'camera';
-			case Link::TYPE_URL_FLICKR :
-				return 'flickr';
-			case Link::TYPE_URL_INSTAGRAM :
-				return 'instagram';
-			case Link::TYPE_URL :
-			default :
-				return 'link';
-		}
+		return $this->definitions[$this->link->type][2];
 	}
 
 	/**
