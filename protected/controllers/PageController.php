@@ -39,72 +39,26 @@ class PageController extends Controller {
 	 * @param string $imprint
 	 * @param int $id the user id
 	 */
-	public function actionIndex($imprint = null, $id = null) {
-		if ($imprint === null) {
-			if ($id === null) {
-				$id = Yii::app()->user->id;
-			}
-			$model = $this->loadModelFromUserId($id);
-		} else {
-			$model = $this->loadModelFromImprint($imprint);
-		}
-		
+	public function actionIndex($imprint = null) {
+		$user = $this->loadUserEagerOrRedirect($imprint);
+
 		Yii::import('application.views.widgets.templates.*');
-		
 		$this->render('index', array(
-			'model' => $model,
-			'portrait' => file_exists($model->portraitAbsolutePath) ? $model->portraitUrl : null,
-			'QRCodeUrl' => $this->getQRCodeUrl($model->imprint, false)
+			'model' => $user,
 		));
 	}
 
-	public function actionUpdate($imprint = null, $id = null) {
-		if ($imprint === null) {
-			if ($id === null) {
-				$id = Yii::app()->user->id;
-			}
-			$model = $this->loadModelFromUserId($id);
-		} else {
-			$model = $this->loadModelFromImprint($imprint);
+	public function actionUpdate($imprint = null) {
+		$user = $this->loadUserEagerOrRedirect($imprint);
+
+		if (!Yii::app()->user->isAdmin && $user->id !== Yii::app()->user->id) {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-		
-		if (!Yii::app()->user->isAdmin && $model->user->id !== Yii::app()->user->id) {
-			throw new CHttpException('403','You are not authorized to perform this action.');
-		}
-		
+
 		Yii::import('application.views.widgets.templates.*');
-
 		$this->render('update', array(
-			'model' => $model,
-			'portrait' => file_exists($model->portraitAbsolutePath) ? $model->portraitUrl : null,
+			'model' => $user,
 		));
-
-	}
-
-	/**
-	 * 
-	 * @param string $imprint
-	 * @return Imprint
-	 * @throws CHttpException
-	 */
-	protected function loadModelFromImprint($imprint) {
-		$model = Imprint::model()->findByImprintEager($imprint);
-		if ($model === null || $model->user === null)
-			throw new CHttpException(404, 'The requested page does not exist.');
-		return $model;
-	}
-	
-	/**
-	 * 
-	 * @param int $id User Id
-	 * @return Imprint
-	 * @throws CHttpException
-	 */
-	protected function loadModelFromUserId($id) {
-		$model = Imprint::model()->findByUserIdEager($id);
-		if ($model === null)
-			throw new CHttpException(404, 'The requested page does not exist.');
-		return $model;
 	}
 
 }

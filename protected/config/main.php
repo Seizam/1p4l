@@ -57,6 +57,10 @@ return array(
 			'rules'=>array(
 				'static/<view>' => 'site/static',
 				'user/<action>' => 'user/<action>',
+				'portrait/upload' => 'portrait/upload',
+				'portrait/delete' => 'portrait/delete',
+				'portrait/<filename>' => 'portrait/stream',
+				'qrcode/<filename>' => 'qrcode/stream',
 				'<imprint:\w+>/update' => 'page/update',
 				'<imprint:\w+>/customize' => 'imprint/customize',
 				'<imprint:\w+>'=>'page/index',

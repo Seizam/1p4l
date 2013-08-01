@@ -35,7 +35,7 @@ class UserController extends Controller
 				'users' => array('?'),
 			),
 			array('allow', // authenticated
-				'actions' => array('logout','update', 'uploadPortrait', 'deletePortrait'),
+				'actions' => array('logout','update'),
 				'users' => array('@'),
 			),
 			array('allow', // admin
@@ -167,11 +167,7 @@ class UserController extends Controller
 			$user->activate();
 			$user->token->delete();
 
-			$imprint = $this->getUserImprint($user->id);
-
-			$QRCodeUrl = $this->getQRCodeUrl($imprint);
-
-			$this->sendEmail($user->email, 'activated', array('user' => $user, 'imprint' => $imprint));
+			$this->sendEmail($user->email, 'activated', array('user' => $user));
 			Yii::app()->user->setFlash('success', 'Your account is now active, congrats! Please login...');					
 			$this->redirect(array('login'));
 		}
@@ -231,7 +227,7 @@ class UserController extends Controller
 			$model->attributes = $_POST['User'];
 			if ($model->save())
 				Yii::app()->user->setFlash('success', 'Headline updated !');
-				$this->redirect(array('page/update', 'imprint' => $this->getUserImprint()));
+				$this->redirect($this->getPageUpdateUrl($model));
 		}
 
 		$this->render('update', array(
@@ -257,88 +253,6 @@ class UserController extends Controller
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
-	}
-
-	/**
-	 * (Re)uploads a portrait.
-	 * If upload is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the user
-	 */
-	public function actionUploadPortrait($id = null) {
-		if ($id === null)
-			$id = Yii::app()->user->id;
-
-		if (!Yii::app()->user->isAdmin && $id !== Yii::app()->user->id) {
-			throw new CHttpException(403, 'You are not authorized to perform this action.');
-		}
-
-		$imprint = Imprint::model()->findByUserIdEager($id);
-		if ($imprint === null) {
-			throw new CHttpException(404, 'The requested page does not exist.');
-		}
-
-		$formModel = new ImageFileForm();
-
-		if (isset($_POST['ImageFileForm'])) {
-			$formModel->attributes = $_POST['ImageFileForm'];
-			$formModel->image = CUploadedFile::getInstance($formModel, 'image');
-
-			if ($formModel->validate() && !$formModel->image->hasError) {
-
-				$image = Yii::app()->image->load($formModel->image->tempName);
-				
-				// Save Original
-				$image->save($imprint->portraitOriginalAbsolutePath . '.' . $image->ext);
-
-				// Recommended order: resize, crop, sharpen, quality and rotate or flip		
-				$image->resize(228, 228, ( $image->width / $image->height > 1 ? Image::HEIGHT : Image::WIDTH ));
-				$image->crop(228, 228, 'center', 'center');
-				$image->sharpen(20);
-				$image->quality(90);
-				$image->save($imprint->portraitAbsolutePath);
-
-				unlink($formModel->image->tempName); // necessary ?
-
-				Yii::app()->user->setFlash('success', 'Portrait successfully uploaded !');
-				$this->redirect(array('page/update', 'imprint' => $imprint->imprint));
-			}
-		}
-
-		$this->render('uploadPortrait', array(
-			'model' => $formModel,
-			// 'portrait' => file_exists($imprint->portraitAbsolutePath) ? $imprint->portraitUrl : null,
-		));
-	}
-
-	/**
-	 * Delete a portrait.
-	 * The browser is always redirected to the 'view' page.
-	 * @param integer $id the ID of the user
-	 */
-	public function actionDeletePortrait($id = null) {
-		if ($id === null)
-			$id = Yii::app()->user->id;
-
-		if (!Yii::app()->user->isAdmin && $id !== Yii::app()->user->id) {
-			throw new CHttpException(403, 'You are not authorized to perform this action.');
-		}
-
-		$imprint = Imprint::model()->findByUserIdEager($id);
-		if ($imprint === null) {
-			throw new CHttpException(404, 'The requested page does not exist.');
-		}
-
-		$filePath = $imprint->portraitAbsolutePath;
-
-		if (file_exists($filePath)) {
-			if (unlink($filePath)) {
-				Yii::app()->user->setFlash('success', 'Portrait successfully deleted !');
-			} else {
-				throw new CHttpException(500, 'Portrait deletion failed.');
-			}
-		}
-
-		$this->redirect(array('page/update', 'imprint' => $imprint->imprint));
 	}
 
 	/**

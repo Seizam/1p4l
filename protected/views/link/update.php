@@ -1,6 +1,6 @@
 <?php
-/* @var $this SiteController */
-/* @var $model ContactForm */
+/* @var $this LinkController */
+/* @var $model Link */
 /* @var $form TbActiveForm */
 
 $this->pageTitle=Yii::app()->name . ' - Link';
@@ -39,7 +39,7 @@ $this->pageTitle=Yii::app()->name . ' - Link';
 			'label' => '<i class="icon-undo"></i> Back',
 			'encodeLabel' => false,
 			'size' => 'large',
-			'url' => array('page/update', 'imprint' => $this->getUserImprint())
+			'url' => $this->getPageUpdateUrl($model)
 		)) ?>
 	</div>
 

@@ -11,7 +11,7 @@ $this->pageTitle = 'One Page For Life - ' . SHORT_BASE_URL;
 		The fastest way to share your contact information.
 	</h2>
 	<?php
-	if (Yii::app()->user->getIsGuest()) {
+	if (Yii::app()->user->isGuest) {
 		$this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType' => 'link',
 			'type' => 'primary',
@@ -33,7 +33,7 @@ $this->pageTitle = 'One Page For Life - ' . SHORT_BASE_URL;
 		$this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType' => 'link',
 			'type' => 'primary',
-			'url' => array('page/index','imprint'=>$this->getUserImprint()),
+			'url' => $this->getPageIndexUrl(),
 			'size' => 'large',
 			'encodeLabel' => false,
 			'label' => '<i class="icon-file"></i> My Page',

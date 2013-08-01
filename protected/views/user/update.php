@@ -40,7 +40,7 @@
 			'label' => '<i class="icon-undo"></i> Back',
 			'encodeLabel' => false,
 			'size' => 'large',
-			'url' => $this->createUrl('page/update')
+			'url' => $this->getPageUpdateUrl($model)
 		))
 		?> 
 	</div>

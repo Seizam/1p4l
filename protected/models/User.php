@@ -26,6 +26,9 @@ class User extends CActiveRecord {
 	public $passwordRepeat;
 	public $verifyCode;
 	public $acceptConditions;
+	
+	protected $_portrait;
+	protected $_qrcode;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -74,6 +77,7 @@ class User extends CActiveRecord {
 	public function relations() {
 		return array(
 			'imprints' => array(self::HAS_MANY, 'Imprint', 'user_id'),
+			'mainImprint' => array(self::HAS_ONE, 'Imprint', 'user_id', 'condition'=>'mainImprint.status='.Imprint::$IMPRINT_STATUS_USED_MAIN),
 			'links' => array(self::HAS_MANY, 'Link', 'user_id', 'order' => 'links.position ASC'),
 			'token' => array(self::HAS_ONE, 'Token', 'user_id'),
 		);
@@ -191,6 +195,28 @@ class User extends CActiveRecord {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * 
+	 * @return Portrait The user's portrait
+	 */
+	public function getPortrait() {
+		if ($this->_portrait==null) {
+			$this->_portrait = Portrait::model($this);
+		}
+		return $this->_portrait;
+	}
+
+	/**
+	 * 
+	 * @return PageQRCode The user's QRCode
+	 */
+	public function getQRCode() {
+		if ($this->_qrcode==null) {
+			$this->_qrcode = PageQRCode::model($this);
+		}
+		return $this->_qrcode;
 	}
 
 }

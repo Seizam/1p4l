@@ -31,24 +31,28 @@ class ImprintController extends Controller
 
 	public function actionCustomize($imprint = null)
 	{
+		// DEBUG ONLY
+		// $var = Yii::app()->user->model->mainImprint;
+		// echo nl2br(str_replace(' ', '&nbsp;', print_r($var, true))); die();
+		// END DEBUG
 		if (($imprint == null) ||
-				(($old = Imprint::model()->findByImprintEager($imprint)) == null) ||
+				(($old = $this->loadImprintUserEager($imprint)) == null) ||
 				($old->user === null))
 		{
 			throw new CHttpException(404, 'The requested page does not exist.');
 		}
 
-		$new = new Imprint('customize');
+		$model = new Imprint('customize');
 
-		if (isset($_POST['Imprint']) && $new->customize($old, $_POST['Imprint']))
+		if (isset($_POST['Imprint']) && $model->customize($old, $_POST['Imprint']))
 		{
 			Yii::app()->user->setFlash('success', 'Done!');
-			$this->redirect(array('page/index', 'imprint' => $new->imprint));
+			$this->redirect($this->getPageIndexUrl($model->user)); // fetch newly created record
 		}
 
 		$this->render('customize', array(
 			'old' => $old,
-			'new' => $new,
+			'model' => $model,
 		));
 	}
 

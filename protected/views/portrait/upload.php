@@ -38,7 +38,7 @@
 			'label' => '<i class="icon-undo"></i> Back',
 			'encodeLabel' => false,
 			'size' => 'large',
-			'url' => array('page/update', 'imprint' => $this->getUserImprint())
+			'url' => $this->getPageUpdateUrl()
 		))
 		?> 
 	</div>

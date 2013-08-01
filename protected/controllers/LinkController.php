@@ -24,16 +24,12 @@ class LinkController extends Controller {
 	 */
 	public function accessRules() {
 		return array(
-			array('allow', // allow all users to perform 'index' and 'view' actions
-				'actions' => array('view'),
-				'users' => array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+			array('allow', // allow authenticated user
 				'actions' => array('create', 'update', 'delete', 'up'),
 				'users' => array('@'),
 			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions' => array('index', 'admin', 'delete'),
+			array('allow', // allow admin user
+				'actions' => array('index', 'view', 'admin', 'delete'),
 				'users' => array('@'),
 				'expression' => '$user->isAdmin',
 			),
@@ -68,7 +64,7 @@ class LinkController extends Controller {
 			$model->user_id = Yii::app()->user->id;
 			if ($model->save()) {
 				if ($model->getRedirect() == null) {
-					$this->redirect(array('page/update', 'imprint' => $this->getUserImprint()));
+					$this->redirect($this->getPageUpdateUrl());
 				} else {
 					$this->redirect($model->getRedirect());
 				}
@@ -89,7 +85,7 @@ class LinkController extends Controller {
 		$model = $this->loadModel($id);
 		
 		if(!Yii::app()->user->isAdmin && $model->user_id !== Yii::app()->user->id) {
-			throw new CHttpException('403','You are not authorized to perform this action.');
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
 
 		// Uncomment the following line if AJAX validation is needed
@@ -98,7 +94,7 @@ class LinkController extends Controller {
 		if (isset($_POST['Link'])) {
 			$model->attributes = $_POST['Link'];
 			if ($model->save())
-				$this->redirect(array('page/update', 'imprint' => $this->getUserImprint()));
+				$this->redirect($this->getPageUpdateUrl($model->user));
 		}
 
 		$this->render('update', array(
@@ -116,7 +112,7 @@ class LinkController extends Controller {
 		$model = $this->loadModel($id);
 
 		if(!Yii::app()->user->isAdmin && $model->user_id !== Yii::app()->user->id) {
-			throw new CHttpException('403','You are not authorized to perform this action.');
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
 
 		$model->delete();
@@ -135,14 +131,14 @@ class LinkController extends Controller {
 		$model = $this->loadModel($id);
 
 		if (!Yii::app()->user->isAdmin && $model->user_id !== Yii::app()->user->id) {
-			throw new CHttpException('403', 'You are not authorized to perform this action.');
+			throw new CHttpException(403, 'You are not authorized to perform this action.');
 		}
 
 		$model->moveUp();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if (!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('page/update', 'id' => $model->user_id));
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : $this->getPageUpdateUrl($model->user));
 	}
 
 	/**
@@ -176,7 +172,7 @@ class LinkController extends Controller {
 	 * @param integer the ID of the model to be loaded
 	 * @return Link
 	 */
-	public function loadModel($id) {
+	protected function loadModel($id) {
 		$model = Link::model()->findByPk($id);
 		if ($model === null)
 			throw new CHttpException(404, 'The requested page does not exist.');

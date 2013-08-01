@@ -101,7 +101,7 @@ class Controller extends CController {
 	 */
 	protected function makeMenuItems() {
 		$items = array();
-		if (Yii::app()->user->getIsGuest()) {
+		if (Yii::app()->user->isGuest) {
 			$items['login'] = array('label' => '<i class="icon-signin"></i> LogIn',
 				'url' => array('user/login')
 			);
@@ -113,7 +113,7 @@ class Controller extends CController {
 				'url' => array('user/logout')
 			);
 			$items['mypage'] = array('label' => '<i class="icon-file"></i> My Page',
-				'url' => array('page/index','imprint'=> $this->getUserImprint() ),
+				'url' => $this->getPageIndexUrl(),
 				'linkOptions' => array('class' => 'front'));
 		}
 
@@ -134,44 +134,87 @@ class Controller extends CController {
 	protected function makeLayoutTitle() {
 		return CHtml::link(SHORT_BASE_URL, Yii::app()->homeUrl);
 	}
-	
+
 	/**
-	 * @param null|int $id
-	 * @return string The first imprint of a user
+	 * 
+	 * @param null|User $user A User or null for connected user
+	 * @return array Url
 	 */
-	public function getUserImprint($user_id = null) {
+	public function getPageIndexUrl($user = null) {
+		if ($user == null) {
+			$user = Yii::app()->user->model;
+		}
+		return ($user == null) ? array() : array('page/index', 'imprint' => $user->mainImprint->imprint);
+	}
+
+	/**
+	 * 
+	 * @param null|User $user A User or null for connected user
+	 * @return array Url
+	 */
+	public function getPageUpdateUrl($user = null) {
+		if ($user == null) {
+			$user = Yii::app()->user->model;
+		}
+		return ($user == null) ? array() : array('page/update', 'imprint' => $user->mainImprint->imprint);
+	}
+
+	/**
+	 * 
+	 * @param string $imprint
+	 * @return Imprint Imprint
+	 * @throws CHttpException 404
+	 */
+	protected function loadImprintUserEager($imprint) {
+		$requestedImprint = Imprint::model()->with(
+				'user.imprints',
+				'user.mainImprint',
+				'user.links'
+		)->findByAttributes(array('imprint' => $imprint));
+		
+		if ($requestedImprint != null) {
+			return $requestedImprint;
+		} else {
+			throw new CHttpException(404, 'The requested page does not exist.');
+		}
+	}
+
+	/**
+	 * 
+	 * @param string $imprint URL parameter
+	 * @return User User eager
+	 * @throws CHttpException
+	 */
+	protected function loadUserEagerOrRedirect($imprint = null) {
+
+		if ($imprint === null) {
+			return $this->loadUserEager(Yii::app()->user->id);
+		} else {
+			$imprint = $this->loadImprintUserEager($imprint);
+			if ( ! $imprint->isMain() ) {
+				$this->redirect($this->getPageIndexUrl($imprint->user));
+			}
+			return $imprint->user;
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param null|string|int $user_id The authenticated user by default
+	 * @return User User eager
+	 * @throws CHttpException 404
+	 */
+	protected function loadUserEager($user_id = null) {
 		if ($user_id == null) {
 			$user_id = Yii::app()->user->id;
 		}
-		return User::model()->findByPk($user_id)->imprints[0]->imprint;
-	}
-	
-	/**
-	 * Get the QRCode image url and create it if necessary
-	 * @param string $imprint The imprint as a STRING
-	 * @param boolean $check Check if file exist (Default TRUE)
-	 * @param boolean $force Force the creation (Default FALSE)
-	 * @return string The QRCode url
-	 * @todo Put somewhere better (dedicated controller ?)
-	 * @todo Do not check if file exist all the time
-	 */
-	protected function getQRCodeUrl($imprint, $check = true, $force = false) {
-		
-		$containerFolder = realpath(Yii::app()->getBasePath().'/../qrcode');
-		$fileName = $imprint . '.png';
-		$filePath = realpath($containerFolder.'/'.$fileName);
-		
-		if (($check && !file_exists($filePath)) || $force) {
-			$data = $this->createAbsoluteUrl('page/index', array('imprint' => $imprint));
-			QRCodeGenerator::save(
-					$data, // data
-					realpath($containerFolder), // container folder
-					$fileName ); // filename
+		$userEager = User::model()->with('imprints', 'mainImprint', 'links')->findByPk($user_id);
+		if ($userEager != null) {
+			return $userEager;
+		} else {
+			throw new CHttpException(404, 'The requested page does not exist.');
 		}
-		
-		$fileUrl = Yii::app()->baseUrl . '/qrcode/' . $imprint . '.png';
-		
-		return $fileUrl;
 	}
 
 }

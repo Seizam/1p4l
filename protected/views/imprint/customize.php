@@ -1,6 +1,6 @@
 <?php
-/* @var $this SiteController */
-/* @var $model ContactForm */
+/* @var $this ImprintController */
+/* @var $model Imprint */
 /* @var $form TbActiveForm */
 
 $this->pageTitle = Yii::app()->name . ' - Customize imprint';
@@ -15,11 +15,11 @@ $this->pageTitle = Yii::app()->name . ' - Customize imprint';
 		));
 	?>
 
-	<?php echo $form->errorSummary($new); ?>
+	<?php echo $form->errorSummary($model); ?>
 
-	<?php echo $form->textFieldRow($new, 'imprint', array('class' => 'span5', 'maxlength' => 45)); ?>
+	<?php echo $form->textFieldRow($model, 'imprint', array('class' => 'span5', 'maxlength' => 45)); ?>
 
-	<?php echo $form->checkBoxRow($new, 'freeOldImprint'); ?>
+	<?php echo $form->checkBoxRow($model, 'freeOldImprint'); ?>
 
 	<div class="form-actions">
 		<?php

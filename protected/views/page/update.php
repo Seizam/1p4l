@@ -1,15 +1,15 @@
 <?php
 /* @var $this PageController */
-/* @var $model Imprint */
+/* @var $model User */
 
 $this->layoutTitle = CHtml::link(SHORT_BASE_URL, array('site/index'))
-		. CHtml::link('/' . $model->imprint, array('page/index', 'imprint' => $model->imprint))
-		. CHtml::link('/' . $this->action->id, array('page/update', 'imprint' => $model->imprint));
-$this->pageTitle = 'Update - ' . SHORT_BASE_URL . '/' . $model->imprint;
+		. CHtml::link('/' . $model->mainImprint->imprint, $this->getPageIndexUrl($model))
+		. CHtml::link('/' . $this->action->id, $this->getPageUpdateUrl($model));
+$this->pageTitle = 'Update - ' . SHORT_BASE_URL . '/' . $model->mainImprint->imprint;
 unset($this->menu['mypage']);
 $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 	'url' => array('page/index',
-		'imprint' => $model->imprint),
+		'imprint' => $model->mainImprint->imprint),
 	'linkOptions' => array('class' => 'front')
 );
 ?>
@@ -17,26 +17,26 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 	<div class="span4 focus-zone left-column">
 		<?php
 		// The portrait image
-		if ($portrait == null) {
+		if ($model->portrait->exists()) {
+			$image = CHtml::image($model->portrait->url, 'Portrait of ' . $model->name, array('class' => 'img-rounded portrait'));
+			$url = array('portrait/upload');
+			$title = 'ReUpload your portrait';
+		} else {
 			$image = $this->widget('ext.yii-gravatar.YiiGravatar', array(
-				'email' => $model->user->email,
+				'email' => $model->email,
 				'size' => 228,
 				'defaultImage' => 'mm',
 				'secure' => true,
 				'rating' => 'g',
 				'emailHashed' => false,
 				'htmlOptions' => array(
-					'alt' => 'Gravatar of ' . $model->user->name,
+					'alt' => 'Gravatar of ' . $model->name,
 					'class' => 'img-rounded portrait'
 				)
 			), true);
 			$url = 'http://gravatar.com';
 			$title = 'Setup your portrait through Gravatar.com';
-		} else {
-			$image = CHtml::image($portrait, 'Portrait of ' . $model->user->name, array('class' => 'img-rounded portrait'));
-			$url = array('user/uploadPortrait', 'id' => $model->user->id);
-			$title = 'ReUpload your portrait';
-		}
+		} 
 
 		echo CHtml::link($image, $url, array('title' => $title));
 		?>
@@ -44,11 +44,30 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 			<?php
 			// The buttons
 			$buttons = array();
-			if ($portrait == null) {
+			if ($model->portrait->exists()) {
 				$buttons[] = $this->widget('bootstrap.widgets.TbButton', array(
 					'buttonType' => 'link',
 					'type' => 'primary',
-					'url' => array('user/uploadPortrait', 'id' => $model->user->id),
+					'url' => array('portrait/upload'),
+					'size' => 'medium',
+					'encodeLabel' => false,
+					'label' => '<i class="icon-upload"></i> ReUpload',
+					'htmlOptions' => array('class' => 'span6')
+				), true);
+				$buttons[] = $this->widget('bootstrap.widgets.TbButton', array(
+					'buttonType' => 'link',
+					'type' => 'danger',
+					'url' => array('portrait/delete'),
+					'size' => 'medium',
+					'encodeLabel' => false,
+					'label' => '<i class="icon-remove"></i> Delete',
+					'htmlOptions' => array('class' => 'span6')
+				), true);
+			} else {
+				$buttons[] = $this->widget('bootstrap.widgets.TbButton', array(
+					'buttonType' => 'link',
+					'type' => 'primary',
+					'url' => array('portrait/upload'),
 					'size' => 'medium',
 					'encodeLabel' => false,
 					'label' => '<i class="icon-upload"></i> Upload',
@@ -62,27 +81,8 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 					'label' => '<i class="icon-globe"></i> Gravatar',
 					'htmlOptions' => array('class' => 'span6')
 				), true);
-			} else {
-				$buttons[] = $this->widget('bootstrap.widgets.TbButton', array(
-					'buttonType' => 'link',
-					'type' => 'primary',
-					'url' => array('user/uploadPortrait', 'id' => $model->user->id),
-					'size' => 'medium',
-					'encodeLabel' => false,
-					'label' => '<i class="icon-upload"></i> ReUpload',
-					'htmlOptions' => array('class' => 'span6')
-				), true);
-				$buttons[] = $this->widget('bootstrap.widgets.TbButton', array(
-					'buttonType' => 'link',
-					'type' => 'danger',
-					'url' => array('user/deletePortrait', 'id' => $model->user->id),
-					'size' => 'medium',
-					'encodeLabel' => false,
-					'label' => '<i class="icon-remove"></i> Delete',
-					'htmlOptions' => array('class' => 'span6')
-				), true);
-			}
-			
+			} 
+
 			foreach ($buttons as $button) {
 				echo $button;
 			}
@@ -93,13 +93,13 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 	<div class="span8">
 		<?php
 		$this->renderPartial('_updateUser', array(
-			'model' => $model->user,
+			'model' => $model,
 		));
 		?>
 		<div class="links links-edit">
 			<div class="row-fluid">
 				<?php
-				foreach ($model->user->links as $link) {
+				foreach ($model->links as $link) {
 					$this->widget('application.views.widgets.LinkDivUpdate', array(
 						'linkTemplate' => LinkTemplate::newFromLink($link)
 					));
@@ -109,7 +109,7 @@ $this->menu['view'] = array('label' => '<i class="icon-file"></i> View',
 				$content .= "<div class=\"caption\">Add Link</div>\n";
 				$htmlOptions = array('class' => "link-a span6 large link-add");
 
-				echo CHtml::link($content, array('link/create', 'id' => $model->user->id), $htmlOptions);
+				echo CHtml::link($content, array('link/create'), $htmlOptions);
 				?>
 
 			</div>

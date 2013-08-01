@@ -35,7 +35,7 @@ class WebUser extends CWebUser
 		$id = $this->id;
 		if ($id !== null && ($this->_model === null || $this->_model->id != $id))
 		{
-			$this->_model = User::model()->findByPk($id);
+			$this->_model = User::model()->with('mainImprint')->findByPk($id);
 		}
 
 		return $this->_model;

@@ -19,20 +19,14 @@ $this->pageTitle = Yii::app()->name . ' - Contact Us';
 			'validateOnSubmit' => true,
 		),
 	));
-	
-	$name = null;
-	$email = null;
-	if ($user != null) {
-		$name = $user->name;
-		$email = $user->email;
-	}
+
 	?>
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<?php echo $form->textFieldRow($model, 'name', array('value' => $name)); ?>
+	<?php echo $form->textFieldRow($model, 'name', array('value' => ($user != null) ? $user->name : null )); ?>
 
-	<?php echo $form->textFieldRow($model, 'email', array('value' => $email)); ?>
+	<?php echo $form->textFieldRow($model, 'email', array('value' => ($user != null) ? $user->email : null )); ?>
 
 	<?php echo $form->textFieldRow($model, 'subject', array('size' => 60, 'maxlength' => 128)); ?>
 

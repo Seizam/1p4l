@@ -6,7 +6,7 @@
 		<p>Thanks! Your account on 1P4L is now active!</p>
 		<p>Here is your short and easy imprint:</p>
 		<p><b><?php
-				$url = $this->createAbsoluteUrl('page/index', array('imprint'=> $imprint ) );
+				$url = $this->createAbsoluteUrl( $this->getPageIndexUrl($user) );
 				echo CHtml::link(CHtml::encode($url), $url);
 			?></b></p>
 		<p>It points to your personal page, awaiting you to customize it.</p>
